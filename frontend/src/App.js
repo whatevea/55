@@ -3,6 +3,10 @@ import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import Register from './components/Register';
+import Login from './components/Login';
+import Homepage from './components/Homepage';
+
+
 function App() {
     return (
         <div className='Main'>
@@ -10,8 +14,8 @@ function App() {
                 <Navbar />
             </div>
             <Routes>
-                <Route path='/' element={<Register />} />
-                <Route path='/login' element={<Register />} />
+                <Route path='/' element={<Homepage />} />
+                <Route path='/login' element={<Login />} />
                 <Route path='/register' element={<Register />} />
             </Routes>
         </div>

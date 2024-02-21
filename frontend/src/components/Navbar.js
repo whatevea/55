@@ -18,7 +18,7 @@ export const Navbar = () => {
                 </div>
                 <div className="loginregister flex gap-4">
                     <Link to="/login" className=" hover:text-green-500"> Login </Link>
-                    <Link to="/login" className="text-white"> <span className="hover:bg-green-700 rounded-3xl bg-green-500 p-3"> Register </span> </Link>
+                    <Link to="/register" className="text-white"> <span className="hover:bg-green-700 rounded-3xl bg-green-500 p-3"> Register </span> </Link>
                 </div>
             </div>
         </div >
