@@ -1,8 +1,8 @@
 
 const Budget = () => {
-  return (
-    <div>Budget</div>
-  )
+    return (
+        <div>Budget</div>
+    )
 }
 
 export default Budget
