@@ -4,7 +4,7 @@ import { Navbar } from './components/Navbar';
 import Register from './components/Register';
 import Login from './components/Login';
 import Homepage from './components/Homepage';
-import Budget from './components/JobPost/Budget';
+// import Budget from './components/JobPost/Budget';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 function App() {

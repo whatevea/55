@@ -2,6 +2,7 @@ import { useState } from "react"; import { MdOutlineAlternateEmail, MdOutlineDri
 import { FaKey, FaUserAstronaut } from "react-icons/fa";
 import http from "../config/http";
 import { toast } from "react-toastify";
+import { useNavigate } from 'react-router-dom'
 const Register = () => {
     const [accountType, setAccountType] = useState("freelancer");
     const [showPassword, setShowPassword] = useState(false);
@@ -9,9 +10,10 @@ const Register = () => {
         fname: "",
         lname: "",
         email: "",
-        user_name: "",
         password: "",
     });
+
+    const navigate = useNavigate()
 
     const changeAccountType = (type) => {
         if (accountType === type) return;
@@ -41,6 +43,8 @@ const Register = () => {
             // Submit registration data
             await http.post("/auth/register", { ...formData, "user_type": accountType });
             toast("Registration successful!");
+
+            navigate('/login')
 
             // Optionally, you can redirect the user or show a success message
         } catch (error) {
@@ -79,17 +83,12 @@ const Register = () => {
                     <input className="outline-none" placeholder="Email" name="email" value={formData.email} onChange={handleInputChange} />
                 </div>
                 <div className="flex border-2 border-gray-500 mt-6 rounded-md p-2">
-                    <FaUserAstronaut className="text-2xl mr-2 " />
-                    <label className="mr-2">Username:</label>
-                    <input className="outline-none" placeholder="Username" name="user_name" value={formData.user_name} onChange={handleInputChange} />
-                </div>
-                <div className="flex border-2 border-gray-500 mt-6 rounded-md p-2">
                     <FaKey className="text-2xl mr-2 " />
                     <label className="mr-2">Password:</label>
                     <input type={showPassword ? "text" : "password"} className="outline-none" placeholder="Password" name="password" value={formData.password} onChange={handleInputChange} />
                     {showPassword ? <MdVisibilityOff className="text-2xl cursor-pointer" onClick={togglePasswordVisibility} /> : <MdVisibility className="text-2xl cursor-pointer" onClick={togglePasswordVisibility} />}
                 </div>
-                <button className="bg-green-500 text-white rounded-2xl p-2 mt-6 font-medium hover:bg-green-600" onClick={registerUser}>Continue</button>
+                <button className="bg-green-500 text-white rounded-2xl p-2 mt-6 font-medium hover:bg-green-600" onClick={registerUser}>Register</button>
             </div>
         </div >
     )

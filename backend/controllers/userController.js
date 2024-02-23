@@ -2,12 +2,22 @@ import asyncHandler from 'express-async-handler';
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 import User from '../models/user.js'
+import dotenv from 'dotenv';
+dotenv.config();
+
+const generateJWTtoken = id => jwt.sign({ id }, process.env.JWT_secret, { expiresIn: '5d' })
 
 const registerUser = asyncHandler(async (req, res) => {
-    console.log('we are registering user')
-    const { user_name, email, fname, lname, password, user_type } = req.body
+    const { email, fname, lname, password, user_type } = req.body
 
-    if (!user_name || !email || !password || !fname || !lname || !user_type) {
+    // Check for valid email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        res.status(400);
+        throw new Error('Invalid email format');
+    }
+
+    if (!email || !password || !fname || !lname || !user_type) {
         res.status(400)
         throw new Error('All fields are mandatory')
     }
@@ -18,9 +28,9 @@ const registerUser = asyncHandler(async (req, res) => {
     }
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt)
-    const user = await User.create({ user_name, email, fname, password: hashedPassword })
+    const user = await User.create({ email, fname, lname, password: hashedPassword, user_type })
     if (user) {
-        res.status(201).json({ _id: user.id, username: user.user_name, email: user.email, fname: user.fname })
+        res.status(201).json({ _id: user.id, email: user.email, fname: user.fname, lname: user.lname })
     } else {
         res.status(400)
         throw new Error('Invalid user data')
@@ -28,25 +38,17 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 const loginUser = asyncHandler(async (req, res) => {
+    console.log('req.body is', req.body);
     const { email, password } = req.body
     const user = await User.findOne({ email })
-    console.log('user details: ', user)
     if (user && (await bcrypt.compare(password, user.password))) {
-        let userDetails = { _id: user.id, user_name: user.user_name, email: user.email, fname: user.fname }
-        const session = jwt.sign(userDetails, process.env.JWT_SECRET, {
-            expiresIn: parseInt(process.env.EXPIRE_IN) || 86400,
-        });
-        // Send response with token
-        res.json({
-            session,
-            message: "User logged in Successfully!",
-            userDetails: userDetails,
-        });
+        res.status(200).json({
+            _id: user.id, email: user.email, fname: user.fname, token: generateJWTtoken(user._id)
+        })
     } else {
         res.status(400)
-        throw new Error('Invalid Data')
+        throw new Error('Invalid User Data')
     }
-
 });
 
 export { registerUser, loginUser };
