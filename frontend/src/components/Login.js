@@ -3,14 +3,15 @@ import { CgProfile } from "react-icons/cg";
 import { FaKey } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom'
 import http from "../config/http";
 
 const Login = () => {
+    const navigate = useNavigate()
     const [formData, setFormData] = useState({
         email: "",
         password: ""
     });
-    const [loading, setLoading] = useState(false);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -20,22 +21,27 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            setLoading(true);
-            // Make HTTP POST request to login endpoint
             const response = await http.post("auth/login", formData); // Assuming formData contains username/email and password
-            setLoading(false);
-
             // Check if login was successful based on server response
+            console.log('response.status contains', response.status);
             if (response.status === 200) {
                 // Redirect to homepage after successful login
                 // Show success message
                 toast.success('Login successful');
+                if (response.data) {
+                    localStorage.setItem('userData',
+                    JSON.stringify(response.data))
+                }
+                // setLoading(false);
+                navigate('/homepage')
+                console.log('we are here after routing to homepage');
+                return response.data
             } else {
                 // Show error message if login was not successful
                 toast.error('Login failed. Please check your credentials.');
             }
         } catch (error) {
-            setLoading(false);
+            // setLoading(false);
             // Show error message if there was an error making the request
             toast.error('An error occurred. Please try again later.');
             console.error('Login error:', error);
@@ -73,10 +79,9 @@ const Login = () => {
                     </div>
                     <button
                         type="submit"
-                        className="bg-green-500 text-white rounded-2xl p-2 mt-6 font-medium hover:bg-green-600"
-                        disabled={loading}
+                        className="bg-green-500 text-white rounded-2xl p-2 mt-6 font-medium hover:bg-green-600 px-2 w-24"
                     >
-                        {loading ? 'Logging in...' : 'Continue'}
+                        Login
                     </button>
                 </form>
                 <div className="flex items-center mt-4">
