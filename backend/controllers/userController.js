@@ -8,6 +8,7 @@ dotenv.config();
 const generateJWTtoken = id => jwt.sign({ id }, process.env.JWT_secret, { expiresIn: '5d' })
 
 const registerUser = asyncHandler(async (req, res) => {
+    console.log('we are here req.body contains', req.body);
     const { email, fname, lname, password, user_type } = req.body
 
     // Check for valid email format

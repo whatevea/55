@@ -1,28 +1,30 @@
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import Register from './components/Register';
 import Login from './components/Login';
 import Homepage from './components/Homepage';
+
 // import Budget from './components/JobPost/Budget';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useSelector } from 'react-redux';
+import AuthLayout from './layouts/AuthLayout';
 function App() {
+    const isLoggedIn = useSelector((state) => state.user?.isLoggedIn);
     return (
-        <div className='Main'>
-            <ToastContainer />
-            <div className='border-b-2 p-4 border-red-950 w-full' >
-                <Navbar />
-            </div>
+        <BrowserRouter>
+        <ToastContainer />
             <Routes>
+                <Route path='/' element={isLoggedIn ? <Homepage /> : <Navigate to="/auth/login" /> } /> 
                 <Route path='/' element={<Homepage />} />
-                <Route path='/login' element={<Login />} />
-                <Route path='/register' element={<Register />} />
+                <Route path='/auth' element={<AuthLayout />}>
+                    <Route path='login' element={<Login />} />
+                    <Route path='register' element={<Register />} />
+                </Route>
             </Routes>
-        </div>
-
+        </BrowserRouter>
     )
-
 }
 
 export default App;
