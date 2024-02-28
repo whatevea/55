@@ -17,7 +17,7 @@ function App() {
         <ToastContainer />
             <Routes>
                 <Route path='/' element={isLoggedIn ? <Homepage /> : <Navigate to="/auth/login" /> } /> 
-                <Route path='/' element={<Homepage />} />
+                <Route path='/homepage' element={<Homepage />} />
                 <Route path='/auth' element={<AuthLayout />}>
                     <Route path='login' element={<Login />} />
                     <Route path='register' element={<Register />} />
