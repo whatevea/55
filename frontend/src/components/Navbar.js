@@ -1,53 +1,156 @@
-import { Link } from "react-router-dom"
-import logo from "../images/logo.png"
-import { FaSearch } from "react-icons/fa";
-import { FaAngleDown } from "react-icons/fa";
-import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
-import { useState } from "react";
+import React, { useMemo, useState } from "react";
+import NavDrawer from "./commons/NavDrawer";
+import { Link } from "react-router-dom";
+import MobileMenu from "./navigation/MobileMenu";
+import WhyUpwork from "./navigation/WhyUpwork";
+import LinksDrawer from "./commons/LinksDrawer";
+import FindWork from "./navigation/FindWork";
+import FindTalent from "./navigation/FindTalent";
 
-export const Navbar = () => {
-    const [open, setOpen] = useState(false)
 
-    const toggleNavbar = () => {
-        setOpen(!open);
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const linkViewer = useMemo(() => {
+    switch (hoveredIndex) {
+      case 0:
+        return <FindTalent />
+      case 1:
+        return <FindWork />;
+      case 2:
+        return <WhyUpwork />;
+      default:
+        return null;
     }
+  }, [hoveredIndex]);
 
-    return (
-        <div className="flex flex-col w-full px-5 py-4 border-2 border-solid border-b-gray-300">
-            <div className="_allitems w-full flex items-center font-semibold ml-4 gap-4 ">
-                <div onClick={toggleNavbar} className='block md:hidden text-3xl cursor-pointer transition-transform duration-800 ease-in-out'>
-                    {open ? <AiOutlineClose size={20} className="transition-transform duration-800 ease-in-out" /> : <AiOutlineMenu size={20} className="transition-transform duration-800 ease-in-out" />}
-                </div>
-                <div className="">
-                    <img className="h-8" src={logo} />
-                </div>
-                <div className={` duration-500 md:static absolute bg-white md:min-h-fit min-h-[60vh] left-0 ${open ? 'top-[67px] bg-white z-10 h-dvh' : 'top-[-100%]'} md:w-screen w-full flex items-center px-5`}>
-                    <div className={`flex md:flex-row flex-col md:items-center md:gap-[4vw] gap-8`}>
-                        <div className="border-2 flex items-center md:hidden lg:hidden justify-between border-black rounded-3xl p-2">
-                            < input placeholder="Search..." className="ml-2 outline-none" />
-                            <FaSearch />
-                        </div>
-                        <Link to="/register" className=" hover:text-green-500" >Find Talent</Link>
-                        <Link to="/login" className=" hover:text-green-500" >Find Work<FaAngleDown className="inline" /> </Link>
-                        <Link to="/login" className=" hover:text-green-500">Why Upwork?<FaAngleDown className="inline" /> </Link>
-                        <Link to="/login" className=" hover:text-green-500" >Blog Enterprise</Link>
-                        <Link to="/register" className="text-black block lg:hidden md:hidden"> <span className="hover:text-green-500 p-3 py-1.5 rounded-md"> Login </span> </Link>
-                        <Link to="/register" className="text-white block lg:hidden md:hidden"> <span className="hover:bg-green-500  bg-green-600 p-3 py-1.5 rounded-md"> Register </span> </Link>
+  const menuItems = [
+    { label: "Find Talent", to: "/auth/login" },
+    { label: "Find Work", to: "/auth/login" },
+    { label: "Why Upwork", to: "/auth/login" },
+    { label: "Blog Enterprise", to: "/auth/login" },
+  ];
 
-                    </div>
-                </div>
-                <div className="searchbox w-auto10 focus:w-[800px] hidden md:block lg:block">
-                    <div className="border-2 flex items-center justify-between border-black rounded-3xl p-2">
-                        < input placeholder="Search..." className="ml-2 outline-none" />
-                        <FaSearch />
-                    </div>
-                </div>
-                <div className="loginregister flex gap-4 ">
-                    <Link to="/auth/login" className=" hover:text-green-500 hidden md:block"> Login </Link>
-                    <Link to="/auth/register" className="text-white "> <span className="px-3 py-1.5 hover:bg-green-500 rounded-md bg-green-600 p-3 hidden md:block"> Register </span> </Link>
-                </div>
+  return (
+    <>
+      <div className="font-semibold relative">
+        <header className="px-4 shadow-sm shadow-green-600">
+          <div className="lg:hidden">
+            <NavDrawer isOpen={isOpen} position="left">
+              <MobileMenu />
+            </NavDrawer>
+          </div>
+          <nav className="flex items-center justify-start md:justify-between h-16">
+            <div className="flex items-center justify-between">
+              <div className="lg:hidden w-[20px]">
+                {isOpen ? (
+                  // <FaXmark className="fa-lg cursor-pointer" onClick={toggleMenu} />
+                  <i
+                    className="fa-solid fa-xmark fa-lg cursor-pointer"
+                    onClick={toggleMenu}
+                  />
+                ) : (
+                  // <FaBars className="fa-lg mr-8 cursor-pointer" onClick={toggleMenu} />
+                  <i
+                    className="fa-solid fa-bars fa-lg cursor-pointer"
+                    onClick={toggleMenu}
+                  />
+                )}
+              </div>
+              <a href="#" className="md:ml-1">
+                <svg
+                  className="w-[150px] h-[30px]"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 102 28"
+                  role="img"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill="#14a800"
+                    d="M28.18,19.06A6.54,6.54,0,0,1,23,16c.67-5.34,2.62-7,5.2-7s4.54,2,4.54,5-2,5-4.54,5m0-13.34a7.77,7.77,0,0,0-7.9,6.08,26,26,0,0,1-1.93-5.62H12v7.9c0,2.87-1.3,5-3.85,5s-4-2.12-4-5l0-7.9H.49v7.9A8.61,8.61,0,0,0,2.6,20a7.27,7.27,0,0,0,5.54,2.35c4.41,0,7.5-3.39,7.5-8.24V8.77a25.87,25.87,0,0,0,3.66,8.05L17.34,28h3.72l1.29-7.92a11,11,0,0,0,1.36,1,8.32,8.32,0,0,0,4.14,1.28h.34A8.1,8.1,0,0,0,36.37,14a8.12,8.12,0,0,0-8.19-8.31"
+                  ></path>
+                  <path
+                    fill="#14a800"
+                    d="M80.8,7.86V6.18H77.2V21.81h3.65V15.69c0-3.77.34-6.48,5.4-6.13V6c-2.36-.18-4.2.31-5.45,1.87"
+                  ></path>
+                  <polygon
+                    fill="#14a800"
+                    points="55.51 6.17 52.87 17.11 50.05 6.17 45.41 6.17 42.59 17.11 39.95 6.17 36.26 6.17 40.31 21.82 44.69 21.82 47.73 10.71 50.74 21.82 55.12 21.82 59.4 6.17 55.51 6.17"
+                  ></polygon>
+                  <path
+                    fill="#14a800"
+                    d="M67.42,19.07c-2.59,0-4.53-2.05-4.53-5s2-5,4.53-5S72,11,72,14s-2,5-4.54,5m0-13.35A8.1,8.1,0,0,0,59.25,14,8.18,8.18,0,1,0,75.6,14a8.11,8.11,0,0,0-8.18-8.31"
+                  ></path>
+                  <path
+                    fill="#14a800"
+                    d="M91.47,14.13h.84l5.09,7.69h4.11l-5.85-8.53a7.66,7.66,0,0,0,4.74-7.11H96.77c0,3.37-2.66,4.65-5.3,4.65V0H87.82V21.82h3.64Z"
+                  ></path>
+                </svg>
+              </a>
+              <div className="gap-6 hidden lg:flex">
+                <ul className="flex justify-between gap-4 ml-4">
+                  {menuItems.map((item, index) => (
+                    <Link
+                      to={item.to}
+                      key={index}
+                      className={`parent-container ${
+                        hoveredIndex === index ? "hovered" : ""
+                      } flex items-center hover:text-green-500 cursor-pointer text-sm`}
+                      onMouseEnter={() => setHoveredIndex(index)}
+                    >
+                      {item.label}
+                      <i
+                        className={`fa-solid fa-angle-down ml-1 mt-1 scale-80 ${
+                          hoveredIndex === index
+                            ? "rotate-180 duration-300 ease-in-out"
+                            : ""
+                        }`}
+                      ></i>
+                    </Link>
+                  ))}
+                </ul>
+              </div>
             </div>
-        </div >
-    )
-}
 
+            <div className="justify-between gap-4 hidden md:flex">
+              <div className="lg:border  border-2 border-solid border-gray-300 rounded-xl flex items-center">
+                <i className="fa-solid fa-magnifying-glass text-green-600 hover:text-green-600 mr-2 ml-2 scale-125"></i>
+                <input
+                  className="outline-none bg-transparent p-1.5 hidden lg:flex"
+                  type="text"
+                  placeholder="Search "
+                />
+              </div>
+              <div className="flex justify-between gap-4">
+                <Link
+                  className="hover:text-green-500 flex items-center"
+                  to="/auth/login"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/auth/register"
+                  className="text-white px-3 py-1 hover:bg-green-500 rounded-md bg-green-600 flex items-center"
+                >
+                  Register
+                </Link>
+              </div>
+            </div>
+          </nav>
+        </header>
+      </div>
+      {(hoveredIndex !== null) && (
+        <LinksDrawer isOpen={true} setHoveredIndex={setHoveredIndex}>
+          {linkViewer}
+        </LinksDrawer>
+      )}
+    </>
+  );
+};
+
+export default Navbar;
