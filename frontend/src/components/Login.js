@@ -1,14 +1,11 @@
-import React, { useState } from "react"; // Import useState from React
-import { CgProfile } from "react-icons/cg";
-import { FaKey } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { toast } from 'react-toastify';
+import React, { useState } from "react"
+import { Link } from "react-router-dom"
+import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
-import { toastConfig } from "../config/toastConfig";
-import http from "../config/http";
-import { useDispatch } from "react-redux";
-import { login } from "../redux/reducers/userSlice";
-import logo from '../images/logo.png'
+import { toastConfig } from "../config/toastConfig"
+import http from "../config/http"
+import { useDispatch } from "react-redux"
+import { login } from "../redux/reducers/userSlice"
 
 const Login = () => {
   const navigate = useNavigate()
