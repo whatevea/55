@@ -5,6 +5,8 @@ import MobileMenu from "./navigation/MobileMenu";
 import WhyUpwork from "./navigation/WhyUpwork";
 import LinksDrawer from "./commons/LinksDrawer";
 import FindWork from "./navigation/FindWork";
+import FindTalent from "./navigation/FindTalent";
+
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,6 +18,8 @@ const Navbar = () => {
 
   const linkViewer = useMemo(() => {
     switch (hoveredIndex) {
+      case 0:
+        return <FindTalent />
       case 1:
         return <FindWork />;
       case 2:
@@ -140,7 +144,7 @@ const Navbar = () => {
           </nav>
         </header>
       </div>
-      {hoveredIndex && (
+      {(hoveredIndex !== null) && (
         <LinksDrawer isOpen={true} setHoveredIndex={setHoveredIndex}>
           {linkViewer}
         </LinksDrawer>
