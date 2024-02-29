@@ -7,7 +7,6 @@ import LinksDrawer from "./commons/LinksDrawer";
 import FindWork from "./navigation/FindWork";
 import FindTalent from "./navigation/FindTalent";
 
-
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
@@ -19,7 +18,7 @@ const Navbar = () => {
   const linkViewer = useMemo(() => {
     switch (hoveredIndex) {
       case 0:
-        return <FindTalent />
+        return <FindTalent />;
       case 1:
         return <FindWork />;
       case 2:
@@ -38,13 +37,8 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="font-semibold relative">
+      <div className="font-semibold fixed w-full bg-white z-30">
         <header className="px-4 shadow-sm shadow-green-600">
-          <div className="lg:hidden">
-            <NavDrawer isOpen={isOpen} position="left">
-              <MobileMenu />
-            </NavDrawer>
-          </div>
           <nav className="flex items-center justify-start md:justify-between h-16">
             <div className="flex items-center justify-between">
               <div className="lg:hidden w-[20px]">
@@ -55,7 +49,6 @@ const Navbar = () => {
                     onClick={toggleMenu}
                   />
                 ) : (
-                  // <FaBars className="fa-lg mr-8 cursor-pointer" onClick={toggleMenu} />
                   <i
                     className="fa-solid fa-bars fa-lg cursor-pointer"
                     onClick={toggleMenu}
@@ -144,11 +137,16 @@ const Navbar = () => {
           </nav>
         </header>
       </div>
-      {(hoveredIndex !== null) && (
+      {hoveredIndex !== null && (
         <LinksDrawer isOpen={true} setHoveredIndex={setHoveredIndex}>
           {linkViewer}
         </LinksDrawer>
       )}
+      <div className="lg:hidden">
+        <NavDrawer isOpen={isOpen} position="left">
+          <MobileMenu />
+        </NavDrawer>
+      </div>
     </>
   );
 };
