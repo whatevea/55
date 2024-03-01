@@ -4,28 +4,28 @@ import React from 'react'
 const Footer = () => {
   return (
     <>
-        <div className='bg-green-950 rounded-xl m-7'>
-            <div className=' md:flex justify-between p-5 text-white mr-11 ml-5'>
-                <div className='mt-5 space-y-1'>
+        <div className='bg-green-950 rounded-xl m-5 md:p-7 p-1'>
+            <div className=' md:flex justify-between font-extralight text-sm text-white ml-5'>
+                <div className='mt-8 space-y-1'>
                     <p>About Us</p>
                     <p>Feedback</p>
                     <p>Community</p>
                 </div>
 
-                <div className='mt-5 space-y-1'>
+                <div className='mt-8 space-y-1'>
                     <p>Trust, Safety & Security</p>
                     <p>Help & Support</p>
                     <p>Upwork Foundation</p>
                 </div>
 
-                <div className='mt-5 space-y-1'>
+                <div className='mt-8 space-y-1'>
                     <p>Terms of Service</p>
                     <p>Privacy Policy</p>
                     <p>CA Notice at Collection</p>
                     <p>Cookie Settings</p>
                 </div>
 
-                <div className='mt-5 space-y-1'>
+                <div className='mt-8 space-y-1'>
                     <p>Accessibility</p>
                     <p>Desktop App</p>
                     <p>Cookie Policy</p>
@@ -34,7 +34,7 @@ const Footer = () => {
 
             </div>
 
-            <div className='md:flex justify-between p-5 text-white mr-8 ml-5'>
+            <div className='md:flex justify-between p-5 text-white'>
                 <div className='mt-5'>
                     <p>FOLLOW US</p>
                         

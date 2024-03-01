@@ -1,5 +1,4 @@
 import React from "react";
-import MobileMenu from "../navigation/MobileMenu";
 
 const NavDrawer = ({ isOpen, position, children }) => {
   let startingPos = "",
@@ -7,7 +6,7 @@ const NavDrawer = ({ isOpen, position, children }) => {
   console.log("isOpen", isOpen);
   if (position === "left") {
     startingPos = "left-[-100%]";
-    showingPos = "left-0";
+    showingPos = "left-0 top-0";
   }
   if (position === "right") {
     startingPos = "right-[-100%]";
@@ -19,9 +18,9 @@ const NavDrawer = ({ isOpen, position, children }) => {
   }
   return (
     <div
-      className={`absolute top-[64px] ${
+      className={`absolute ${
         isOpen ? showingPos : startingPos
-      } duration-500 ease-in-out bg-white h-full flex flex-col md:w-1/2 w-full md:border-r md:border-t md:border-b md:border-green-600 md:rounded-md md:h-screen gap-6 z-10 transition-all`}
+      } fixed duration-500 ease-in-out pt-20 overflowY-scroll bg-white h-[100vh] flex flex-col md:w-1/2 w-full md:border-r md:border-green-600 gap-6 z-10 transition-all`}
     >
       {children}
     </div>

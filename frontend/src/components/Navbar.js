@@ -1,16 +1,46 @@
-import React, { useMemo, useState } from "react";
+// // Login and Logout Header
+import React, { useMemo, useState, useEffect } from "react";
 import NavDrawer from "./commons/NavDrawer";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MobileMenu from "./navigation/MobileMenu";
 import WhyUpwork from "./navigation/WhyUpwork";
+import { toast } from 'react-toastify';
 import LinksDrawer from "./commons/LinksDrawer";
 import FindWork from "./navigation/FindWork";
 import FindTalent from "./navigation/FindTalent";
-
+import { useDispatch } from "react-redux";
+import { logout } from "../redux/reducers/userSlice";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [userDetails, setUserDetails] = useState(null);
+
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    // Retrieve user details from localStorage when the component mounts
+    const storedUserDetails = localStorage.getItem("userData");
+    console.log('storedUserDetails', storedUserDetails)
+    if (storedUserDetails) {
+      setUserDetails(JSON.parse(storedUserDetails));
+    }
+  }, []);
+
+  const userLoggedOut = () => {
+
+    // Dispatch the logout action to update the Redux state
+    dispatch(logout())
+    
+    localStorage.removeItem("userData");
+    setUserDetails(null);
+
+    // Show success message
+    toast.success('Logout successful');
+
+    navigate('/auth/login')
+  }
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -19,7 +49,7 @@ const Navbar = () => {
   const linkViewer = useMemo(() => {
     switch (hoveredIndex) {
       case 0:
-        return <FindTalent />
+        return <FindTalent />;
       case 1:
         return <FindWork />;
       case 2:
@@ -38,31 +68,25 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="font-semibold relative">
+      <div className="font-semibold fixed w-full bg-white z-30">
         <header className="px-4 shadow-sm shadow-green-600">
-          <div className="lg:hidden">
-            <NavDrawer isOpen={isOpen} position="left">
-              <MobileMenu />
-            </NavDrawer>
-          </div>
           <nav className="flex items-center justify-start md:justify-between h-16">
             <div className="flex items-center justify-between">
               <div className="lg:hidden w-[20px]">
                 {isOpen ? (
-                  // <FaXmark className="fa-lg cursor-pointer" onClick={toggleMenu} />
                   <i
                     className="fa-solid fa-xmark fa-lg cursor-pointer"
                     onClick={toggleMenu}
                   />
                 ) : (
-                  // <FaBars className="fa-lg mr-8 cursor-pointer" onClick={toggleMenu} />
                   <i
                     className="fa-solid fa-bars fa-lg cursor-pointer"
                     onClick={toggleMenu}
                   />
                 )}
               </div>
-              <a href="#" className="md:ml-1">
+              <Link to="/homepage" className="md:ml-1">
+                {/* Your logo/svg here */}
                 <svg
                   className="w-[150px] h-[30px]"
                   xmlns="http://www.w3.org/2000/svg"
@@ -91,34 +115,32 @@ const Navbar = () => {
                     d="M91.47,14.13h.84l5.09,7.69h4.11l-5.85-8.53a7.66,7.66,0,0,0,4.74-7.11H96.77c0,3.37-2.66,4.65-5.3,4.65V0H87.82V21.82h3.64Z"
                   ></path>
                 </svg>
-              </a>
+              </Link>
               <div className="gap-6 hidden lg:flex">
                 <ul className="flex justify-between gap-4 ml-4">
                   {menuItems.map((item, index) => (
                     <Link
                       to={item.to}
                       key={index}
-                      className={`parent-container ${
-                        hoveredIndex === index ? "hovered" : ""
-                      } flex items-center hover:text-green-500 cursor-pointer text-sm`}
+                      className={`parent-container ${hoveredIndex === index ? "hovered" : ""
+                        } flex items-center hover:text-green-500 cursor-pointer text-sm`}
                       onMouseEnter={() => setHoveredIndex(index)}
                     >
                       {item.label}
                       <i
-                        className={`fa-solid fa-angle-down ml-1 mt-1 scale-80 ${
-                          hoveredIndex === index
-                            ? "rotate-180 duration-300 ease-in-out"
-                            : ""
-                        }`}
+                        className={`fa-solid fa-angle-down ml-1 mt-1 scale-80 ${hoveredIndex === index
+                          ? "rotate-180 duration-300 ease-in-out"
+                          : ""
+                          }`}
                       ></i>
                     </Link>
                   ))}
                 </ul>
               </div>
             </div>
-
             <div className="justify-between gap-4 hidden md:flex">
               <div className="lg:border  border-2 border-solid border-gray-300 rounded-xl flex items-center">
+                {/* Your search input here */}
                 <i className="fa-solid fa-magnifying-glass text-green-600 hover:text-green-600 mr-2 ml-2 scale-125"></i>
                 <input
                   className="outline-none bg-transparent p-1.5 hidden lg:flex"
@@ -127,28 +149,46 @@ const Navbar = () => {
                 />
               </div>
               <div className="flex justify-between gap-4">
-                <Link
-                  className="hover:text-green-500 flex items-center"
-                  to="/auth/login"
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/auth/register"
-                  className="text-white px-3 py-1 hover:bg-green-500 rounded-md bg-green-600 flex items-center"
-                >
-                  Register
-                </Link>
+                {userDetails ? (
+                  <button
+                    className="text-white px-3 py-1 hover:bg-green-500 rounded-md bg-green-600 flex items-center"
+                    onClick={() => {userLoggedOut()}}
+                  >
+                    Logout
+                  </button>
+                ) : (
+                  <>
+                    <Link
+                      className="hover:text-green-500 flex items-center"
+                      to="/auth/login"
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      to="/auth/register"
+                      className="text-white px-3 py-1 hover:bg-green-500 rounded-md bg-green-600 flex items-center"
+                    >
+                      Register
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
-          </nav>
-        </header>
+          </nav >
+        </header >
+      </div >
+      {
+        hoveredIndex !== null && (
+          <LinksDrawer isOpen={true} setHoveredIndex={setHoveredIndex}>
+            {linkViewer}
+          </LinksDrawer>
+        )
+      }
+      <div className="lg:hidden">
+        <NavDrawer isOpen={isOpen} position="left">
+          <MobileMenu />
+        </NavDrawer>
       </div>
-      {(hoveredIndex !== null) && (
-        <LinksDrawer isOpen={true} setHoveredIndex={setHoveredIndex}>
-          {linkViewer}
-        </LinksDrawer>
-      )}
     </>
   );
 };
