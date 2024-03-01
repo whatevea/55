@@ -2,7 +2,7 @@ import React from "react";
 
 export default function MobileMenu() {
   return (
-    <div className="bg-white">
+    <div className="bg-white z-20">
       <div className="border-2 border-solid border-gray-300 rounded-md mt-4 mx-2">
         <i className="fa-solid fa-magnifying-glass mx-2 scale-125 text-green-600"></i>
         <input

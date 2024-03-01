@@ -8,12 +8,9 @@ import MyJobs from './JobPost/MyJobs'
 const Homepage = () => {
     return (
         <div>
-
             <Navbar />
-            Homepage
-            <div>
-                <Outlet />
-            </div>
+            <Outlet />
+            {/* <MyJobs/> */}
             <Footer />
         </div>
     )

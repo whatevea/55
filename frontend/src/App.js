@@ -13,24 +13,24 @@ import Navbar from './components/Navbar';
 import ApplyForJob from './components/commons/ApplyForJob';
 
 function App() {
-  const isLoggedIn = useSelector((state) => state.user?.isLoggedIn);
-  return (
-    <BrowserRouter>
-      <ToastContainer />
-      <Navbar /> {/* Uncommented Navbar */}
-      <Routes>
-        <Route path='/' element={isLoggedIn ? <Homepage /> : <Navigate to="/auth/login" />} />
-        <Route path='/homepage' element={<Homepage />} />
-        <Route path="jobpost" element={<JobPostLayout />} />
-        <Route path="singlejobpost/:id" element={<ApplyForJob />} />
-        <Route path='/homepage/jobseeker' element={<JobSeekerLayout />} />
-        <Route path='/auth' element={<AuthLayout />}>
-          <Route path='login' element={<Login />} />
-          <Route path='register' element={<Register />} />
-        </Route>
-      </Routes>gfg
-    </BrowserRouter>
-  )
+    const isLoggedIn = useSelector((state) => state.user?.isLoggedIn);
+    return (
+        <BrowserRouter>
+            <ToastContainer />
+            <Routes>
+                <Route path='/' element={isLoggedIn ? <Homepage /> : <Navigate to="/auth/login" />} />
+                <Route path='/homepage' element={<Homepage />} >
+                    <Route path="jobseeker" element={<JobSeekerLayout />} />
+                    <Route path="singlejobpost/:id" element={<ApplyForJob />} />
+                    <Route path="jobpost" element={<JobPostLayout />} />
+                </Route>
+                <Route path='/auth' element={<AuthLayout />}>
+                    <Route path='login' element={<Login />} />
+                    <Route path='register' element={<Register />} />
+                </Route>
+            </Routes>
+        </BrowserRouter>
+    )
 }
 
 export default App;

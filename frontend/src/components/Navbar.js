@@ -1,4 +1,3 @@
-// // Login and Logout Header
 import React, { useMemo, useState, useEffect } from "react";
 import NavDrawer from "./commons/NavDrawer";
 import { Link, useNavigate } from "react-router-dom";
@@ -68,7 +67,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="font-semibold fixed w-full bg-white z-30">
+      <div className="font-semibold sticky top-0 w-full bg-white z-20">
         <header className="px-4 shadow-sm shadow-green-600">
           <nav className="flex items-center justify-start md:justify-between h-16">
             <div className="flex items-center justify-between">

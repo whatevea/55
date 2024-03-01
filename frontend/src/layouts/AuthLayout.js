@@ -4,15 +4,12 @@ import Navbar from "../components/Navbar";
 import Skills from "../components/Skills/Skills";
 const AuthLayout = () => {
   return (
-    <>
+    <div>
       <Navbar />
-      <div className="p-4">
-        <Skills />
-      <div className="pt-20">
-        <Outlet />
-      </div>
-    </>
-  );
+      <Skills />
+      <Outlet />
+    </div>
+  )
 };
 
 export default AuthLayout;
