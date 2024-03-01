@@ -55,7 +55,7 @@ const Navbar = () => {
                   />
                 )}
               </div>
-              <a href="#" className="md:ml-1">
+              <Link to="/homepage" className="md:ml-1">
                 <svg
                   className="w-[150px] h-[30px]"
                   xmlns="http://www.w3.org/2000/svg"
@@ -84,7 +84,7 @@ const Navbar = () => {
                     d="M91.47,14.13h.84l5.09,7.69h4.11l-5.85-8.53a7.66,7.66,0,0,0,4.74-7.11H96.77c0,3.37-2.66,4.65-5.3,4.65V0H87.82V21.82h3.64Z"
                   ></path>
                 </svg>
-              </a>
+              </Link>
               <div className="gap-6 hidden lg:flex">
                 <ul className="flex justify-between gap-4 ml-4">
                   {menuItems.map((item, index) => (
