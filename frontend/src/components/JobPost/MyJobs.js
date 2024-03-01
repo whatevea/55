@@ -2,7 +2,7 @@ import React from "react";
 import Job from "./Job";
 import NoJobs from "./NoJobjs";
 
-const jobs = [{}, {}, {}];
+const jobs = [];
 
 const MyJobs = () => {
   return (

@@ -4,20 +4,19 @@ import cors from 'cors';
 import authRoutes from './routes/authRoutes.js'
 import connectDB from './connect/database.js';
 import { errorHandler } from './middleware/errorMiddleware.js';
+import hireRoutes from "./routes/hireRoutes.js"
 dotenv.config();
 connectDB()
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
 // Routes
 app.use('/auth', authRoutes)
-//test
-// app.get('/test', (req, res) => {
-//     res.send('This is route 1');
-// });
-
+app.use("/hire", hireRoutes)
+app.get('/test', (req, res) => {
+    res.send('This is route 1');
+});
 app.use(errorHandler);
 const port = process.env.PORT || 5000;
 
