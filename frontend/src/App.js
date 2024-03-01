@@ -13,7 +13,8 @@ import Navbar from './components/Navbar';
 import ApplyForJob from './components/commons/ApplyForJob';
 
 function App() {
-    const isLoggedIn = useSelector((state) => state.user?.isLoggedIn);
+    const isLoggedIn = useSelector((state) => state.User?.isLoggedIn);
+    // console.log('isLoggedIn is', isLoggedIn);
     return (
         <BrowserRouter>
             <ToastContainer />

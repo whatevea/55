@@ -9,8 +9,13 @@ export const userSlice = createSlice({
         token: loggedInData()?.token || ""
     },
     reducers: {
-        login: (state, action) => {            
-            return action.payload;
+        login: (state, action) => {    
+            console.log('we are here inside login dispatch');
+            console.log('action is', action);
+            console.log('state is', state);
+            const newState = action.payload;
+            console.log('state after login:', newState);  // Log the state after updating with action.payload
+            return newState;
         },
         logout: () => {
             return {

@@ -30,6 +30,8 @@ const Login = () => {
       const response = await http.post("auth/login", formData); // Assuming formData contains username/email and password
       if (response.status === 201) toast.warn(response?.data?.message, toastConfig);
 
+      console.log('response.data', response.data);
+
       // Check if login was successful based on server response            
       if (response.status === 200) {
 
@@ -44,6 +46,8 @@ const Login = () => {
           userData: userData,
           token: response.data?.token
         };
+
+        console.log('userDetails contains', userDetails);
 
         dispatch(login(userDetails))
         if (response.data) {
