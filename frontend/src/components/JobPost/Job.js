@@ -3,10 +3,10 @@ import { MdMoreHoriz } from "react-icons/md";
 
 export default function Job() {
   return (
-    <div className="m-10 py-3">
+    <div className="lg:m-10 m-5 py-3">
       <div className="md:flex md:justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-semibold mb-7">AI ChatBot</h1>
+          <h1 className="md:text-2xl text-xl font-semibold mb-7">AI ChatBot</h1>
           <p className="font-medium">Hired by Abishek Thapa</p>
           <p className="font-normal mb-11">Bibash Thapa</p>
         </div>
