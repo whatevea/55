@@ -40,7 +40,7 @@ const JobSeekerLayout = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='bg-green-50 px-4 pb-4 rounded-3xl'>                        
+                    {/* <div className='bg-green-50 px-4 pb-4 rounded-3xl'>                        
                             <Accordion />                        
                     </div>
                     <div className='bg-green-50 px-8 py-8 rounded-3xl'>
@@ -59,7 +59,7 @@ const JobSeekerLayout = () => {
                         <div className='mb-4'>
                             <Link className='underline mr-4 text-base font-bold '>Help Center</Link><i class="fa-solid fa-arrow-up-right-from-square"></i>
                         </div>
-                    </div>
+                    </div> */}
 
                 </div>
             </div>
