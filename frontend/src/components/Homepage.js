@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navbar } from './Navbar'
+import Navbar from './Navbar'
 import Footer from './Footer'
 
 
@@ -8,7 +8,7 @@ const Homepage = () => {
         <div>
             <Navbar />
             Homepage
-            <Footer/>
+            <Footer />
         </div>
     )
 }

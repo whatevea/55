@@ -1,19 +1,51 @@
 import mongoose from 'mongoose';
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 
-const schema = new Schema({
+const jobSchema = new Schema({
     provider: {
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true,
     },
     title: {
+        required: true,
         type: String,
     },
-    descritpion: {
+    description: {
         type: String,
+    },
+    skills_required: {
+        required: true,
+        type: [String]
+    },
+    budgetType: {
+        required: true,
+        type: String,
+    },
+    budgetHourlyMin: {
+        type: Number,
+    },
+    budgetHourlyMax: {
+        type: Number,
+    },
+    budgetFixed: {
+        type: Number,
+    },
+    scopeDuration: {
+        type: String
+    },
+    scopeExperience: {
+        type: String
+    },
+    attachmentUrl: {
+        type: String
+    },
+    description: {
+        type: String,
+
+        required: true
     }
+}, { timestamps: true });
 
-
-})
-const Job = mongoose.model('Job', schema);
+const Job = mongoose.model('Job', jobSchema);
 export default Job;
