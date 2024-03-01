@@ -54,7 +54,7 @@ const Login = () => {
         toast.success('Login successful');
 
         // Redirect to homepage after successful login
-        navigate('/homepage')
+        navigate('/homepage/jobseeker')
       } else {
         // Show error message if login was not successful
         toast.error('Login failed. Please check your credentials.');

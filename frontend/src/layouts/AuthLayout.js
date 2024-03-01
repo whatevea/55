@@ -6,9 +6,9 @@ const AuthLayout = () => {
   return (
     <>
       <Navbar />
-
       <div className="p-4">
         <Skills />
+      <div className="pt-20">
         <Outlet />
       </div>
     </>

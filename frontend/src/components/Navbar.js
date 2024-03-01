@@ -7,7 +7,6 @@ import LinksDrawer from "./commons/LinksDrawer";
 import FindWork from "./navigation/FindWork";
 import FindTalent from "./navigation/FindTalent";
 
-
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
@@ -19,7 +18,7 @@ const Navbar = () => {
   const linkViewer = useMemo(() => {
     switch (hoveredIndex) {
       case 0:
-        return <FindTalent />
+        return <FindTalent />;
       case 1:
         return <FindWork />;
       case 2:
@@ -38,13 +37,8 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="font-semibold relative">
+      <div className="font-semibold fixed w-full bg-white z-30">
         <header className="px-4 shadow-sm shadow-green-600">
-          <div className="lg:hidden">
-            <NavDrawer isOpen={isOpen} position="left">
-              <MobileMenu />
-            </NavDrawer>
-          </div>
           <nav className="flex items-center justify-start md:justify-between h-16">
             <div className="flex items-center justify-between">
               <div className="lg:hidden w-[20px]">
@@ -55,14 +49,13 @@ const Navbar = () => {
                     onClick={toggleMenu}
                   />
                 ) : (
-                  // <FaBars className="fa-lg mr-8 cursor-pointer" onClick={toggleMenu} />
                   <i
                     className="fa-solid fa-bars fa-lg cursor-pointer"
                     onClick={toggleMenu}
                   />
                 )}
               </div>
-              <a href="#" className="md:ml-1">
+              <Link to="/homepage" className="md:ml-1">
                 <svg
                   className="w-[150px] h-[30px]"
                   xmlns="http://www.w3.org/2000/svg"
@@ -91,7 +84,7 @@ const Navbar = () => {
                     d="M91.47,14.13h.84l5.09,7.69h4.11l-5.85-8.53a7.66,7.66,0,0,0,4.74-7.11H96.77c0,3.37-2.66,4.65-5.3,4.65V0H87.82V21.82h3.64Z"
                   ></path>
                 </svg>
-              </a>
+              </Link>
               <div className="gap-6 hidden lg:flex">
                 <ul className="flex justify-between gap-4 ml-4">
                   {menuItems.map((item, index) => (
@@ -144,11 +137,16 @@ const Navbar = () => {
           </nav>
         </header>
       </div>
-      {(hoveredIndex !== null) && (
+      {hoveredIndex !== null && (
         <LinksDrawer isOpen={true} setHoveredIndex={setHoveredIndex}>
           {linkViewer}
         </LinksDrawer>
       )}
+      <div className="lg:hidden">
+        <NavDrawer isOpen={isOpen} position="left">
+          <MobileMenu />
+        </NavDrawer>
+      </div>
     </>
   );
 };
