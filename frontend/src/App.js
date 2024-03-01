@@ -17,18 +17,16 @@ function App() {
     return (
         <BrowserRouter>
             <ToastContainer />
-            {/* <Navbar /> */}
             <Routes>
                 <Route path='/' element={isLoggedIn ? <Homepage /> : <Navigate to="/auth/login" />} />
-                <Route path="singlejobpost/:id" element={<ApplyForJob />} />
                 <Route path='/homepage' element={<Homepage />} >
                     <Route path="jobseeker" element={<JobSeekerLayout />} />
+                    <Route path="singlejobpost/:id" element={<ApplyForJob />} />
                 </Route>
                 <Route path='/auth' element={<AuthLayout />}>
                     <Route path='login' element={<Login />} />
                     <Route path='register' element={<Register />} />
                 </Route>
-
             </Routes>
         </BrowserRouter>
     )
