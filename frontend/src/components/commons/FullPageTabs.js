@@ -1,41 +1,41 @@
-import React, { useState } from 'react';
-
-const Tab = ({ label, active, onClick }) => (
-  <div
-    className={`cursor-pointer p-4 ${
-      active ? 'border-b-2 border-gray-100' : ''
-    } text-base font-semibold`}
-    onClick={onClick}
-  >
-    {label}
-  </div>
-);
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import JobPosting from './JobPosting';
+import { Link } from 'react-router-dom';
 
 const FullPageTabs = () => {
-  const [activeTab, setActiveTab] = useState('Best Matches');
+  const [jobPosts, setJobPosts] = useState([]);
 
-  const tabs = ['Best Matches', 'Most Recent', 'Saved Jobs'];
+  useEffect(() => {
+    // Function to fetch job posts from the backend
+    const fetchJobPosts = async () => {
+      try {
+        const response = await axios.get('YOUR_BACKEND_API_ENDPOINT');
+        setJobPosts(response.data); // Assuming the response contains job posts data
+      } catch (error) {
+        console.error('Error fetching job posts:', error);
+      }
+    };
+
+    fetchJobPosts(); // Call the function when the component mounts
+  }, []); // Empty dependency array ensures the effect runs only once on mount
 
   return (
     <div className="flex flex-col h-screen">
-      <div className="flex items-center justify-between p-4 bg-green-600 text-black rounded-t-xl">
-        <div className="text-2xl font-bold">Job Listings</div>
-        <div className="flex space-x-4">
-          {tabs.map((tab) => (
-            <Tab
-              key={tab}
-              label={tab}
-              active={activeTab === tab}
-              onClick={() => setActiveTab(tab)}
-            />
-          ))}
+      <div className="flex flex-col justify-between p-4 bg-green-600 text-white rounded-t-xl">
+        <div className="text-2xl font-bold mb-2">Job Listings</div>
+        <div>
+          <p className='text-white text-sm'>Browse jobs that match your experience to a client's hiring preferences. Ordered by most relevant.</p>
         </div>
       </div>
       <div className="flex-1 p-4 bg-gray-50">
-        {/* Content for the active tab goes here */}
-        {activeTab === 'Best Matches' && <div className='text-base font-semibold'>Best Matches Content suraj</div>}
-        {activeTab === 'Most Recent' && <div className='text-base font-semibold'>Most Recent Content</div>}
-        {activeTab === 'Saved Jobs' && <div className='text-base font-semibold'>Saved Jobs Content</div>}
+        <JobPosting />
+        {/* Render job postings
+        {jobPosts.map(jobPost => (
+          <Link to={`/job/${jobPost.id}`} key={jobPost.id}>
+            <JobPosting job={jobPost} />
+          </Link>
+        ))} */}
       </div>
     </div>
   );
