@@ -9,7 +9,7 @@ const AuthLayout = () => {
       {/* <Skills /> */}
       <Outlet />
     </div>
-  )
+  );
 };
 
 export default AuthLayout;
