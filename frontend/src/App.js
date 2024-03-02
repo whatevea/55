@@ -23,7 +23,7 @@ function App() {
           element={isLoggedIn ? <Homepage /> : <Navigate to="/auth/login" />}
         />
         <Route path="/homepage" element={<Homepage />}>
-          {/* <Route path="jobseeker" element={<JobSeekerLayout />} /> */}
+          <Route path="jobseeker" element={<JobSeekerLayout />} />
           <Route path="singlejobpost/:id" element={<ApplyForJob />} />
           <Route path="jobpost" element={<JobPostLayout />} />
         </Route>

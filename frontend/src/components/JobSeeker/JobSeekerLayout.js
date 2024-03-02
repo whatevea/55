@@ -6,10 +6,10 @@ import FullPageTabs from '../commons/FullPageTabs'
 
 const JobSeekerLayout = () => {
     return (
-        <div className='w-full'>
-            <div className='flex py-8 px-20 justify-between gap-6'>
-                <div className='w-[70%]'>
-                    <div className="lg:border  border-2 border-solid border-gray-600 rounded-xl flex items-center mb-6">
+        <div className='h-lvh overflow-hidden'>
+            <div className='flex flex-col-reverse py-8 lg:flex-row px-20 justify-between gap-6 w-full'>
+                <div className='lg:w-[70%]  w-full'>
+                    <div className="lg:border  border-2 border-solid border-gray-600 rounded-xl flex h-[35px] items-center mb-6">
                         <i className="fa-solid fa-magnifying-glass text-green-600 hover:text-green-600 mr-2 ml-2 scale-125"></i>
                         <input
                             className="outline-none bg-transparent p-1.5 hidden lg:flex w-full focus:shadow-green-100"
@@ -24,7 +24,7 @@ const JobSeekerLayout = () => {
                         <FullPageTabs />
                     </div>
                 </div>
-                <div className='flex flex-col gap-4 w-[30%] h-full px-6'>
+                <div className='flex flex-col gap-4 lg:w-[30%] w-full h-full px-6'>
                     <div className='bg-green-50 rounded-3xl w-full p-6 mx-auto'>
                         <div className='flex w-[296px] h-[80px] gap-4 mx-auto'>
                             <img src={face} alt='users_photo' className=' w-[60px] h-[60px] rounded-full' />
