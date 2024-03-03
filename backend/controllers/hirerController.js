@@ -31,4 +31,13 @@ const addJob = asyncHandler(async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 });
-export default addJob;
+
+export const getJobsList = asyncHandler(async (req, res) => {
+    const jobs = await Job.find();
+    res.status(200).json({
+        success: true,
+        data: jobs,
+    });
+})
+
+export default addJob 
