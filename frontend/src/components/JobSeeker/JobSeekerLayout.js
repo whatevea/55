@@ -6,13 +6,13 @@ import FullPageTabs from '../commons/FullPageTabs'
 
 const JobSeekerLayout = () => {
     return (
-        <div className='h-lvh overflow-hidden'>
+        <div className='h-lvh'>
             <div className='flex flex-col-reverse py-8 lg:flex-row px-20 justify-between gap-6 w-full'>
-                <div className='lg:w-[70%]  w-full'>
-                    <div className="lg:border  border-2 border-solid border-gray-600 rounded-xl flex h-[35px] items-center mb-6">
-                        <i className="fa-solid fa-magnifying-glass text-green-600 hover:text-green-600 mr-2 ml-2 scale-125"></i>
+                <div className='lg:w-[70%]  w-full overflow-auto'>
+                    <div className="group lg:border  border-2 border-solid border-gray-600 rounded-xl flex h-[35px] items-center mb-6 hover:text-green-600 focus-within:border-green-600">
+                        <i className="fa-solid fa-magnifying-glass text-green-600 mr-2 ml-2 scale-125"></i>
                         <input
-                            className="outline-none bg-transparent p-1.5 hidden lg:flex w-full focus:shadow-green-100"
+                            className="outline-none bg-transparent p-1.5 hidden lg:flex w-full focus:shadow-green-100 focus:outline-none"
                             type="text"
                             placeholder="Search for jobs"
                         />

@@ -7,12 +7,12 @@ import SearchJob from "./JobPost/SearchJob";
 
 const Homepage = () => {
   return (
-    <div>
+    <div className="h-lvh">
       <Navbar />
       <Outlet />
       {/* <MyJobs /> */}
-      <SearchJob />
-      <Footer />
+      {/* <SearchJob /> */}
+      {/* <Footer /> */}
     </div>
   );
 };
