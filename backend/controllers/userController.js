@@ -8,7 +8,6 @@ dotenv.config();
 const generateJWTtoken = id => jwt.sign({ id }, process.env.JWT_secret, { expiresIn: '5d' })
 
 const registerUser = asyncHandler(async (req, res) => {
-    console.log('we are here req.body contains', req.body);
     const { email, fname, lname, password, user_type } = req.body
 
     // Check for valid email format
@@ -39,7 +38,6 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 const loginUser = asyncHandler(async (req, res) => {
-    console.log('req.body is', req.body);
     const { email, password } = req.body
     const user = await User.findOne({ email })
     if (user && (await bcrypt.compare(password, user.password))) {
