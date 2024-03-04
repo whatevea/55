@@ -1,14 +1,14 @@
 import React, { useMemo, useState, useEffect } from "react";
-import NavDrawer from "./commons/NavDrawer";
+import NavDrawer from "./NavDrawer";
 import { Link, useNavigate } from "react-router-dom";
-import MobileMenu from "./navigation/MobileMenu";
-import WhyUpwork from "./navigation/WhyUpwork";
+import MobileMenu from "../navigation/MobileMenu";
+import WhyUpwork from "../navigation/WhyUpwork";
 import { toast } from 'react-toastify';
-import LinksDrawer from "./commons/LinksDrawer";
-import FindWork from "./navigation/FindWork";
-import FindTalent from "./navigation/FindTalent";
+import LinksDrawer from "./LinksDrawer";
+import FindWork from "../navigation/FindWork";
+import FindTalent from "../navigation/FindTalent";
 import { useDispatch } from "react-redux";
-import { logout } from "../redux/reducers/userSlice";
+import { logout } from "../../redux/reducers/userSlice";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
