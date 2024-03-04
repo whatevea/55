@@ -6,7 +6,7 @@ import FullPageTabs from '../commons/FullPageTabs'
 
 const JobSeekerLayout = () => {
     return (
-        <div className='h-lvh'>
+        <div className='mb-10'>
             <div className='flex flex-col-reverse py-8 lg:flex-row px-20 justify-between gap-6 w-full'>
                 <div className='lg:w-[70%]  w-full overflow-auto'>
                     <div className="group lg:border  border-2 border-solid border-gray-600 rounded-xl flex h-[35px] items-center mb-6 hover:text-green-600 focus-within:border-green-600">
@@ -35,8 +35,8 @@ const JobSeekerLayout = () => {
                         </div>
                         <Link to="#" className='underline text-sm font-bold text-green-600' ><span className='mb-2 block'>Complete Your Profile</span></Link>
                         <div className='flex justify-between'>
-                            <div class="flex w-full h-4 bg-gray-200 rounded-full overflow-hidden dark:bg-gray-200" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-                                <div class="flex flex-col justify-center rounded-full overflow-hidden bg-green-600 text-xs text-white text-center whitespace-nowrap dark:bg-green-600 transition duration-500 w-[60%]">60%</div>
+                            <div className="flex w-full h-4 bg-gray-200 rounded-full overflow-hidden dark:bg-gray-200" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+                                <div className="flex flex-col justify-center rounded-full overflow-hidden bg-green-600 text-xs text-white text-center whitespace-nowrap dark:bg-green-600 transition duration-500 w-[60%]">60%</div>
                             </div>
                         </div>
                     </div>

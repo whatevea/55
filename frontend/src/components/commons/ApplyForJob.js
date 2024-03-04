@@ -1,21 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import http from '../../config/http';
 
-const ApplyForJob = ({ title, description, buttonText, onClick }) => {
+const ApplyForJob = () => {
   const params = useParams()
-  console.log(params)
+
+  const [jobPost, setJobPost] = useState([]);
+
+  useEffect(() => {
+    // Function to fetch job posts from the backend
+    const fetchJobPost = async () => {
+      try {
+        const response = await http.get(`/hire/singleJobPost/${params.id}`);
+        setJobPost(response.data.data); // Assuming the response contains job posts data
+      } catch (error) {
+        console.error('Error fetching job posts:', error);
+      }
+    };
+
+    fetchJobPost(); // Call the function when the component mounts
+  }, []); // Empty dependency array ensures the effect runs only once on mount
+
   return (
-    <div className="bg-white rounded-lg shadow-md p-4">
-      <h2 className="text-lg font-medium mb-2">{/* title will be here */}{params.id}
+    <div className="rounded-lg shadow-md p-4 w-3/4 mx-auto h-[fit-content] mt-4 bg-green-50">
+      <h2 className="text-2xl font-medium mb-2">{jobPost.title}
       </h2>
-      <p className="text-gray-700 mb-4">
-        {/* description will be here */}
-        It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+      <p className="text-gray-700 mb-4 break-words">
+        {jobPost.description}        
       </p>
-      <button className="py-2 px-4 bg-blue-500 text-white font-medium rounded-sm hover:bg-blue-700" onClick={onClick}>
-        {/* button text will be here */}
-        Apply
-        {buttonText}
+      <button className="px-3 py-1 bg-green-600 text-white text-base font-semibold rounded-md hover:bg-green-500">        
+        Apply Now       
       </button>
     </div>
   );

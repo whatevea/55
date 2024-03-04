@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import http from '../../config/http';
 import JobPosting from './JobPosting';
 import { Link } from 'react-router-dom';
 
 const FullPageTabs = () => {
   const [jobPosts, setJobPosts] = useState([]);
-  console.log('jobPosts is', jobPosts);
 
   useEffect(() => {
     // Function to fetch job posts from the backend
@@ -32,7 +30,7 @@ const FullPageTabs = () => {
       </div>
       <div className="flex-1 p-4 bg-gray-50">
         {jobPosts.map(jobPost => (
-          <Link to={`/job/${jobPost.id}`} key={jobPost._id}>
+          <Link to={`/homepage/singlejobpost/${jobPost._id}`} key={jobPost._id}>
             <JobPosting job={jobPost} />
           </Link>
         ))}

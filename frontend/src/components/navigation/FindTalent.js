@@ -61,7 +61,7 @@ const FindTalent = () => {
                     </div>
                 </div>
                 <div className='border-2 border-solid border-l border-gray-500 p-4 h-full'>
-                    <SmallCard text='Hello Hi Yeah' url="https://img.freepik.com/free-photo/side-view-smiley-couple-indoors_23-2149903726.jpg?w=1060&t=st=1709120090~exp=1709120690~hmac=9b9bcc7f141f19aaa536683e43d6d9a366f40fb6dc757ec8e33766896a514c8a"/>
+                    <SmallCard text='Hello Hi Yeah' url=""/>
                     {(hoveredIndex !== null) && 
                         linkViewer
                     }

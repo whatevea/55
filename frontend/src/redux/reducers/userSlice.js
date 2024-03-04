@@ -10,12 +10,14 @@ export const userSlice = createSlice({
     },
     reducers: {
         login: (state, action) => {    
-            console.log('we are here inside login dispatch');
-            console.log('action is', action);
-            console.log('state is', state);
-            const newState = action.payload;
-            console.log('state after login:', newState);  // Log the state after updating with action.payload
-            return newState;
+            state.isLoggedIn = action.payload.isLoggedIn;
+            state.userData = action.payload.userData;
+            state.token = action.payload.token;
+      
+            // You can also update other parts of the state if needed
+      
+            // Save the updated state to local storage
+            localStorage.setItem('userData', JSON.stringify(action.payload));
         },
         logout: () => {
             return {
@@ -29,4 +31,4 @@ export const userSlice = createSlice({
 
 export const { login, logout } = userSlice.actions;
 export default userSlice.reducer;
-export const userSelector = (state) => state.user;
+export const userSelector = (state) => state.User;

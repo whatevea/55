@@ -9,7 +9,7 @@ const AccordionItem = ({ title, content, isLast }) => {
         className="w-full p-4 bg-green-50 text-center cursor-pointer text-base font-bold flex justify-between"
         onClick={() => setIsOpen(!isOpen)}
       >
-        {title} <i class="fa-solid fa-plus ml-2"></i>
+        {title} <i className="fa-solid fa-plus ml-2"></i>
       </button>
       {isOpen && (
         <div className="p-4 bg-green-50 border-2 border-solid border-blue-600">
