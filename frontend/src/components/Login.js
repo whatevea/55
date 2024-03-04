@@ -34,7 +34,6 @@ const Login = () => {
       setLoading(true);
 
       const response = await http.post("auth/login", formData); // Assuming formData contains username/email and password
-      console.log('response.data is', response.data)
       if (response.status === 201) toast.warn(response?.data?.message, toastConfig);
 
       // Check if login was successful based on server response            
@@ -44,12 +43,19 @@ const Login = () => {
           _id: response.data._id,
           email: response.data.email,
           fname: response.data.fname,
-          user_type: response.data.user_type
+          user_type: response.data.user_type,   
+
         }
 
         dispatch(login({ isLoggedIn: true, userData: userData, token: response.data?.token }))
 
-        localStorage.setItem('userData', JSON.stringify(response.data))
+        localStorage.setItem('userData', JSON.stringify({
+          
+            isLoggedIn: true,
+            userData,
+            token: response.data?.token
+          
+        }))
 
         // Show success message
         toast.success('Login successful');

@@ -14,7 +14,7 @@ export const userSlice = createSlice({
             state.userData = action.payload.userData;
             state.token = action.payload.token;
       
-            // You can also update other parts of the state if needed
+            
       
             // Save the updated state to local storage
             localStorage.setItem('userData', JSON.stringify(action.payload));
