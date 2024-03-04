@@ -17,7 +17,7 @@ function App() {
     const userData = useSelector((state) => state.User);
     const isLoggedIn = userData.isLoggedIn
     const userType = userData?.userData?.user_type;
-    console.log(isLoggedIn)
+    console.log(isLoggedIn, userType)
     return (
         <BrowserRouter>
             <ToastContainer />
@@ -26,10 +26,9 @@ function App() {
             <Routes>
                 <Route
                     path="/"
-                    element={isLoggedIn ? <p>User is logged in sorry</p> : <Navigate to="/auth/login" />
+                    element={isLoggedIn ? (userType === "freelancer" ? <Navigate to="/freelancer/jobseeker" /> : <Navigate to="/hirer/jobpost" />) : <Navigate to="/auth/login" />
                     }
                 />
-
 
                 <Route path="/auth" element={<AuthLayout />}>
                     <Route path="login" element={<Login />} />
@@ -41,7 +40,7 @@ function App() {
                     <Route path="apply/:id" element={<ApplyForJob />} />
                 </Route>
 
-                <Route path="/hire" element={<HireLayout />}>
+                <Route path="/hirer" element={<HireLayout />}>
                     <Route path="jobpost" element={<JobPostLayout />} />
                 </Route>
 
