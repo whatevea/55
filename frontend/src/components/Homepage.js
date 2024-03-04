@@ -10,8 +10,6 @@ const Homepage = () => {
     <div>
       <Navbar />
       <Outlet />
-      {/* <MyJobs /> */}
-      <SearchJob />
       <Footer />
     </div>
   );
