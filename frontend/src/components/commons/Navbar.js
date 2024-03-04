@@ -61,8 +61,8 @@ const Navbar = () => {
   const menuItems = [
     { label: "Find Talent", to: "/auth/login" },
     { label: "Find Work", to: "/auth/login" },
-    { label: "Why Upwork", to: "/auth/login" },
-    { label: "Blog Enterprise", to: "/auth/login" },
+    // { label: "Why Upwork", to: "/auth/login" },
+    // { label: "Blog Enterprise", to: "/auth/login" },
   ];
 
   return (
