@@ -40,4 +40,22 @@ export const getJobsList = asyncHandler(async (req, res) => {
     });
 })
 
+export const getSingleJobPost = asyncHandler(async (req, res) => {
+    const jobId = req.params.id; // Assuming the parameter is named 'id'
+
+    // Use findById to find a single document by its ID
+    const job = await Job.findById(jobId);
+
+    console.log('job is', job)
+
+    if (!job) {
+        // If no job is found, respond with a 404 Not Found status
+        res.status(404).json({ success: false, message: 'Job not found' });
+    } else {
+        // If a job is found, respond with a 200 OK status and the job data
+        res.status(200).json({ success: true, data: job });
+    }
+})
+
+
 export default addJob 

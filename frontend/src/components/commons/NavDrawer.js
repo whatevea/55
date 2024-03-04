@@ -3,7 +3,7 @@ import React from "react";
 const NavDrawer = ({ isOpen, position, children }) => {
   let startingPos = "",
     showingPos = "";
-  console.log("isOpen", isOpen);
+  
   if (position === "left") {
     startingPos = "left-[-100%]";
     showingPos = "left-0 top-0";

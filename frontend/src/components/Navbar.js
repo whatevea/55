@@ -21,7 +21,7 @@ const Navbar = () => {
   useEffect(() => {
     // Retrieve user details from localStorage when the component mounts
     const storedUserDetails = localStorage.getItem("userData");
-    console.log('storedUserDetails', storedUserDetails)
+  
     if (storedUserDetails) {
       setUserDetails(JSON.parse(storedUserDetails));
     }
