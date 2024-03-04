@@ -4,39 +4,39 @@ import JobPosting from './JobPosting';
 import { Link } from 'react-router-dom';
 
 const FullPageTabs = () => {
-  const [jobPosts, setJobPosts] = useState([]);
+    const [jobPosts, setJobPosts] = useState([]);
 
-  useEffect(() => {
-    // Function to fetch job posts from the backend
-    const fetchJobPosts = async () => {
-      try {
-        const response = await http.get('/hire/postjob');
-        setJobPosts(response.data.data); // Assuming the response contains job posts data
-      } catch (error) {
-        console.error('Error fetching job posts:', error);
-      }
-    };
+    useEffect(() => {
+        // Function to fetch job posts from the backend
+        const fetchJobPosts = async () => {
+            try {
+                const response = await http.get('/hire/postjob');
+                setJobPosts(response.data.data); // Assuming the response contains job posts data
+            } catch (error) {
+                console.error('Error fetching job posts:', error);
+            }
+        };
 
-    fetchJobPosts(); // Call the function when the component mounts
-  }, []); // Empty dependency array ensures the effect runs only once on mount
+        fetchJobPosts(); // Call the function when the component mounts
+    }, []); // Empty dependency array ensures the effect runs only once on mount
 
-  return (
-    <div className="flex flex-col h-screen overflow-auto">
-      <div className="flex flex-col justify-between p-4 bg-green-600 text-white rounded-t-xl">
-        <div className="text-2xl font-bold mb-2">Job Listings</div>
-        <div>
-          <p className='text-white text-sm'>Browse jobs that match your experience to a client's hiring preferences. Ordered by most relevant.</p>
+    return (
+        <div className="flex flex-col h-screen overflow-auto">
+            <div className="flex flex-col justify-between p-4 bg-green-600 text-white rounded-t-xl">
+                <div className="text-2xl font-bold mb-2">Job Listings</div>
+                <div>
+                    <p className='text-white text-sm'>Browse jobs that match your experience to a client's hiring preferences. Ordered by most relevant.</p>
+                </div>
+            </div>
+            <div className="flex-1 p-4 bg-gray-50">
+                {jobPosts.map(jobPost => (
+                    <Link to={`/freelancer/apply/${jobPost._id}`} key={jobPost._id}>
+                        <JobPosting job={jobPost} />
+                    </Link>
+                ))}
+            </div>
         </div>
-      </div>
-      <div className="flex-1 p-4 bg-gray-50">
-        {jobPosts.map(jobPost => (
-          <Link to={`/homepage/singlejobpost/${jobPost._id}`} key={jobPost._id}>
-            <JobPosting job={jobPost} />
-          </Link>
-        ))}
-      </div>
-    </div>
-  );
+    );
 };
 
 export default FullPageTabs;

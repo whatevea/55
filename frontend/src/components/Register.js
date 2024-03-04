@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ScaleLoader } from "react-spinners";
 import logo from '../images/logo.png'
 const Register = () => {
-    const [accountType, setAccountType] = useState("freelance");
+    const [accountType, setAccountType] = useState("freelancer");
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false)
     const [formData, setFormData] = useState({
@@ -103,7 +103,7 @@ const Register = () => {
                         </h2>
                     </div>
                     <div className="accountType flex flex-col my-2 mt-5 md:flex-row md:justify-center md:w-full items-center gap-4 ">
-                        <div className={`rounded-md h-22 w-full cursor-pointer border-2 border-green-600 text-center py-1.5 ${accountType === "freelance" ? "border-black border-2 text-white bg-green-600" : " border-gray-400"}`} onClick={() => changeAccountType("freelance")} >
+                        <div className={`rounded-md h-22 w-full cursor-pointer border-2 border-green-600 text-center py-1.5 ${accountType === "freelancer" ? "border-black border-2 text-white bg-green-600" : " border-gray-400"}`} onClick={() => changeAccountType("freelance")} >
                             Freelance
                         </div>
                         <div className={`rounded-md h-22 w-full py-1.5 cursor-pointer  border-2 border-green-600 text-center ${accountType === "hire" ? "border-black border-2 text-white bg-green-600" : " border-gray-400"}`} onClick={() => { changeAccountType("hire") }}>

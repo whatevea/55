@@ -6,9 +6,11 @@ import Budget from "./Budget";
 import Description from "./Description";
 import http from "../../config/http";
 import JobPosted from "./JobPosted";
+import { useNavigate } from "react-router-dom";
 
 
 const JobPostLayout = () => {
+    const navigate = useNavigate()
     const [jobData, setJobData] = useState({ provider: "65e1967022146dc8e878fb56" })
     const [currentTab, setTab] = useState(1);
     const [isValid, setIsValid] = useState(false);
@@ -19,12 +21,17 @@ const JobPostLayout = () => {
         }));
     }
     const increaseTab = async () => {
+        if (
+            currentTab === 6
+        ) {
+            navigate("/")
+        }
         if (currentTab === 5) {
             let res = await http.post("/hire/postJob", jobData)
             if (res.status === 200 || res.status === 201) {
             }
             else {
-                return
+                console.log("error occured")
             }
 
         }
@@ -80,7 +87,7 @@ const JobPostLayout = () => {
             <div className="p-4 w-full flex flex-col sm:flex-row ">
                 <div className="firsthalf p-2 sm:w-1/2">
                     <div className="flex flex-col gap-4">
-                        <p className="text-gray-600">{currentTab}/5 <span className="ml-4"> Job Post</span></p>
+                        <p className="text-gray-600">{currentTab}/6 <span className="ml-4"> Job Post</span></p>
                         <p className="text-3xl">{orders[currentTab].title}</p>
                         <p className="break-words">{orders[currentTab].description}</p>
 
@@ -93,9 +100,9 @@ const JobPostLayout = () => {
 
             <p className="hidden"></p>
             <div className="progressbar w-full h-1 rounded-md bg-neutral-400">
-                <div className={`h-full greenbar w-${currentTab}/5 rounded-md bg-green-700 `}></div>
+                <div className={`h-full greenbar w-${currentTab}/6 rounded-md bg-green-700 `}></div>
             </div>
-            {/* <p className="w-1/5 w-2/5 w-3/5 w-4/5 w-5/5"></p> */}
+            {/* <p className="w-1/6 w-2/6 w-3/6 w-4/6 w-5/6"></p> */}
             <div className="nextbtn  w-full p-2">
                 {
                     currentTab > 1 && (<button onClick={() => setTab(currentTab - 1)} className={`disabled:cursor-not-allowed disabled:text-[#9aaa97] text-white  rounded-2xl px-6 py-3 border disabled:bg-[#e4ebe4] bg-green-700  font-semibold`} > Back  </button>)
