@@ -2,8 +2,10 @@ import React from "react";
 
 export default function FindWork() {
   return (
-    <div className="flex justify-start px-10 py-20">
-      <div className="flex flex-row gap-6">
+    <div className="flex justify-start p-4 ">
+      Find work here
+      {/* px-10 py-20 */}
+      {/* <div className="flex flex-row gap-6">
         <div className="w-60 px-5 py-3 h-fit cursor-pointer rounded-md hover:bg-green-300">
           <h3 className="text-sm font-semibold">Ways to earn</h3>
           <p className="pt-2 text-sm">
@@ -27,7 +29,7 @@ export default function FindWork() {
             out the latest tools.
           </p>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
