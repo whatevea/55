@@ -31,7 +31,7 @@ function App() {
             <Routes>
                 <Route
                     path="/"
-                    element={isLoggedIn ? (userType === "freelancer" ? <Navigate to="/freelancer/jobseeker" /> : <Navigate to="/hirer/jobpost" />) : <Navigate to="/auth/login" />
+                    element={isLoggedIn ? (userType === "freelancer" ? <Navigate to="/freelancer/jobseeker" /> : <Navigate to="/hirer/dashboard" />) : <Navigate to="/auth/login" />
                     }
                 />
 
