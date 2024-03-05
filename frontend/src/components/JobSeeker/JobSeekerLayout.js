@@ -60,7 +60,6 @@ const JobSeekerLayout = () => {
                             <Link className='underline mr-4 text-base font-bold '>Help Center</Link><i class="fa-solid fa-arrow-up-right-from-square"></i>
                         </div>
                     </div> */}
-
                 </div>
             </div>
         </div>
