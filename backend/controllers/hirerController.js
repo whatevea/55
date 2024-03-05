@@ -62,3 +62,5 @@ export const getApplierList = asyncHandler(async (req, res) => {
         data: applied,
     });
 })
+
+export default addJob

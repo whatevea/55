@@ -13,6 +13,7 @@ import JobSeekerLayout from "./components/JobSeeker/JobSeekerLayout";
 import Navbar from "./components/commons/Navbar";
 import ApplyForJob from "./components/commons/ApplyForJob";
 import Footer from "./components/commons/Footer"
+import HirerJobList from "./components/commons/JobsList";
 function App() {
     const userData = useSelector((state) => state.User);
     const isLoggedIn = userData.isLoggedIn
@@ -42,6 +43,7 @@ function App() {
 
                 <Route path="/hirer" element={<HireLayout />}>
                     <Route path="jobpost" element={<JobPostLayout />} />
+                    <Route path="joblist" element={<HirerJobList />} />
                 </Route>
 
             </Routes>
