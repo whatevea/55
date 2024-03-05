@@ -16,11 +16,9 @@ const Navbar = () => {
     const data = useSelector((state) => state?.User)
     let isLoggedIn = data.isLoggedIn
     const userDetails = data.userData
-    console.log(isLoggedIn, userDetails)
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    console.log("userDetails are", userDetails)
     const userLoggedOut = () => {
         // Dispatch the logout action to update the Redux state
         dispatch(logout())

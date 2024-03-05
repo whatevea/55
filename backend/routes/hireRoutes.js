@@ -7,5 +7,5 @@ router.post('/postJob', addJob)
 router.get('/postJob', getJobsList)
 router.get('/singleJobPost/:id', getSingleJobPost)
 router.post("/applyingforJob", apply_job)
-router.post("/getappliers", getApplierList)
+router.get("/getappliers/:id", getApplierList)
 export default router;

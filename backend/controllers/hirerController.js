@@ -55,7 +55,8 @@ export const getSingleJobPost = asyncHandler(async (req, res) => {
 })
 
 export const getApplierList = asyncHandler(async (req, res) => {
-    const job_id = req.body.job_id
+    console.log('you got called');
+    const job_id = req.params.id;  // Use req.params to get URL parameters
     const applied = await Applied_Vacancy.find({ job: job_id });
     res.status(200).json({
         success: true,
