@@ -8,6 +8,4 @@ router.get('/postJob', getJobsList)
 router.get('/singleJobPost/:id', getSingleJobPost)
 router.post("/applyingforJob", apply_job)
 router.post("/getappliers", getApplierList)
-
-
 export default router;

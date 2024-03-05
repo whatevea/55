@@ -23,6 +23,7 @@ function HirerJobList() {
 
     return (
         <div className='px-6'>
+            <p className="text-2xl">See your Jobs:</p>
             {
                 jobPosts.map((jobPost) => (
                     <div className="bg-green-50  rounded-md shadow-sm overflow-hidden mt-4 p-4">

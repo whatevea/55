@@ -55,7 +55,8 @@ export const getSingleJobPost = asyncHandler(async (req, res) => {
 })
 
 export const getApplierList = asyncHandler(async (req, res) => {
-    const applied = await Applied_Vacancy.find(req.body.job_id);
+    const job_id = req.body.job_id
+    const applied = await Applied_Vacancy.find({ job: job_id });
     res.status(200).json({
         success: true,
         data: applied,

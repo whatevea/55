@@ -1,19 +1,25 @@
 import React, { useState } from "react"; // Import useState from React
-import { CgProfile } from "react-icons/cg";
-import { FaKey } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom'
 import { toastConfig } from "../config/toastConfig";
 import http from "../config/http";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { login } from "../redux/reducers/userSlice";
 import { ScaleLoader } from "react-spinners";
-import logo from '../images/logo.png'
+import { useEffect } from "react";
 
 const Login = () => {
+    const navigate = useNavigate();
+    const isLoggedIn = useSelector((state) => state.User?.isLoggedIn);
+    useEffect(() => {
+        if (isLoggedIn) {
+            toast.error("You are logged in sorry !!", toastConfig)
+            navigate("/")
+        }
+    }, [])
     const [loading, setLoading] = useState(false)
-    const navigate = useNavigate()
     const dispatch = useDispatch()
     const [formData, setFormData] = useState({
         email: "",
