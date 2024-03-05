@@ -12,7 +12,7 @@ const schema = new Schema({
     cover_letter: {
         type: String
     },
-    offererd_amount: {
+    offered_amount: {
         type: Number
     },
     attachment_url: {
