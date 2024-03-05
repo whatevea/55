@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import http from '../../config/http'; // Ensure this is set up to make HTTP requests
 import moment from 'moment';
+import { toast } from "react-toastify"
+import { toastConfig } from "../../config/toastConfig"
 import { useSelector } from 'react-redux';
-
+import { useNavigate } from 'react-router-dom';
 const ApplyForJob = () => {
+    const navigate = useNavigate()
     const userData = useSelector((state) => state.User);
     const params = useParams();
     const [jobPost, setJobPost] = useState(null);
@@ -27,42 +30,14 @@ const ApplyForJob = () => {
         fetchJobPost();
     }, [params.id]);
 
-    const handleFileChange = (e) => {
-        // Directly store the first selected file, assuming single file upload
-        const file = e.target.files[0];
-        setFiles(file); // Update state to hold the single selected file
-    };
 
-    const uploadFiles = async () => {
-        let attachmentUrl = ''; // Since it's a single file, we'll store a single URL string
-        if (files) { // Check if a file is selected
-            const formData = new FormData();
-            formData.append('file', files); // Use 'file' as the field name for a single file
-
-            try {
-                const uploadResponse = await http.post('/upload', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                });
-                // Assuming the server response includes the fileUrl for the uploaded file
-                attachmentUrl = uploadResponse.data.fileUrl; // Directly store the single file URL
-            } catch (error) {
-                console.error('Error uploading file:', error);
-                throw new Error('File upload failed');
-            }
-        }
-        return attachmentUrl; // Return the URL string of the uploaded file
-    };
 
     const formSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            // Assuming uploadFiles now returns a single URL or an empty string
-            const attachmentUrl = await uploadFiles(); // This should now be a string
 
-            await http.post('/hire/applyingforJob', {
+            const req = await http.post('/hire/applyingforJob', {
                 job: jobPost._id,
                 user_id: userData.userData._id,
                 cover_letter: coverLetter,
@@ -71,7 +46,8 @@ const ApplyForJob = () => {
                 attachment_url: "attachmentUrl",
             }, { timeout: 500 });
 
-            alert('Application submitted successfully');
+            toast.success("Job Applied Successfully", toastConfig)
+            navigate("/")
         } catch (error) {
             console.error('Error submitting application:', error);
         }
@@ -130,7 +106,6 @@ const ApplyForJob = () => {
                 <div className='flex flex-col mb-4'>
                     <label className='font-bold'>File Attachment</label>
                     <input type='file'
-                    // onChange={handleFileChange}
                     />
                 </div>
                 <button type='submit' className="px-3 py-1 bg-green-600 text-white text-base font-semibold rounded-md hover:bg-green-500">
