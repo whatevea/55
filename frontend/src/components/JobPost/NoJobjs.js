@@ -13,7 +13,7 @@ export default function NoJobjs() {
 
         <div className="grid place-content-center md:p-4 p-2">
           <button className="bg-green-600  hover:bg-green-500 text-white md:p-3 p-2 w-full text-xs md:text-base rounded-md">
-            <Link to="/searchjobs">Search for new projects</Link>
+            <Link to="searchjob">Search for new projects</Link>
           </button>
         </div>
       </div>

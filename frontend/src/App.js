@@ -13,8 +13,6 @@ import JobSeekerLayout from "./components/JobSeeker/JobSeekerLayout";
 import Navbar from "./components/commons/Navbar";
 import ApplyForJob from "./components/commons/ApplyForJob";
 import Footer from "./components/commons/Footer"
-import HirerJobList from "./components/commons/JobsList";
-import ApplicationsofJob from "./components/commons/ApplicationsofJob";
 function App() {
     const userData = useSelector((state) => state.User);
     const isLoggedIn = userData.isLoggedIn
@@ -28,7 +26,7 @@ function App() {
             <Routes>
                 <Route
                     path="/"
-                    element={isLoggedIn ? (userType === "freelancer" ? <Navigate to="/freelancer/jobseeker" /> : <Navigate to="/hirer/dashboard" />) : <Navigate to="/auth/login" />
+                    element={isLoggedIn ? (userType === "freelancer" ? <Navigate to="/freelancer/jobseeker" /> : <Navigate to="/hirer/jobpost" />) : <Navigate to="/auth/login" />
                     }
                 />
 
@@ -44,8 +42,6 @@ function App() {
 
                 <Route path="/hirer" element={<HireLayout />}>
                     <Route path="jobpost" element={<JobPostLayout />} />
-                    <Route path="dashboard" element={<HirerJobList />} />
-                    <Route path="seeappliers/:job_id" element={<ApplicationsofJob />} />
                 </Route>
 
             </Routes>
