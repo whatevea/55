@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import http from '../../config/http';
+import moment from 'moment';
 
 function HirerJobList() {
 
     const [jobPosts, setJobPosts] = useState([]);
-
-    console.log('jobPosts is',jobPosts);
+    let formattedCreatedAt
 
     useEffect(() => {
         // Function to fetch job posts from the backend
@@ -23,55 +23,49 @@ function HirerJobList() {
 
     return (
         <div className='px-6'>
-            <div className="bg-green-50  rounded-md shadow-sm overflow-hidden mt-4">
-                {/* border border-gray-200 */}
-                <div className="flex items-center px-4 py-5 sm:p-6">
-                    <div>
-                        <h3 className="text-lg leading-6 font-medium text-gray-900">
-                            Front End Developer
-                        </h3>
-                        <p className="text-sm text-gray-500">
-                            ABC Company - Remote (US) - Full Time
-                        </p>
+            {
+                jobPosts.map((jobPost) => (
+                    <div className="bg-green-50  rounded-md shadow-sm overflow-hidden mt-4 p-4">
+                        <div className='text-sm'>
+                            Posted: {formattedCreatedAt = moment(jobPost?.createdAt).fromNow()}
+                        </div>
+                        <h2 className="text-2xl font-medium mb-2">{jobPost?.title}</h2>
+                        <div className='mb-2'>
+                            {
+                                jobPost?.budgetType === 'hourly' ? (
+                                    <div>
+                                        <span className='capitalize inline-block font-bold mx-1 text-sm'>{jobPost?.budgetType}</span>: <span className='capitalize inline-block mx-1 font-bold text-sm'>${jobPost?.budgetHourlyMin}</span>-<span className='capitalize inline-block font-bold mx-1 text-sm'>${jobPost?.budgetHourlyMax}</span>
+                                        <span className='capitalize inline-block font-bold mx-1 text-sm'>Duration: {jobPost?.scopeDuration}</span>
+                                        <span className='capitalize inline-block mx-1 font-bold text-sm'>Experience: {jobPost?.scopeExperience}</span>
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <span className='capitalize inline-block mx-1 text-sm'>{jobPost?.budgetType}</span>
+                                        <span className='capitalize inline-block mx-1 text-sm'>${jobPost?.budgetFixed}</span>
+                                        <span className='capitalize inline-block mx-1 text-sm'>Duration: {jobPost?.scopeDuration}</span>
+                                        <span className='capitalize inline-block mx-1 text-sm'>Experience: {jobPost?.scopeExperience}</span>
+                                    </div>
+                                )
+                            }
+                        </div>
+                        <div className="text-gray-700 mb-4 break-words">
+                            {jobPost?.description}
+                        </div>
+                        <div className="flex mt-4 mb-4">
+                            {jobPost?.skills_required?.map((skill) => (
+                                <span key={skill} className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
+                                    {skill}
+                                </span>
+                            ))}
+                        </div>
+                        <button
+                            type="button"
+                            className="inline-flex items-center px-4 py-2 rounded-md text-base font-medium text-center text-white bg-green-600 hover:bg-green-500 "
+                        >
+                            See Applications For This Job
+                        </button>
                     </div>
-                </div>
-                <div className="px-4 py-4 border-t border-gray-200 sm:px-6">
-                    <ul className="flex flex-wrap -m-1">
-                        <li className="m-1">
-                            <span className="inline-block px-2 py-1 rounded-full text-xs font-semibold text-center text-gray-600 bg-green-200">
-                                HTML
-                            </span>
-                        </li>
-                        <li className="m-1">
-                            <span className="inline-block px-2 py-1 rounded-full text-xs font-semibold text-center text-gray-600 bg-green-200">
-                                CSS
-                            </span>
-                        </li>
-                        <li className="m-1">
-                            <span className="inline-block px-2 py-1 rounded-full text-xs font-semibold text-center text-gray-600 bg-green-200">
-                                JavaScript
-                            </span>
-                        </li>
-                        <li className="m-1">
-                            <span className="inline-block px-2 py-1 rounded-full text-xs font-semibold text-center text-gray-600 bg-green-200">
-                                React
-                            </span>
-                        </li>
-                    </ul>
-                </div>
-                <div className="px-4 py-4 flex items-center justify-between sm:px-6">
-                    <div className="flex items-center">
-                        <i className="fa-solid fa-clock mr-2 text-gray-500"></i>
-                        <span className="text-sm text-gray-500">Posted 1 day ago</span>
-                    </div>
-                    <button
-                        type="button"
-                        className="inline-flex items-center px-4 py-2 rounded-md text-base font-medium text-center text-white bg-green-600 hover:bg-green-500 "
-                    >
-                        See Applications For This Job
-                    </button>
-                </div>
-            </div>
+                ))}
         </div>
     );
 }
