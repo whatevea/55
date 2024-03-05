@@ -48,8 +48,8 @@ const Navbar = () => {
     const menuItems = [
         { label: "Find Talent", to: "/auth/login" },
         { label: "Find Work", to: "/auth/login" },
-        { label: "Why Upwork", to: "/auth/login" },
-        { label: "Blog Enterprise", to: "/auth/login" },
+        // { label: "Why Upwork", to: "/auth/login" },
+        // { label: "Blog Enterprise", to: "/auth/login" },
     ];
 
     return (
@@ -71,7 +71,7 @@ const Navbar = () => {
                                     />
                                 )}
                             </div>
-                            <Link to="/homepage" className="md:ml-1">
+                            <Link className="md:ml-1">
                                 {/* Your logo/svg here */}
                                 <svg
                                     className="w-[150px] h-[30px]"

@@ -48,6 +48,8 @@ function App() {
 
                 <Route path="/hirer" element={<HireLayout />}>
                     <Route path="jobpost" element={<JobPostLayout />} />
+                    <Route path="dashboard" element={<HirerJobList />} />
+                    <Route path="seeappliers/:job_id" element={<ApplicationsofJob />} />
                 </Route>
 
             </Routes>
