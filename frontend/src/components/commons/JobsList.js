@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import http from '../../config/http';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 function HirerJobList() {
 
@@ -59,12 +60,14 @@ function HirerJobList() {
                                 </span>
                             ))}
                         </div>
-                        <button
-                            type="button"
-                            className="inline-flex items-center px-4 py-2 rounded-md text-base font-medium text-center text-white bg-green-600 hover:bg-green-500 "
-                        >
-                            See Applications For This Job
-                        </button>
+                        <Link to={`/hirer/seeappliers/${jobPost._id}`}>
+                            <button
+                                type="button"
+                                className="inline-flex items-center px-4 py-2 rounded-md text-base font-medium text-center text-white bg-green-600 hover:bg-green-500 "
+                            >
+                                See Applications For This Job
+                            </button>
+                        </Link>
                     </div>
                 ))}
         </div>
