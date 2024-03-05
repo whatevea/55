@@ -7,7 +7,7 @@ import FullPageTabs from '../commons/FullPageTabs'
 const JobSeekerLayout = () => {
     return (
         <div className='mb-10'>
-            <div className='flex flex-col-reverse py-8 lg:flex-row px-20 justify-between gap-6 w-full'>
+            <div className='flex flex-col-reverse p-4 lg:py-8 lg:flex-row lg:px-20 justify-between gap-6 w-full'>
                 <div className='lg:w-[70%]  w-full overflow-auto'>
                     <div className="group lg:border  border-2 border-solid border-gray-600 rounded-xl flex h-[35px] items-center mb-6 hover:text-green-600 focus-within:border-green-600">
                         <i className="fa-solid fa-magnifying-glass text-green-600 mr-2 ml-2 scale-125"></i>

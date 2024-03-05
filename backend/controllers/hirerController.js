@@ -1,7 +1,8 @@
 import asyncHandler from 'express-async-handler';
 import Job from '../models/job.js';
+import Applied_Vacancy from '../models/applied_vacancy.js';
 
-const addJob = asyncHandler(async (req, res) => {
+export const addJob = asyncHandler(async (req, res) => {
     const { title, skill, scope, budget, provider, description } = req.body;
     let data = {
         provider: provider,
@@ -42,12 +43,8 @@ export const getJobsList = asyncHandler(async (req, res) => {
 
 export const getSingleJobPost = asyncHandler(async (req, res) => {
     const jobId = req.params.id; // Assuming the parameter is named 'id'
-
     // Use findById to find a single document by its ID
     const job = await Job.findById(jobId);
-
-    console.log('job is', job)
-
     if (!job) {
         // If no job is found, respond with a 404 Not Found status
         res.status(404).json({ success: false, message: 'Job not found' });
@@ -57,5 +54,13 @@ export const getSingleJobPost = asyncHandler(async (req, res) => {
     }
 })
 
+export const getApplierList = asyncHandler(async (req, res) => {
+    const job_id = req.body.job_id
+    const applied = await Applied_Vacancy.find({ job: job_id });
+    res.status(200).json({
+        success: true,
+        data: applied,
+    });
+})
 
-export default addJob 
+export default addJob

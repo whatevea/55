@@ -32,7 +32,7 @@ const JobPosting = ({ job }) => {
       <p className="text-sm my-4 break-words">
         {job.description}
       </p>
-      <div className="flex mt-4">
+      <div className="flex flex-col gap-2 md:flex-row mt-4 ">
         {skills.map((skill) => (
           <span key={skill} className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
             {skill}

@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
-
 const schema = new Schema({
     job: {
         type: Schema.Types.ObjectId,
@@ -10,7 +9,13 @@ const schema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    description: {
+    cover_letter: {
+        type: String
+    },
+    offered_amount: {
+        type: Number
+    },
+    attachment_url: {
         type: String
     }
 })

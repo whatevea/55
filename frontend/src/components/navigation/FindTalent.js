@@ -25,7 +25,8 @@ const FindTalent = () => {
     return (
         <>
             <div className='p-4 flex items-center justify-between'>
-                <div className='flex flex-col p-4 gap-4 border-solid border-r border-green-400'>
+                Find Talent will come here
+                {/* <div className='flex flex-col p-4 gap-4 border-solid border-r border-green-400'>
                     <div className={`flex items-center w-full p-6 gap-20 hover:bg-green-50 justify-between ${hoveredIndex === 0 ? 'bg-green-50' : ''}`} onMouseEnter={() => setHoveredIndex(0)}>
                         <div>
                             <Link to='/talent-marketplace/' className='flex flex-col'>
@@ -65,7 +66,7 @@ const FindTalent = () => {
                     {(hoveredIndex !== null) && 
                         linkViewer
                     }
-                </div>
+                </div> */}
             </div>
         </>
     )
