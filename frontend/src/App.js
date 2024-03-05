@@ -15,11 +15,11 @@ import ApplyForJob from "./components/commons/ApplyForJob";
 import Footer from "./components/commons/Footer"
 import HirerJobList from "./components/commons/JobsList";
 import ApplicationsofJob from "./components/commons/ApplicationsofJob";
+import MyJobs from "./components/JobPost/MyJobs";
 function App() {
     const userData = useSelector((state) => state.User);
     const isLoggedIn = userData.isLoggedIn
     const userType = userData?.userData?.user_type;
-    console.log(isLoggedIn, userType)
     return (
         <BrowserRouter>
             <ToastContainer />
@@ -40,6 +40,7 @@ function App() {
                 <Route path="/freelancer" element={<FreelancerLayout />}>
                     <Route path="jobseeker" element={<JobSeekerLayout />} />
                     <Route path="apply/:id" element={<ApplyForJob />} />
+                    <Route path="myjobs" element={<MyJobs />}/>
                 </Route>
 
                 <Route path="/hirer" element={<HireLayout />}>
