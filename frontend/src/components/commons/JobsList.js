@@ -6,7 +6,10 @@ import { Link } from 'react-router-dom';
 function HirerJobList() {
 
     const [jobPosts, setJobPosts] = useState([]);
+
     let formattedCreatedAt
+    console.log('jobPosts', jobPosts)
+    console.log('jobPosts.reverse()',jobPosts.reverse())
 
     useEffect(() => {
         // Function to fetch job posts from the backend
@@ -24,9 +27,13 @@ function HirerJobList() {
 
     return (
         <div className='px-6'>
-            <p className="text-2xl">See your Jobs:</p>
+
+            <div className='text-center text-3xl text-green-600 font-bold mt-4'>
+
+                <h1 className="text-2xl mx-auto">See your Jobs:</h1>
+            </div>
             {
-                jobPosts.map((jobPost) => (
+                jobPosts.reverse().map((jobPost) => (
                     <div className="bg-green-50  rounded-md shadow-sm overflow-hidden mt-4 p-4">
                         <div className='text-sm'>
                             Posted: {formattedCreatedAt = moment(jobPost?.createdAt).fromNow()}
