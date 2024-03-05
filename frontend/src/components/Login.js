@@ -49,14 +49,6 @@ const Login = () => {
 
                 dispatch(login({ isLoggedIn: true, userData: userData, token: response.data?.token }))
 
-                localStorage.setItem('userData', JSON.stringify({
-
-                    isLoggedIn: true,
-                    userData,
-                    token: response.data?.token
-
-                }))
-
                 // Show success message
                 toast.success('Login successful');
 
