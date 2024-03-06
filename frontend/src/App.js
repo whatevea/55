@@ -54,6 +54,7 @@ function App() {
                     <Route path="dashboard" element={<HirerJobList />} />
                     <Route path="seeappliers/:job_id" element={<ApplicationsofJob />} />
                     <Route path="hirer-profile" element={<Profile />} />
+                    
                 </Route>
 
             </Routes>

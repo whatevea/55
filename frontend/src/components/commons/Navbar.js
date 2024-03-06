@@ -11,17 +11,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/reducers/userSlice";
 import DropdownButton from "./DropdownButton";
 
-
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const data = useSelector((state) => state?.User)
     let isLoggedIn = data.isLoggedIn
     const userDetails = data.userData
-
-    console.log('userDetails.user_type is', userDetails.user_type);
-
-    const userFirstName = userDetails.fname 
+    console.log('userDetails contains', userDetails);
+    const userFirstName = userDetails.fname
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -51,11 +48,20 @@ const Navbar = () => {
         }
     }, [hoveredIndex]);
 
-    const menuItems = [
-        userDetails.user_type === "freelancer" ? { label: "Find Work", to: "/auth/login" } : { label: "Find Talent", to: "/auth/login" }  
-        // { label: "Why Upwork", to: "/auth/login" },
-        // { label: "Blog Enterprise", to: "/auth/login" },
-    ];
+    let menuItems = [];
+
+    if (userDetails && Object.keys(userDetails).length === 0) {
+        // If userDetails is undefined or null, include both options
+        menuItems.push({ label: "Find Work", to: "/auth/login" });
+        menuItems.push({ label: "Find Talent", to: "/auth/login" });
+    } else {
+        // If userDetails is available, include the corresponding option based on user_type
+        menuItems.push(
+            userDetails.user_type === "freelancer"
+                ? { label: "Find Work", to: "/auth/login" }
+                : { label: "Find Talent", to: "/auth/login" }
+        );
+    }
 
     return (
         <>
@@ -141,7 +147,7 @@ const Navbar = () => {
                             </div>
                             <div className="flex justify-between gap-4">
                                 {isLoggedIn ? (
-                                    <DropdownButton firstName={userFirstName} userLoggingOut={userLoggedOut}/>
+                                    <DropdownButton firstName={userFirstName} userLoggingOut={userLoggedOut} />
                                 ) : (
                                     <>
                                         <Link
