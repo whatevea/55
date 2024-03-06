@@ -14,7 +14,7 @@ const MyJobs = () => {
         </h3>
       </div>
 
-      <div className="text-xl md:text-3xl font-medium mb-7">
+      <div className="text-xl md:text-3xl text-green-600 font-medium mb-7">
         <h1 className="">Active contracts</h1>
       </div>
       {jobs.length > 0 ? jobs.map((item) => <Job />) : <NoJobs />}

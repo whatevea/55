@@ -13,10 +13,10 @@ import JobSeekerLayout from "./components/JobSeeker/JobSeekerLayout";
 import Navbar from "./components/commons/Navbar";
 import ApplyForJob from "./components/commons/ApplyForJob";
 import Footer from "./components/commons/Footer"
-
 import HirerJobList from "./components/commons/JobsList";
 import ApplicationsofJob from "./components/commons/ApplicationsofJob";
 import MyJobs from "./components/JobPost/MyJobs";
+import Profile from "./components/commons/Profile";
 
 
 function App() {
@@ -41,15 +41,19 @@ function App() {
                 </Route>
 
                 <Route path="/freelancer" element={<FreelancerLayout />}>
+                    <Route index element={<JobSeekerLayout />}/>
                     <Route path="jobseeker" element={<JobSeekerLayout />} />
                     <Route path="apply/:id" element={<ApplyForJob />} />
                     <Route path="myjobs" element={<MyJobs />}/>
+                    <Route path="freelancer-profile" element={<Profile />}/>
                 </Route>
 
                 <Route path="/hirer" element={<HireLayout />}>
+                    <Route index element={<JobPostLayout />} />
                     <Route path="jobpost" element={<JobPostLayout />} />
                     <Route path="dashboard" element={<HirerJobList />} />
                     <Route path="seeappliers/:job_id" element={<ApplicationsofJob />} />
+                    <Route path="hirer-profile" element={<Profile />} />
                 </Route>
 
             </Routes>
