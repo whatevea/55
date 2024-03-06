@@ -9,6 +9,8 @@ import FindWork from "../navigation/FindWork";
 import FindTalent from "../navigation/FindTalent";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/reducers/userSlice";
+import DropdownButton from "./DropdownButton";
+
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -16,6 +18,10 @@ const Navbar = () => {
     const data = useSelector((state) => state?.User)
     let isLoggedIn = data.isLoggedIn
     const userDetails = data.userData
+
+    console.log('userDetails.user_type is', userDetails.user_type);
+
+    const userFirstName = userDetails.fname 
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -46,8 +52,7 @@ const Navbar = () => {
     }, [hoveredIndex]);
 
     const menuItems = [
-        { label: "Find Talent", to: "/auth/login" },
-        { label: "Find Work", to: "/auth/login" },
+        userDetails.user_type === "freelancer" ? { label: "Find Work", to: "/auth/login" } : { label: "Find Talent", to: "/auth/login" }  
         // { label: "Why Upwork", to: "/auth/login" },
         // { label: "Blog Enterprise", to: "/auth/login" },
     ];
@@ -136,12 +141,7 @@ const Navbar = () => {
                             </div>
                             <div className="flex justify-between gap-4">
                                 {isLoggedIn ? (
-                                    <button
-                                        className="text-white px-3 py-1 hover:bg-green-500 rounded-md bg-green-600 flex items-center"
-                                        onClick={() => { userLoggedOut() }}
-                                    >
-                                        Logout
-                                    </button>
+                                    <DropdownButton firstName={userFirstName} userLoggingOut={userLoggedOut}/>
                                 ) : (
                                     <>
                                         <Link

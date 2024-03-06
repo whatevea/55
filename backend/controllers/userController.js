@@ -51,4 +51,67 @@ const loginUser = asyncHandler(async (req, res) => {
     }
 });
 
-export { registerUser, loginUser };
+const getUserData = asyncHandler(async (req, res) => {
+    console.log('we are getting you a user data')
+    const user_id = req.params.userId;  // Use req.params to get URL parameters
+    const user = await User.findById(user_id);
+    console.log('user is', user)
+    res.status(200).json({
+        success: true,
+        data: user,
+    });
+})
+
+const updateUser = asyncHandler(async (req, res) => {
+    console.log('we got called here to the updateUser');
+    console.log('req.body is', req.body);
+    const { email, fname, lname, newPassword, password, user_type, bio, _id } = req.body
+
+    // Step 1: Verify the current password
+    const user = await User.findById(_id);
+    console.log('user data into the database is', user);
+
+    if (!user) {
+        return res.status(404).json({
+            success: false,
+            message: 'User not found',
+        });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+        return res.status(401).json({
+            success: false,
+            message: 'Incorrect password',
+        });
+    }
+
+    // Step 2: Update user data, including the password if a new password is provided
+    const updatedUserData = {
+        email,
+        fname,
+        lname,
+        user_type,
+        bio
+    };
+
+    if (newPassword) {
+        // Hash the new password
+        const salt = await bcrypt.genSalt(10)
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+        updatedUserData.password = hashedPassword;
+    }
+
+    // Update the user in the database
+    const updatedUser = await User.findByIdAndUpdate(_id, updatedUserData, { new: true });
+
+    res.status(200).json({
+        success: true,
+        data: updatedUser,
+    });
+
+
+})
+
+export { registerUser, loginUser, getUserData, updateUser };

@@ -3,7 +3,7 @@ import { MdMoreHoriz } from "react-icons/md";
 
 export default function Job() {
   return (
-    <div className="m-1 py-3">
+    <div className="m-1 py-3 px-2 bg-green-50">
       <div className="md:flex md:justify-between">
         <div className="grid gap-1 mb-4">
           <h1 className="md:text-2xl text-xl font-semibold mb-7">AI ChatBot</h1>
