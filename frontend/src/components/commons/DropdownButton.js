@@ -3,9 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import face from '../../assets/images/nerd-face.jpg'
 import { useSelector } from 'react-redux';
 
-const DropdownButton = ({ firstName, userLoggingOut }) => {
+const DropdownButton = ({ firstName, lastName, userLoggingOut }) => {
     const data = useSelector((state) => state?.User);
-    console.log('data is', data);
+    
 
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
@@ -64,7 +64,7 @@ const DropdownButton = ({ firstName, userLoggingOut }) => {
                 onClick={handleToggle}
                 className="bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
-                Hi, {firstName.toUpperCase()} {data.userData.lname.toUpperCase()}
+                Hi, {firstName.toUpperCase()} {lastName.toUpperCase()}
             </button>
             {isOpen && (
                 <div className="origin-top-right absolute right-0 mt-2 w-[300px] rounded-md shadow-lg bg-green-50 ring-1 ring-black ring-opacity-5">
