@@ -19,6 +19,7 @@ const Navbar = () => {
     const userDetails = data.userData
     console.log('userDetails contains', userDetails);
     const userFirstName = userDetails.fname
+    const userlastName = userDetails.lname
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -147,7 +148,7 @@ const Navbar = () => {
                             </div>
                             <div className="flex justify-between gap-4">
                                 {isLoggedIn ? (
-                                    <DropdownButton firstName={userFirstName} userLoggingOut={userLoggedOut} />
+                                    <DropdownButton firstName={userFirstName} lastName={userlastName} userLoggingOut={userLoggedOut} />
                                 ) : (
                                     <>
                                         <Link
