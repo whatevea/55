@@ -6,10 +6,7 @@ import { Link } from 'react-router-dom';
 function HirerJobList() {
 
     const [jobPosts, setJobPosts] = useState([]);
-
-    let formattedCreatedAt
-    console.log('jobPosts', jobPosts)
-    console.log('jobPosts.reverse()',jobPosts.reverse())
+    let formattedCreatedAt    
 
     useEffect(() => {
         // Function to fetch job posts from the backend

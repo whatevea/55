@@ -49,6 +49,7 @@ const Login = () => {
                     _id: response.data._id,
                     email: response.data.email,
                     fname: response.data.fname,
+                    lname: response.data.lname,
                     user_type: response.data.user_type,
 
                 }
