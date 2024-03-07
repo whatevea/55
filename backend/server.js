@@ -7,7 +7,7 @@ import path from 'path'; // Added missing import for 'path'
 // Routes imports
 import authRoutes from './routes/authRoutes.js';
 import hireRoutes from "./routes/hireRoutes.js";
-
+import freelancerRoutes from "./routes/freelancerRoutes.js"
 // Middleware and DB connection imports
 import { errorHandler } from './middleware/errorMiddleware.js';
 import connectDB from './connect/database.js';
@@ -39,7 +39,7 @@ const upload = multer({ storage: storage });
 // Routes
 app.use('/auth', authRoutes); // Authentication routes
 app.use("/hire", hireRoutes); // Hiring-related routes
-
+app.use("/freelancer", freelancerRoutes)
 // Test route
 app.get('/test', (req, res) => {
     res.send('This is route 1');

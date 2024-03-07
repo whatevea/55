@@ -20,8 +20,6 @@ const Navbar = () => {
     const data = useSelector((state) => state?.User)
     let isLoggedIn = data.isLoggedIn
     const userDetails = data.userData
-    const userFirstName = userDetails.fname
-    const userlastName = userDetails.lname
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -126,12 +124,11 @@ const Navbar = () => {
                                         >
                                             {item.label}
                                             <i
-                                                className={`fa-solid fa-angle-down ml-1 mt-1 scale-80 ${
-                                                    (hoveredIndex === 'Find Work' || hoveredIndex === 'Find Talent') &&
+                                                className={`fa-solid fa-angle-down ml-1 mt-1 scale-80 ${(hoveredIndex === 'Find Work' || hoveredIndex === 'Find Talent') &&
                                                     item.label === hoveredIndex
-                                                        ? "rotate-180 duration-300 ease-in-out"
-                                                        : ""
-                                                }`}
+                                                    ? "rotate-180 duration-300 ease-in-out"
+                                                    : ""
+                                                    }`}
                                             ></i>
                                         </Link>
                                     ))}
@@ -150,7 +147,7 @@ const Navbar = () => {
                             </div>
                             <div className="flex justify-between gap-4">
                                 {isLoggedIn ? (
-                                    <DropdownButton firstName={userFirstName} lastName={userlastName} userLoggingOut={userLoggedOut} />
+                                    <DropdownButton userLoggingOut={userLoggedOut} />
                                 ) : (
                                     <>
                                         <Link
