@@ -35,6 +35,12 @@ const ApplyForJob = () => {
     const formSubmit = async (e) => {
         e.preventDefault();
 
+        // Validate cover letter, hourly rate, and file attachment
+        if (!coverLetter.trim() || !hourlyOrFixedRate.trim() || files.length === 0) {
+            toast.error("Cover Letter, Hourly Rate, and File Attachment cannot be empty", toastConfig);
+            return; // Prevent further execution if validation fails
+        }
+
         try {
 
             const req = await http.post('/hire/applyingforJob', {
