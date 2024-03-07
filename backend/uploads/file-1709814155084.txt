@@ -1,0 +1,6 @@
+1) Select Bot full width
+2)Add your Documents in Admin Panel
+3) Filter full review
+4) Use custom calendar picker
+5) Use another image in Chat Interface
+6) Delete Confirm button

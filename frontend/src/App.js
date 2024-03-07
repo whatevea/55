@@ -18,7 +18,8 @@ import ApplicationsofJob from "./components/commons/ApplicationsofJob";
 import MyJobs from "./components/JobPost/MyJobs";
 import Profile from "./components/commons/Profile";
 import SearchForTalent from "./components/commons/SearchForTalent";
-import Accordion from "./components/commons/AccordionComp";
+import Fileupload from "./components/commons/Fileupload";
+
 
 
 function App() {
@@ -43,11 +44,11 @@ function App() {
                 </Route>
 
                 <Route path="/freelancer" element={<FreelancerLayout />}>
-                    <Route index element={<JobSeekerLayout />}/>
+                    <Route index element={<JobSeekerLayout />} />
                     <Route path="jobseeker" element={<JobSeekerLayout />} />
                     <Route path="apply/:id" element={<ApplyForJob />} />
-                    <Route path="myjobs" element={<MyJobs />}/>
-                    <Route path="freelancer-profile" element={<Profile />}/>
+                    <Route path="myjobs" element={<MyJobs />} />
+                    <Route path="freelancer-profile" element={<Profile />} />
                 </Route>
 
                 <Route path="/hirer" element={<HireLayout />}>
@@ -57,11 +58,11 @@ function App() {
                     <Route path="seeappliers/:job_id" element={<ApplicationsofJob />} />
                     <Route path="hirer-profile" element={<Profile />} />
                     <Route path="searchfortalent" element={<SearchForTalent />} />
-                    <Route path="accordion" element={<Accordion />} />
                     
 
-                    
+
                 </Route>
+                <Route path="/upload" element={<Fileupload />} />
 
             </Routes>
 
