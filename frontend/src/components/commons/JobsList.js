@@ -6,7 +6,10 @@ import { Link } from 'react-router-dom';
 function HirerJobList() {
 
     const [jobPosts, setJobPosts] = useState([]);
-    let formattedCreatedAt    
+
+    console.log('jobPosts is', jobPosts)
+
+    let formattedCreatedAt
 
     useEffect(() => {
         // Function to fetch job posts from the backend
@@ -31,38 +34,40 @@ function HirerJobList() {
             </div>
             {
                 jobPosts.reverse().map((jobPost) => (
-                    <div className="bg-green-50  rounded-md shadow-sm overflow-hidden mt-4 p-4">
-                        <div className='text-sm'>
-                            Posted: {formattedCreatedAt = moment(jobPost?.createdAt).fromNow()}
-                        </div>
-                        <h2 className="text-2xl font-medium mb-2">{jobPost?.title}</h2>
-                        <div className='mb-2'>
-                            {
-                                jobPost?.budgetType === 'hourly' ? (
-                                    <div>
-                                        <span className='capitalize inline-block font-bold mx-1 text-sm'>{jobPost?.budgetType}</span>: <span className='capitalize inline-block mx-1 font-bold text-sm'>${jobPost?.budgetHourlyMin}</span>-<span className='capitalize inline-block font-bold mx-1 text-sm'>${jobPost?.budgetHourlyMax}</span>
-                                        <span className='capitalize inline-block font-bold mx-1 text-sm'>Duration: {jobPost?.scopeDuration}</span>
-                                        <span className='capitalize inline-block mx-1 font-bold text-sm'>Experience: {jobPost?.scopeExperience}</span>
-                                    </div>
-                                ) : (
-                                    <div>
-                                        <span className='capitalize inline-block mx-1 text-sm'>{jobPost?.budgetType}</span>
-                                        <span className='capitalize inline-block mx-1 text-sm'>${jobPost?.budgetFixed}</span>
-                                        <span className='capitalize inline-block mx-1 text-sm'>Duration: {jobPost?.scopeDuration}</span>
-                                        <span className='capitalize inline-block mx-1 text-sm'>Experience: {jobPost?.scopeExperience}</span>
-                                    </div>
-                                )
-                            }
-                        </div>
-                        <div className="text-gray-700 mb-4 break-words">
-                            {jobPost?.description}
-                        </div>
-                        <div className="flex mt-4 mb-4">
-                            {jobPost?.skills_required?.map((skill) => (
-                                <span key={skill} className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
-                                    {skill}
-                                </span>
-                            ))}
+                    <div className="bg-green-50  rounded-md shadow-sm overflow-hidden mt-4 p-4 flex items-center justify-between" key={jobPost.id}>
+                        <div className='w-3/4'>
+                            <div className='text-sm'>
+                                Posted: {formattedCreatedAt = moment(jobPost?.createdAt).fromNow()}
+                            </div>
+                            <h2 className="text-2xl font-medium mb-2">{jobPost?.title}</h2>
+                            <div className='mb-2'>
+                                {
+                                    jobPost?.budgetType === 'hourly' ? (
+                                        <div>
+                                            <span className='capitalize inline-block font-bold mx-1 text-sm'>{jobPost?.budgetType}</span>: <span className='capitalize inline-block mx-1 font-bold text-sm'>${jobPost?.budgetHourlyMin}</span>-<span className='capitalize inline-block font-bold mx-1 text-sm'>${jobPost?.budgetHourlyMax}</span>
+                                            <span className='capitalize inline-block font-bold mx-1 text-sm'>Duration: {jobPost?.scopeDuration}</span>
+                                            <span className='capitalize inline-block mx-1 font-bold text-sm'>Experience: {jobPost?.scopeExperience}</span>
+                                        </div>
+                                    ) : (
+                                        <div>
+                                            <span className='capitalize inline-block mx-1 text-sm'>{jobPost?.budgetType}</span>
+                                            <span className='capitalize inline-block mx-1 text-sm'>${jobPost?.budgetFixed}</span>
+                                            <span className='capitalize inline-block mx-1 text-sm'>Duration: {jobPost?.scopeDuration}</span>
+                                            <span className='capitalize inline-block mx-1 text-sm'>Experience: {jobPost?.scopeExperience}</span>
+                                        </div>
+                                    )
+                                }
+                            </div>
+                            <div className="text-gray-700 mb-4 break-words">
+                                {jobPost?.description}
+                            </div>
+                            <div className="flex mt-4 mb-4">
+                                {jobPost?.skills_required?.map((skill) => (
+                                    <span key={skill} className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
+                                        {skill}
+                                    </span>
+                                ))}
+                            </div>
                         </div>
                         <Link to={`/hirer/seeappliers/${jobPost._id}`}>
                             <button
