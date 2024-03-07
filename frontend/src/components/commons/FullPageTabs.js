@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import http from '../../config/http';
 import JobPosting from './JobPosting';
 import { Link } from 'react-router-dom';
-
+import { useSelector } from 'react-redux';
 const FullPageTabs = () => {
     const [jobPosts, setJobPosts] = useState([]);
-
+    const userId = useSelector((state) => state?.User?.userData?._id); // Make sure the path matches your state structure
+    const [appliedJobsId, setAppliedJobsId] = useState([])
     useEffect(() => {
         // Function to fetch job posts from the backend
         const fetchJobPosts = async () => {
@@ -16,7 +17,18 @@ const FullPageTabs = () => {
                 console.error('Error fetching job posts:', error);
             }
         };
-
+        const fetchSelfAppliedJobs = async () => {
+            try {
+                const response = await http.post('/freelancer/getSelfAppliedJobs', { userId: userId });
+                console.log(response.data);
+                response.data.forEach(item => {
+                    setAppliedJobsId((e) => [...e, item.job._id])
+                });
+            } catch (error) {
+                console.error('Error fetching job posts:', error);
+            }
+        };
+        fetchSelfAppliedJobs()
         fetchJobPosts(); // Call the function when the component mounts
     }, []); // Empty dependency array ensures the effect runs only once on mount
 
@@ -29,11 +41,22 @@ const FullPageTabs = () => {
                 </div>
             </div>
             <div className="flex-1 p-4 bg-gray-50">
-                {jobPosts.map(jobPost => (
-                    <Link to={`/freelancer/apply/${jobPost._id}`} key={jobPost._id}>
-                        <JobPosting job={jobPost} />
-                    </Link>
-                ))}
+                {jobPosts.map(jobPost => {
+                    const hasApplied = appliedJobsId.includes(jobPost._id);
+                    return (
+                        <div key={jobPost._id}>
+                            {hasApplied ? (
+                                <a href="#" className="cursor-not-allowed" onClick={(e) => e.preventDefault()}>
+                                    <JobPosting job={jobPost} hasApplied />
+                                </a>
+                            ) : (
+                                <Link to={`/freelancer/apply/${jobPost._id}`}>
+                                    <JobPosting job={jobPost} />
+                                </Link>
+                            )}
+                        </div>
+                    );
+                })}
             </div>
         </div>
     );
