@@ -21,6 +21,7 @@ import SearchForTalent from "./components/commons/SearchForTalent";
 import Fileupload from "./components/commons/Fileupload";
 
 
+
 function App() {
     const userData = useSelector((state) => state.User);
     const isLoggedIn = userData.isLoggedIn
@@ -57,6 +58,7 @@ function App() {
                     <Route path="seeappliers/:job_id" element={<ApplicationsofJob />} />
                     <Route path="hirer-profile" element={<Profile />} />
                     <Route path="searchfortalent" element={<SearchForTalent />} />
+                    
 
 
                 </Route>
