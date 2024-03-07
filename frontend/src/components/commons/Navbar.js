@@ -15,6 +15,8 @@ const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [hoveredIndex, setHoveredIndex] = useState(null);
 
+    console.log('hoveredIndex is', hoveredIndex);
+
     const data = useSelector((state) => state?.User)
     let isLoggedIn = data.isLoggedIn
     const userDetails = data.userData
@@ -124,10 +126,12 @@ const Navbar = () => {
                                         >
                                             {item.label}
                                             <i
-                                                className={`fa-solid fa-angle-down ml-1 mt-1 scale-80 ${hoveredIndex === 'Find Work' || hoveredIndex === 'Find Talent'
-                                                    ? "rotate-180 duration-300 ease-in-out"
-                                                    : ""
-                                                    }`}
+                                                className={`fa-solid fa-angle-down ml-1 mt-1 scale-80 ${
+                                                    (hoveredIndex === 'Find Work' || hoveredIndex === 'Find Talent') &&
+                                                    item.label === hoveredIndex
+                                                        ? "rotate-180 duration-300 ease-in-out"
+                                                        : ""
+                                                }`}
                                             ></i>
                                         </Link>
                                     ))}

@@ -67,22 +67,22 @@ const DropdownButton = ({ firstName, lastName, userLoggingOut }) => {
                 Hi, {firstName.toUpperCase()} {lastName.toUpperCase()} <i className="fa-solid fa-caret-down text-white"></i>
             </button>
             {isOpen && (
-                <div className="origin-top-right absolute right-0 mt-2 w-[300px] rounded-md shadow-lg bg-green-50 ring-1 ring-black ring-opacity-5">
-                    <div className="py-1 flex flex-col">
-                        <img src={face} alt='user-image' className='w-[80px] h-[80px] mx-auto' />
+                <div className="origin-top-right absolute right-0 mt-2 w-[300px] shadow-lg bg-green-50 ring-1 ring-black ring-opacity-5">
+                    <div className="flex flex-col">
+                        <img src={face} alt='user-image' className='w-[80px] h-[80px] mx-auto rounded-full mt-1' />
                         <p className='mx-auto'>{firstName.toUpperCase()} {data.userData.lname.toUpperCase()}</p>
                         {options.map((opt) => (
                             <button
                                 key={opt.action}
                                 onClick={() => handleOptionClick(opt.action)}
-                                className="block px-4 py-2 text-base text-black hover:bg-green-500 hover:text-white hover:font-bold hover:text-lg hover:border-2 hover:border-solid hover:border-green-800"
+                                className={`block px-4 py-2 text-lg  text-black hover:bg-green-500 hover:text-white hover:font-bold  ${opt.label=='Profile'? 'border-t mt-2 border-b border-solid border-green-600' : 'border-b border-solid border-green-600' }`}
                             >
                                 {opt.label}
                             </button>
                         ))}
                         <button
                             onClick={() => handleOptionClick('Logout')}
-                            className="block px-4 py-2 text-base text-black hover:bg-green-500 hover:text-white hover:font-bold hover:text-lg hover:border-2 hover:border-solid hover:border-green-800"
+                            className="block px-4 py-2 text-lg text-black hover:bg-green-500 hover:text-white hover:font-bold"
                         >
                             Logout
                         </button>
