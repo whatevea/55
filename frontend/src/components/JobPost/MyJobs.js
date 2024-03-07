@@ -43,9 +43,9 @@ const MyJobs = () => {
             </div>
 
             <div className="text-xl md:text-3xl text-green-600 font-medium mb-7">
-                <h1>Applied Jobs</h1>
+                Submitted Purposal:
             </div>
-            {jobs.length > 0 ? jobs.map((item) => <Job key={item.job_id} {...item} />) : <NoJobs />}
+            {jobs.length > 0 ? jobs.map((item) => <Job key={item.job_id} {...item} budgetType={item.budgetType} />) : <NoJobs />}
         </div>
     );
 };

@@ -17,9 +17,6 @@ const JobSeekerLayout = () => {
                             placeholder="Search for jobs"
                         />
                     </div>
-                    {/* <div className='text-black font-bold mt-2 mb-2'>
-                        Jobs You Might Like
-                    </div> */}
                     <div>
                         <FullPageTabs />
                     </div>
@@ -40,26 +37,7 @@ const JobSeekerLayout = () => {
                             </div>
                         </div>
                     </div>
-                    {/* <div className='bg-green-50 px-4 pb-4 rounded-3xl'>                        
-                            <Accordion />                        
-                    </div>
-                    <div className='bg-green-50 px-8 py-8 rounded-3xl'>
-                        <div className='mb-4'>
-                            <Link className='underline mr-4 text-base font-bold '>UpWork Academy</Link><i class="fa-solid fa-arrow-up-right-from-square"></i>
-                        </div>
-                        <div className='mb-4'>
-                            <Link className='underline mr-4 text-base font-bold '>Direct Contracts</Link><i class="fa-solid fa-arrow-up-right-from-square"></i>
-                        </div>
-                        <div className='mb-4'>
-                            <Link className='underline mr-4 text-base font-bold '>Get Paid</Link><i class="fa-solid fa-arrow-up-right-from-square"></i>
-                        </div>
-                        <div className='mb-4'>
-                            <Link className='underline mr-4 text-base font-bold '>Community & Forums</Link><i class="fa-solid fa-arrow-up-right-from-square"></i>
-                        </div>
-                        <div className='mb-4'>
-                            <Link className='underline mr-4 text-base font-bold '>Help Center</Link><i class="fa-solid fa-arrow-up-right-from-square"></i>
-                        </div>
-                    </div> */}
+
                 </div>
             </div>
         </div>
