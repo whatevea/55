@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import http from "../../config/http";
 import { useParams } from 'react-router-dom';
+import Accordion from './AccordionComp';
 
 export default function ApplicationsOfJob() {
     const { job_id } = useParams();
@@ -37,7 +38,7 @@ export default function ApplicationsOfJob() {
 
 
     return (
-        <div className='w-[90%] mx-auto'>
+        <div className='w-[80%] mx-auto'>
             <div className="bg-green-50 shadow-md rounded-md overflow-hidden mt-4">
                 <div>
                     <div className='text-left mt-2 mx-4'>
@@ -94,35 +95,39 @@ export default function ApplicationsOfJob() {
                     </div>
                 </div>
                 <hr />
-                <div className="p-4 flex flex-col w-full">
+                <div className="p-4 flex flex-col w-3/4 gap-4 mx-auto">
                     <h1 className='text-3xl font-bold mt-4 text-green-600 mb-4 mx-auto'>Jop Applicants</h1>
                     {
                         applierData && applierData.length > 0 ? (
                             applierData.map((applier, index) => (
-                                <div key={applier._id}>
-                                    <div className="bg-gray-200 border border-gray-300 shadow-lg rounded-md p-6 max-w-xl mx-auto mt-8">
-                                        <h2 className="text-2xl font-semibold text-green-700 mb-4">Applicant Information {index+1}</h2>
-                                        <div className="flex flex-col space-y-4">
-                                            <div>
-                                                <label className="text-gray-600">Attachment Url:</label>
-                                                <p className="text-green-700">{applier.attachment_url}</p>
+                                <Accordion key={applier._id} indexCount={index}>
+                                    <div className=''>
+                                        <div className="bg-gray-200 border border-gray-300 shadow-lg rounded-md p-6 w-full mt-8">
+                                            <h2 className="text-2xl font-semibold text-green-700 mb-4">Applicant  {index + 1}</h2>
+                                            <div className="flex flex-col space-y-4">
+                                                <div>
+                                                    <label className="text-gray-600">Attachment Url:</label>
+                                                    <p className="text-green-700">{applier.attachment_url}</p>
+                                                </div>
+                                                <div>
+                                                    <label className="text-gray-600">Cover Letter:</label>
+                                                    <p className="text-green-700">{applier.cover_letter}</p>
+                                                </div>
+                                                <div>
+                                                    <label className="text-gray-600">Offered Amount:</label>
+                                                    <p className="text-green-700">${applier.offered_amount}</p>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <label className="text-gray-600">Cover Letter:</label>
-                                                <p className="text-green-700">{applier.cover_letter}</p>
+                                            <div className='mt-4'>
+                                                <button className='rounded-md text-white bg-green-600 hover:bg-green-500 px-3 py-1.5 text-base font-semibold'>Contact Applicant</button>
                                             </div>
-                                            <div>
-                                                <label className="text-gray-600">Offered Amount:</label>
-                                                <p className="text-green-700">${applier.offered_amount}</p>
-                                            </div>
-                                        </div>
-                                        <div className='mt-4'>
-                                            <button className='rounded-md text-white bg-green-600 px-3 py-1.5 text-base font-semibold'>Contact Applicant</button>
                                         </div>
                                     </div>
-                                </div>
+                                </Accordion>
                             ))
-                        ) : (<h1 className='text-3xl font-bold'>No Appliers for this job</h1>)
+                        ) : (
+                            <h1 className='text-3xl font-bold'>No Appliers for this job</h1>
+                        )
                     }
                 </div>
             </div>
