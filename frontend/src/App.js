@@ -17,6 +17,7 @@ import HirerJobList from "./components/commons/JobsList";
 import ApplicationsofJob from "./components/commons/ApplicationsofJob";
 import MyJobs from "./components/JobPost/MyJobs";
 import Profile from "./components/commons/Profile";
+import SearchForTalent from "./components/commons/SearchForTalent";
 
 
 function App() {
@@ -54,6 +55,8 @@ function App() {
                     <Route path="dashboard" element={<HirerJobList />} />
                     <Route path="seeappliers/:job_id" element={<ApplicationsofJob />} />
                     <Route path="hirer-profile" element={<Profile />} />
+                    <Route path="searchfortalent" element={<SearchForTalent />} />
+
                     
                 </Route>
 

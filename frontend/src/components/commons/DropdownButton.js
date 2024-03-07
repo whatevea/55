@@ -64,7 +64,7 @@ const DropdownButton = ({ firstName, lastName, userLoggingOut }) => {
                 onClick={handleToggle}
                 className="bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
-                Hi, {firstName.toUpperCase()} {lastName.toUpperCase()}
+                Hi, {firstName.toUpperCase()} {lastName.toUpperCase()} <i className="fa-solid fa-caret-down text-white"></i>
             </button>
             {isOpen && (
                 <div className="origin-top-right absolute right-0 mt-2 w-[300px] rounded-md shadow-lg bg-green-50 ring-1 ring-black ring-opacity-5">
