@@ -37,8 +37,8 @@ const jobSchema = new Schema({
     scopeExperience: {
         type: String
     },
-    attachmentUrl: {
-        type: String
+    attachmentUrls: {
+        type: [String]
     },
     description: {
         type: String,

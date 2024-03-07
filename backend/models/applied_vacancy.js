@@ -16,8 +16,8 @@ const schema = new Schema({
     offered_amount: {
         type: Number
     },
-    attachment_url: {
-        type: String
+    attachment_urls: {
+        type: [String]
     }
 }, { timestamps: true })
 const Applied_Vacancy = mongoose.model('Applied_Vacancy', schema);

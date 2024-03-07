@@ -20,9 +20,7 @@ export default function Job({ job_id, hirer, job_state, job_title, wage, date, b
                     </div>
                     <p className="p-1 "> {budgetType === "hourly" ? "Hourly " : "Fixed"} Rate: {wage}$ </p>
                 </div>
-
                 <div className="flex items-start space-x-2 mt-2">
-
                     <div className="border text-green-600 border-gray-300 p-3 invisible md:visible rounded-full ">
                         <MdMoreHoriz />
                     </div>

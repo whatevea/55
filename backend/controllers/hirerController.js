@@ -12,7 +12,7 @@ export const addJob = asyncHandler(async (req, res) => {
         scopeDuration: scope.duration,
         scopeExperience: scope.experience,
         description: description.text,
-        attachmentUrl: description.attachmentUrl
+        attachmentUrls: description.attachmentUrls
     };
 
     if (budget.type === "hourly") {
