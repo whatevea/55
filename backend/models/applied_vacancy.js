@@ -7,7 +7,8 @@ const schema = new Schema({
     },
     applier: {
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     },
     cover_letter: {
         type: String
@@ -18,6 +19,6 @@ const schema = new Schema({
     attachment_url: {
         type: String
     }
-})
+}, { timestamps: true })
 const Applied_Vacancy = mongoose.model('Applied_Vacancy', schema);
 export default Applied_Vacancy;

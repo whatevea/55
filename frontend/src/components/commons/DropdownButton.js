@@ -3,10 +3,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import face from '../../assets/images/nerd-face.jpg'
 import { useSelector } from 'react-redux';
 
-const DropdownButton = ({ firstName, lastName, userLoggingOut }) => {
-    const data = useSelector((state) => state?.User);
-    
+const DropdownButton = ({ userLoggingOut }) => {
+    let firstName, lastName;
 
+    const data = useSelector((state) => state?.User);
+    if (data) {
+        firstName = data.userData?.fname;
+        lastName = data.userData?.lname;
+        console.log(data)
+    }
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
 
@@ -75,7 +80,7 @@ const DropdownButton = ({ firstName, lastName, userLoggingOut }) => {
                             <button
                                 key={opt.action}
                                 onClick={() => handleOptionClick(opt.action)}
-                                className={`block px-4 py-2 text-lg  text-black hover:bg-green-500 hover:text-white hover:font-bold  ${opt.label=='Profile'? 'border-t mt-2 border-b border-solid border-green-600' : 'border-b border-solid border-green-600' }`}
+                                className={`block px-4 py-2 text-lg  text-black hover:bg-green-500 hover:text-white hover:font-bold  ${opt.label == 'Profile' ? 'border-t mt-2 border-b border-solid border-green-600' : 'border-b border-solid border-green-600'}`}
                             >
                                 {opt.label}
                             </button>

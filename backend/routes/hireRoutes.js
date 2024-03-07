@@ -1,6 +1,6 @@
 import express from 'express';
 import addJob, { getApplierList, getJobsList, getSingleJobPost } from "../controllers/hirerController.js"
-import apply_job from '../controllers/freelancerController.js';
+import { apply_job } from '../controllers/freelancerController.js';
 
 const router = express.Router();
 router.post('/postJob', addJob)
