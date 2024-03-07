@@ -36,8 +36,8 @@ const ApplyForJob = () => {
         e.preventDefault();
 
         // Validate cover letter, hourly rate, and file attachment
-        if (!coverLetter.trim() || !isNumeric(hourlyOrFixedRate) || files.length === 0) {
-            toast.error("Cover Letter, Hourly Rate (must be a number), and File Attachment cannot be empty", toastConfig);
+        if (!coverLetter.trim() || !isNumeric(hourlyOrFixedRate) ) {
+            toast.error("Cover Letter, Hourly Rate (must be a number)", toastConfig);
             return; // Prevent further execution if validation fails
         }
 
