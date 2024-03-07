@@ -43,7 +43,7 @@ const loginUser = asyncHandler(async (req, res) => {
     console.log('user is', user)
     if (user && (await bcrypt.compare(password, user.password))) {
         res.status(200).json({
-            _id: user.id, email: user.email, fname: user.fname, lname:user.lname, token: generateJWTtoken(user._id), user_type: user.user_type
+            _id: user.id, email: user.email, fname: user.fname, lname: user.lname, token: generateJWTtoken(user._id), user_type: user.user_type
         })
     } else {
         res.status(400)
@@ -114,4 +114,13 @@ const updateUser = asyncHandler(async (req, res) => {
 
 })
 
-export { registerUser, loginUser, getUserData, updateUser };
+const getBulkUserData = asyncHandler(async (req, res) => {
+    const freelancers = await User.find({ user_type: 'freelancer' });
+
+    res.status(200).json({
+        success: true,
+        data: freelancers,
+    });
+})
+
+export { registerUser, loginUser, getUserData, updateUser, getBulkUserData };
