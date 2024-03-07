@@ -14,10 +14,10 @@ import DropdownButton from "./DropdownButton";
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [hoveredIndex, setHoveredIndex] = useState(null);
+
     const data = useSelector((state) => state?.User)
     let isLoggedIn = data.isLoggedIn
     const userDetails = data.userData
-    console.log('userDetails contains', userDetails);
     const userFirstName = userDetails.fname
     const userlastName = userDetails.lname
 
@@ -38,12 +38,10 @@ const Navbar = () => {
 
     const linkViewer = useMemo(() => {
         switch (hoveredIndex) {
-            case 0:
+            case "Find Talent":
                 return <FindTalent />;
-            case 1:
+            case "Find Work":
                 return <FindWork />;
-            case 2:
-                return <WhyUpwork />;
             default:
                 return null;
         }
@@ -59,8 +57,8 @@ const Navbar = () => {
         // If userDetails is available, include the corresponding option based on user_type
         menuItems.push(
             userDetails.user_type === "freelancer"
-                ? { label: "Find Work", to: "/auth/login" }
-                : { label: "Find Talent", to: "/auth/login" }
+                ? { label: "Find Work", to: "/freelancer/jobseeker" }
+                : { label: "Find Talent", to: "/hirer/searchfortalent" }
         );
     }
 
@@ -122,11 +120,11 @@ const Navbar = () => {
                                             key={index}
                                             className={`parent-container ${hoveredIndex === index ? "hovered" : ""
                                                 } flex items-center hover:text-green-500 cursor-pointer text-sm`}
-                                            onMouseEnter={() => setHoveredIndex(index)}
+                                            onMouseEnter={() => setHoveredIndex(item.label)}
                                         >
                                             {item.label}
                                             <i
-                                                className={`fa-solid fa-angle-down ml-1 mt-1 scale-80 ${hoveredIndex === index
+                                                className={`fa-solid fa-angle-down ml-1 mt-1 scale-80 ${hoveredIndex === 'Find Work' || hoveredIndex === 'Find Talent'
                                                     ? "rotate-180 duration-300 ease-in-out"
                                                     : ""
                                                     }`}
