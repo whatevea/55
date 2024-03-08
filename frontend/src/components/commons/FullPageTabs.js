@@ -3,8 +3,13 @@ import http from '../../config/http';
 import JobPosting from './JobPosting';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-const FullPageTabs = () => {
+const FullPageTabs = ({ jobTitle }) => {
     const [jobPosts, setJobPosts] = useState([]);
+
+    const filteredJobs = jobPosts.filter((jobs) => {
+        return jobs.title.includes(jobTitle)
+    })
+
     const userId = useSelector((state) => state?.User?.userData?._id); // Make sure the path matches your state structure
     const [appliedJobsId, setAppliedJobsId] = useState([])
     useEffect(() => {
@@ -41,22 +46,42 @@ const FullPageTabs = () => {
                 </div>
             </div>
             <div className="flex-1 p-4 bg-gray-50">
-                {jobPosts.map(jobPost => {
-                    const hasApplied = appliedJobsId.includes(jobPost._id);
-                    return (
-                        <div key={jobPost._id}>
-                            {hasApplied ? (
-                                <a href="#" className="cursor-not-allowed" onClick={(e) => e.preventDefault()}>
-                                    <JobPosting job={jobPost} hasApplied />
-                                </a>
-                            ) : (
-                                <Link to={`/freelancer/apply/${jobPost._id}`}>
-                                    <JobPosting job={jobPost} />
-                                </Link>
-                            )}
-                        </div>
-                    );
-                })}
+                {filteredJobs.length > 0 ? (
+                    filteredJobs.map(jobPost => {
+                        const hasApplied = appliedJobsId.includes(jobPost._id);
+                        return (
+                            <div key={jobPost._id}>
+                                {hasApplied ? (
+                                    <a href="#" className="cursor-not-allowed" onClick={(e) => e.preventDefault()}>
+                                        <JobPosting job={jobPost} hasApplied />
+                                    </a>
+                                ) : (
+                                    <Link to={`/freelancer/apply/${jobPost._id}`}>
+                                        <JobPosting job={jobPost} />
+                                    </Link>
+                                )}
+                            </div>
+                        );
+                    })
+                ) : (
+                    jobPosts.map(jobPost => {
+                        const hasApplied = appliedJobsId.includes(jobPost._id);
+                        return (
+                            <div key={jobPost._id}>
+                                {hasApplied ? (
+                                    <a href="#" className="cursor-not-allowed" onClick={(e) => e.preventDefault()}>
+                                        <JobPosting job={jobPost} hasApplied />
+                                    </a>
+                                ) : (
+                                    <Link to={`/freelancer/apply/${jobPost._id}`}>
+                                        <JobPosting job={jobPost} />
+                                    </Link>
+                                )}
+                            </div>
+                        );
+                    })
+                )}
+
             </div>
         </div>
     );

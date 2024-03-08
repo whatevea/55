@@ -1,10 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import face from '../../assets/images/nerd-face.jpg'
-import Accordion from '../commons/AccordionComp'
 import FullPageTabs from '../commons/FullPageTabs'
 
 const JobSeekerLayout = () => {
+
+    const [searchText, setSearchText] = useState(null);
+
+    const searchTextFunction  = (e)=>{
+        setSearchText(e.target.value)
+        
+    }    
     return (
         <div className='mb-10'>
             <div className='flex flex-col-reverse p-4 lg:py-8 lg:flex-row lg:px-20 justify-between gap-6 w-full'>
@@ -15,10 +21,11 @@ const JobSeekerLayout = () => {
                             className="outline-none bg-transparent p-1.5 hidden lg:flex w-full focus:shadow-green-100 focus:outline-none"
                             type="text"
                             placeholder="Search for jobs"
+                            onChange={searchTextFunction}
                         />
                     </div>
                     <div>
-                        <FullPageTabs />
+                        <FullPageTabs jobTitle={searchText}/>
                     </div>
                 </div>
                 <div className='flex flex-col gap-4 lg:w-[30%] w-full h-full px-6'>

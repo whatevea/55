@@ -27,9 +27,7 @@ function HirerJobList() {
 
     return (
         <div className='px-6'>
-
             <div className='text-center text-3xl text-green-600 font-bold mt-4'>
-
                 <h1 className="text-2xl mx-auto">See your Jobs:</h1>
             </div>
             {
