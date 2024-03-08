@@ -14,9 +14,7 @@ import DropdownButton from "./DropdownButton";
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [hoveredIndex, setHoveredIndex] = useState(null);
-
-    console.log('hoveredIndex is', hoveredIndex);
-
+    
     const data = useSelector((state) => state?.User)
     let isLoggedIn = data.isLoggedIn
     const userDetails = data.userData
