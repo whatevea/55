@@ -1,38 +1,52 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import http from '../../config/http';
 import JobPosting from './JobPosting';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+
+const renderJobPosting = (job, hasApplied) => (
+    <div key={job._id}>
+        {hasApplied ? (
+            <a href="#" className="cursor-not-allowed" onClick={(e) => e.preventDefault()}>
+                <JobPosting job={job} hasApplied />
+            </a>
+        ) : (
+            <Link to={`/freelancer/apply/${job._id}`}>
+                <JobPosting job={job} />
+            </Link>
+        )}
+    </div>
+);
+
 const FullPageTabs = ({ jobTitle }) => {
     const [jobPosts, setJobPosts] = useState([]);
-
-    const filteredJobs = jobPosts.filter((jobs) => {
-        return jobs.title.includes(jobTitle)
-    })
-
     const userId = useSelector((state) => state?.User?.userData?._id); // Make sure the path matches your state structure
     const [appliedJobsId, setAppliedJobsId] = useState([])
+    const filteredJobs = useMemo(() => {
+        return jobPosts.filter(job => job.title.includes(jobTitle));
+    }, [jobPosts, jobTitle]);
+
+    // Function to fetch job posts from the backend
+    const fetchJobPosts = useCallback(async () => {
+        try {
+            const response = await http.get('/hire/postjob');
+            setJobPosts(response.data.data);
+        } catch (error) {
+            console.error('Error fetching job posts:', error);
+        }
+    }, []);
+
+    const fetchSelfAppliedJobs = useCallback(async () => {
+        try {
+            const response = await http.post('/freelancer/getSelfAppliedJobs', { userId });
+            const appliedJobIds = response.data.map(item => item.job._id);
+            setAppliedJobsId(appliedJobIds);
+        } catch (error) {
+            console.error('Error fetching applied job IDs:', error);
+        }
+    }, [userId]);
+
     useEffect(() => {
-        // Function to fetch job posts from the backend
-        const fetchJobPosts = async () => {
-            try {
-                const response = await http.get('/hire/postjob');
-                setJobPosts(response.data.data); // Assuming the response contains job posts data
-            } catch (error) {
-                console.error('Error fetching job posts:', error);
-            }
-        };
-        const fetchSelfAppliedJobs = async () => {
-            try {
-                const response = await http.post('/freelancer/getSelfAppliedJobs', { userId: userId });
-                console.log(response.data);
-                response.data.forEach(item => {
-                    setAppliedJobsId((e) => [...e, item.job._id])
-                });
-            } catch (error) {
-                console.error('Error fetching job posts:', error);
-            }
-        };
         fetchSelfAppliedJobs()
         fetchJobPosts(); // Call the function when the component mounts
     }, []); // Empty dependency array ensures the effect runs only once on mount
@@ -47,39 +61,9 @@ const FullPageTabs = ({ jobTitle }) => {
             </div>
             <div className="flex-1 p-4 bg-gray-50">
                 {filteredJobs.length > 0 ? (
-                    filteredJobs.map(jobPost => {
-                        const hasApplied = appliedJobsId.includes(jobPost._id);
-                        return (
-                            <div key={jobPost._id}>
-                                {hasApplied ? (
-                                    <a href="#" className="cursor-not-allowed" onClick={(e) => e.preventDefault()}>
-                                        <JobPosting job={jobPost} hasApplied />
-                                    </a>
-                                ) : (
-                                    <Link to={`/freelancer/apply/${jobPost._id}`}>
-                                        <JobPosting job={jobPost} />
-                                    </Link>
-                                )}
-                            </div>
-                        );
-                    })
+                    filteredJobs.map(job => renderJobPosting(job, appliedJobsId.includes(job._id)))
                 ) : (
-                    jobPosts.map(jobPost => {
-                        const hasApplied = appliedJobsId.includes(jobPost._id);
-                        return (
-                            <div key={jobPost._id}>
-                                {hasApplied ? (
-                                    <a href="#" className="cursor-not-allowed" onClick={(e) => e.preventDefault()}>
-                                        <JobPosting job={jobPost} hasApplied />
-                                    </a>
-                                ) : (
-                                    <Link to={`/freelancer/apply/${jobPost._id}`}>
-                                        <JobPosting job={jobPost} />
-                                    </Link>
-                                )}
-                            </div>
-                        );
-                    })
+                    jobPosts.map(job => renderJobPosting(job, appliedJobsId.includes(job._id)))
                 )}
 
             </div>

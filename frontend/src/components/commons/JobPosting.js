@@ -1,31 +1,31 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { FaReact } from 'react-icons/fa'; // Example icon import
-const JobPosting = ({ job, hasApplied }) => {
+const JobPosting = memo (({ job, hasApplied }) => {
     const skills = job.skills_required
     return (
         <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 hover:bg-green-50">
             <div className="flex items-center justify-between">
                 {/* Job Title */}
-                <h1 className="text-lg font-bold text-green-600 hover:underline">{job.title}</h1>
+                <h1 className="text-2xl font-bold text-green-600 hover:underline mb-2">{job.title}</h1>
             </div>
             <div>
                 {
                     job.budgetType === 'hourly' ?
                         (
                             <div>
-                                <span className='capitalize inline-block mx-1 text-sm'>{job.budgetType}</span>: <span className='capitalize inline-block mx-1 text-sm'>${job.budgetHourlyMin}</span>-<span className='capitalize inline-block mx-1 text-sm'>${job.budgetHourlyMax}</span>
-                                <span className='capitalize inline-block mx-1 text-sm'>Duration: {job.scopeDuration}</span>
-                                <span className='capitalize inline-block mx-1 text-sm'>Experience: {job.scopeExperience}</span>
+                                <span className='capitalize inline-block mx-1 font-bold text-base'>{job.budgetType}</span>: <span className='capitalize inline-block mx-1 font-bold text-base'>${job.budgetHourlyMin}</span>-<span className='capitalize inline-block mx-1 font-bold text-base'>${job.budgetHourlyMax}</span>
+                                <span className='capitalize inline-block mx-1 font-bold text-base'>Duration: {job.scopeDuration}</span>
+                                <span className='capitalize inline-block mx-1 font-bold text-base'>Experience: {job.scopeExperience}</span>
 
 
                             </div>)
                         :
                         (
                             <div>
-                                <span className='capitalize inline-block mx-1 text-sm'>{job.budgetType}</span>
-                                <span className='capitalize inline-block mx-1 text-sm'>${job.budgetFixed}</span>
-                                <span className='capitalize inline-block mx-1 text-sm'>Duration: {job.scopeDuration}</span>
-                                <span className='capitalize inline-block mx-1 text-sm'>Experience: {job.scopeExperience}</span>
+                                <span className='capitalize inline-block mx-1 font-bold text-base'>{job.budgetType}</span>
+                                <span className='capitalize inline-block mx-1 font-bold text-base'>${job.budgetFixed}</span>
+                                <span className='capitalize inline-block mx-1 font-bold text-base'>Duration: {job.scopeDuration}</span>
+                                <span className='capitalize inline-block mx-1 font-bold text-base'>Experience: {job.scopeExperience}</span>
                             </div>
                         )
                 }
@@ -52,6 +52,6 @@ const JobPosting = ({ job, hasApplied }) => {
             </div>
         </div>
     );
-};
+});
 export default JobPosting;
 
