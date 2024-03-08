@@ -6,32 +6,27 @@ import Accordion from './AccordionComp';
 export default function ApplicationsOfJob() {
     const { job_id } = useParams();
 
-    console.log('job_id is', job_id);
-
     const [jobData, setData] = useState(null);
     const [applierData, setApplierData] = useState(null)
 
-    console.log('jobData is', jobData);
-    console.log('applierData is', applierData)
-
     useEffect(() => {
-        async function fetchData() {
+        const fetchData = async () => {
             try {
                 // Fetch the main data using job_id
-                const req = await http.get(`/hire/singleJobPost/${job_id}`);
+                const [mainData, applierData] = await Promise.all([
+                    http.get(`/hire/singleJobPost/${job_id}`),
+                    http.get(`/hire/getappliers/${job_id}`),
+                ]);
 
-                if (req.data && req.data.data) {
-                    setData(req.data.data);
-
-                    // Once the main data is fetched, make another API call using some data from the first response
-                    const anotherReq = await http.get(`/hire/getappliers/${job_id}`);
-                    setApplierData(anotherReq.data.data)
+                if (mainData.data && mainData.data.data) {
+                    setData(mainData.data.data);
+                    setApplierData(applierData.data.data);
                 }
             } catch (error) {
                 console.error("Failed to fetch data:", error);
                 // Handle errors or set some error state to show a message
             }
-        }
+        };
 
         fetchData();
     }, [job_id]); // Depend on job_id so if it changes, re-fetch data
@@ -97,9 +92,9 @@ export default function ApplicationsOfJob() {
                 <hr />
                 <div className="p-4 flex flex-col w-3/4 gap-4 mx-auto">
                     <h1 className='text-3xl font-bold mt-4 text-green-600 mb-4 mx-auto'>Jop Applicants</h1>
-                    {
-                        applierData && applierData.length > 0 ? (
-                            applierData.map((applier, index) => (
+                    {applierData &&
+                        applierData.map((applier, index) =>
+                            applier.cover_letter || applier.offered_amount || applier.attachment_url ? (
                                 <Accordion key={applier._id} indexCount={index}>
                                     <div className=''>
                                         <div className="bg-gray-200 border border-gray-300 shadow-lg rounded-md p-6 w-full mt-8">
@@ -124,11 +119,11 @@ export default function ApplicationsOfJob() {
                                         </div>
                                     </div>
                                 </Accordion>
-                            ))
-                        ) : (
-                            <h1 className='text-3xl font-bold'>No Appliers for this job</h1>
-                        )
-                    }
+                            ) : null
+                        )}
+                    {!applierData || (applierData.length === 0 && (
+                        <h1 className="text-3xl font-bold">No Appliers for this job</h1>
+                    ))}
                 </div>
             </div>
         </div>
