@@ -2,8 +2,13 @@ import asyncHandler from 'express-async-handler';
 import Applied_Vacancy from '../models/applied_vacancy.js';
 
 export const apply_job = asyncHandler(async (req, res) => {
-    const { job, user_id, cover_letter, offered_amount, attachment_url } = req.body;
-    const data = { job: job, applier: user_id, cover_letter: cover_letter, offered_amount: offered_amount, attachment_url: attachment_url }
+
+    console.log('req.body is', req.body);
+
+    const { job, user_id, cover_letter, offered_amount, attachment_urls } = req.body;
+
+
+    const data = { job: job, applier: user_id, cover_letter: cover_letter, offered_amount: offered_amount, attachment_urls: attachment_urls }
     try {
         const job = await Applied_Vacancy.create(data);
         res.status(201).json(job); // Send back the created job with a 201 Created status

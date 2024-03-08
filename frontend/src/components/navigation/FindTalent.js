@@ -1,10 +1,5 @@
 import React, { useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import TargetMarketPlace from './TargetMarketPlace';
-import ProjectCatalog from './ProjectCatalog';
-import Consultations from './Consultations';
-import SmallCard from '../commons/SmallCard';
-
 const FindTalent = () => {
 
     const navigate = useNavigate()

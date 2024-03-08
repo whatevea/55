@@ -9,6 +9,9 @@ export default function ApplicationsOfJob() {
     const [jobData, setData] = useState(null);
     const [applierData, setApplierData] = useState(null)
 
+    console.log('jobData is', jobData);
+    console.log('applierData is', applierData);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -102,7 +105,7 @@ export default function ApplicationsOfJob() {
                                             <div className="flex flex-col space-y-4">
                                                 <div>
                                                     <label className="text-gray-600">Attachment Url:</label>
-                                                    <p className="text-green-700">{applier.attachment_url}</p>
+                                                    <p className="text-green-700">{applier.attachment_urls}</p>
                                                 </div>
                                                 <div>
                                                     <label className="text-gray-600">Cover Letter:</label>
