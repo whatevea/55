@@ -34,13 +34,13 @@ const FindTalent = () => {
 
     return (
         <div className='p-4 flex justify-start'>
-            <div className="origin-top-left absolute left-36 top-28-5 w-[200px] rounded-lg shadow-lg bg-green-50 ring-1 ring-black ring-opacity-5 z-30">
+            <div className="origin-top-left absolute left-36 top-28-5 w-[200px] rounded-b-lg shadow-lg bg-green-50 ring-1 ring-black ring-opacity-5 z-30">
                 <div className="flex flex-col">
                     {hireOptions.map((opt) => (
                         <button
                             key={opt.action}
                             onClick={() => handleOptionClick(opt.action)}
-                            className={`block px-4 py-2 text-left text-lg font-semibold text-black hover:bg-green-500  hover:text-white hover:font-bold ${opt.label=='Search For Talent'?'': 'border-b border-solid border-green-600' } ${opt.label == "Profile" ? 'hover:rounded-t-lg' : ''} ${opt.label == "Search For Talent" ? 'hover:rounded-b-lg' : ''}`}
+                            className={`block px-4 py-2 text-left text-lg font-semibold text-black hover:bg-green-500  hover:text-white hover:font-bold ${opt.label=='Search For Talent'?'': 'border-b border-solid border-green-600' } ${opt.label == "Search For Talent" ? 'hover:rounded-b-lg' : ''}`}
                         >
                             {opt.label}
                         </button>

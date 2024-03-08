@@ -18,13 +18,10 @@ const renderJobPosting = (job, hasApplied) => (
     </div>
 );
 
-const FullPageTabs = ({ jobTitle }) => {
+const FullPageTabs = ({ jobTitle, filteredJobs }) => {
     const [jobPosts, setJobPosts] = useState([]);
     const userId = useSelector((state) => state?.User?.userData?._id); // Make sure the path matches your state structure
-    const [appliedJobsId, setAppliedJobsId] = useState([])
-    const filteredJobs = useMemo(() => {
-        return jobPosts.filter(job => job.title.includes(jobTitle));
-    }, [jobPosts, jobTitle]);
+    const [appliedJobsId, setAppliedJobsId] = useState([])   
 
     // Function to fetch job posts from the backend
     const fetchJobPosts = useCallback(async () => {

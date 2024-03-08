@@ -71,7 +71,7 @@ const DropdownButton = ({ userLoggingOut }) => {
                 Hi, {firstName.toUpperCase()} {lastName.toUpperCase()} <i className="fa-solid fa-caret-down text-white"></i>
             </button>
             {isOpen && (
-                <div className="hidden md:block origin-top-right absolute right-0 mt-2 w-[250px] shadow-lg rounded-lg bg-green-50 ring-1 ring-black ring-opacity-5">
+                <div className="hidden md:block origin-top-right absolute right-0 mt-2 w-[250px] shadow-lg rounded-b-lg bg-green-50 ring-1 ring-black ring-opacity-5">
                     <div className="flex flex-col">
                         <div className=''>
                             <img src={face} alt='user-image' className='left-[16px] top-[12px] relative w-[80px] h-[80px] rounded-full mt-1 '/>

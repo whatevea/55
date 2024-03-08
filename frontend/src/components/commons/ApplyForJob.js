@@ -160,7 +160,7 @@ const ApplyForJob = () => {
                         rows="10"
                     ></textarea>
                 </div>
-                <div className={`mb-4 ${isHourlyRateFocused ? 'focus-within:border-green-600' : ''}`}>
+                <div className={`mb-4 mt-4 ${isHourlyRateFocused ? 'focus-within:border-green-600' : ''}`}>
                     <div className='flex flex-col gap-2'>
                         <label className='font-bold text-green-600'>{jobPost?.budgetType === 'hourly' ? 'Hourly Rate' : 'Fixed Rate'}</label>
                         <input

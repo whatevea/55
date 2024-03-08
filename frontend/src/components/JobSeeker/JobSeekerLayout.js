@@ -2,15 +2,29 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import face from '../../assets/images/nerd-face.jpg'
 import FullPageTabs from '../commons/FullPageTabs'
+import http from '../../config/http'
 
 const JobSeekerLayout = () => {
 
     const [searchText, setSearchText] = useState(null);
+    const [filteredJobs, setFilteredJobs] = useState([]);
 
-    const searchTextFunction  = (e)=>{
-        setSearchText(e.target.value)
-        
-    }    
+    const searchTextFunction = async(e)=>{
+        const text = e.target.value;
+        setSearchText(text);
+
+        try {
+            // Make a request to the backend endpoint to filter jobs
+            const response = await http.get(`/freelancer/getFilteredJobs?search=${text}`);
+            setFilteredJobs(response.data); // Assuming the backend returns an array of filtered jobs
+        } catch (error) {
+            console.error('Error fetching filtered jobs:', error);
+        }
+    }   
+    
+    console.log('filteredJobs is', filteredJobs);
+
+
     return (
         <div className='mb-10'>
             <div className='flex flex-col-reverse p-4 lg:py-8 lg:flex-row lg:px-20 justify-between gap-6 w-full'>
@@ -25,7 +39,7 @@ const JobSeekerLayout = () => {
                         />
                     </div>
                     <div>
-                        <FullPageTabs jobTitle={searchText}/>
+                        <FullPageTabs jobTitle={searchText} filteredJobs={filteredJobs}/>
                     </div>
                 </div>
                 <div className='flex flex-col gap-4 lg:w-[30%] w-full h-full px-6'>
@@ -44,7 +58,6 @@ const JobSeekerLayout = () => {
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
