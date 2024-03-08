@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 
-const Accordion = ({children, indexCount}) => {
+const Accordion = memo (({children, indexCount}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleAccordion = () => {
@@ -20,6 +20,6 @@ const Accordion = ({children, indexCount}) => {
       )}
     </div>
   );
-};
+});
 
 export default Accordion;
