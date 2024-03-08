@@ -1,5 +1,7 @@
 import asyncHandler from 'express-async-handler';
 import Applied_Vacancy from '../models/applied_vacancy.js';
+import Job from '../models/job.js';
+
 
 export const apply_job = asyncHandler(async (req, res) => {
 
@@ -35,5 +37,17 @@ export const getSelfAppliedJobs = asyncHandler(async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 
+
+})
+
+export const getFilteredJobs = asyncHandler( async (req, res)=> {
+    const searchText = req.query.search || '';
+
+    // Use a regular expression for a case-insensitive search
+    const regex = new RegExp(searchText, 'i');
+
+    // Use the regular expression to filter jobs based on the title
+    const filteredJobs = await Job.find({ title: { $regex: regex } });
+    res.status(200).json(filteredJobs)
 
 })
