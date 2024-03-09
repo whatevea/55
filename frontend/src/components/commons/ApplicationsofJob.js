@@ -8,9 +8,28 @@ export default function ApplicationsOfJob() {
 
     const [jobData, setData] = useState(null);
     const [applierData, setApplierData] = useState(null)
+    const [userData, setUserData] = useState(null);
 
-    console.log('jobData is', jobData);
-    console.log('applierData is', applierData);
+    const outerKey = Object.keys(userData)[0]; // Assuming there is only one key in the outer object
+
+    const fname = userData?.[outerKey]?.fname;
+    const lname = userData?.[outerKey]?.lname;
+
+    const fetchUserData = async (userId) => {
+        try {
+            const response = await http.get(`/auth/getUserData/${userId}`);
+
+            console.log('response.data.data is', response.data.data);
+
+            const userData = response.data.data; // Adjust this based on your server response structure
+            setUserData((prevData) => ({
+                ...prevData,
+                [userId]: userData,
+            }));
+        } catch (error) {
+            console.error(`Failed to fetch user data for ${userId}:`, error);
+        }
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -24,6 +43,16 @@ export default function ApplicationsOfJob() {
                 if (mainData.data && mainData.data.data) {
                     setData(mainData.data.data);
                     setApplierData(applierData.data.data);
+
+                    console.log('applierData.data.data is', applierData.data.data);
+
+                    // Fetch user data for each applier
+                    applierData.data.data.forEach((applier) => {
+                        if (applier.applier) {
+                            fetchUserData(applier.applier);
+                        }
+                    });
+
                 }
             } catch (error) {
                 console.error("Failed to fetch data:", error);
@@ -33,6 +62,28 @@ export default function ApplicationsOfJob() {
 
         fetchData();
     }, [job_id]); // Depend on job_id so if it changes, re-fetch data
+
+    const handleDownload = (attachmentUrl, fileName) => {
+
+        const fetchFile = async () => {
+            try {
+                const response = await fetch(attachmentUrl);
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = fileName;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            } catch (error) {
+                console.error('Error downloading file:', error);
+            }
+        };
+
+        fetchFile();
+    };
 
 
     return (
@@ -98,14 +149,29 @@ export default function ApplicationsOfJob() {
                     {applierData &&
                         applierData.map((applier, index) =>
                             applier.cover_letter || applier.offered_amount || applier.attachment_url ? (
-                                <Accordion key={applier._id} indexCount={index}>
+                                <Accordion key={applier._id} userData={userData} indexCount={index}>
                                     <div className=''>
                                         <div className="bg-gray-200 border border-gray-300 shadow-lg rounded-md p-6 w-full mt-8">
-                                            <h2 className="text-2xl font-semibold text-green-700 mb-4">Applicant  {index + 1}</h2>
+                                            <h2 className="text-2xl font-semibold text-green-700 mb-4">Applicant: {fname.toUpperCase()} {lname.toUpperCase()}</h2>
                                             <div className="flex flex-col space-y-4">
                                                 <div>
-                                                    <label className="text-gray-600">Attachment Url:</label>
-                                                    <p className="text-green-700">{applier.attachment_urls}</p>
+                                                    <label className="text-gray-600">Attachment:</label>
+                                                    {applier.attachment_urls.map((attachment, index) => {
+
+                                                        // Split the URL at "uploads/" to get the filename
+                                                        const parts = attachment.split("uploads/");
+                                                        const filename = parts.length === 2 ? parts[1] : attachment;
+
+                                                        return (
+                                                            <div key={index} className="flex items-center">
+                                                                <p className="text-green-700 inline">{filename}</p>
+                                                                <i
+                                                                    className="fa-solid fa-download cursor-pointer text-2xl text-green-600 mx-4"
+                                                                    onClick={() => handleDownload(attachment, filename)}
+                                                                ></i>
+                                                            </div>
+                                                        );
+                                                    })}
                                                 </div>
                                                 <div>
                                                     <label className="text-gray-600">Cover Letter:</label>

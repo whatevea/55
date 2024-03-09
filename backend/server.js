@@ -59,6 +59,9 @@ app.post('/upload', upload.single('file'), (req, res) => {
     // Construct the file URL
     const fileUrl = `http://localhost:${process.env.PORT || 5000}/uploads/${req.file.filename}`;
 
+    // Set the Content-Disposition header to force download
+    res.setHeader('Content-Disposition', `attachment; filename=${req.file.filename}`);
+
     res.json({
         message: 'File uploaded successfully.',
         fileUrl: fileUrl // Send the file URL in the response
