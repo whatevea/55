@@ -8,18 +8,11 @@ export default function ApplicationsOfJob() {
 
     const [jobData, setData] = useState(null);
     const [applierData, setApplierData] = useState(null)
-    const [userData, setUserData] = useState(null);
-
-    const outerKey = Object.keys(userData)[0]; // Assuming there is only one key in the outer object
-
-    const fname = userData?.[outerKey]?.fname;
-    const lname = userData?.[outerKey]?.lname;
+    const [userData, setUserData] = useState([]);
 
     const fetchUserData = async (userId) => {
         try {
             const response = await http.get(`/auth/getUserData/${userId}`);
-
-            console.log('response.data.data is', response.data.data);
 
             const userData = response.data.data; // Adjust this based on your server response structure
             setUserData((prevData) => ({
@@ -44,15 +37,12 @@ export default function ApplicationsOfJob() {
                     setData(mainData.data.data);
                     setApplierData(applierData.data.data);
 
-                    console.log('applierData.data.data is', applierData.data.data);
-
                     // Fetch user data for each applier
                     applierData.data.data.forEach((applier) => {
                         if (applier.applier) {
                             fetchUserData(applier.applier);
                         }
                     });
-
                 }
             } catch (error) {
                 console.error("Failed to fetch data:", error);
@@ -62,9 +52,7 @@ export default function ApplicationsOfJob() {
 
         fetchData();
     }, [job_id]); // Depend on job_id so if it changes, re-fetch data
-
     const handleDownload = (attachmentUrl, fileName) => {
-
         const fetchFile = async () => {
             try {
                 const response = await fetch(attachmentUrl);
@@ -81,10 +69,8 @@ export default function ApplicationsOfJob() {
                 console.error('Error downloading file:', error);
             }
         };
-
         fetchFile();
     };
-
 
     return (
         <div className='w-[80%] mx-auto'>
@@ -147,12 +133,14 @@ export default function ApplicationsOfJob() {
                 <div className="p-4 flex flex-col w-3/4 gap-4 mx-auto">
                     <h1 className='text-3xl font-bold mt-4 text-green-600 mb-4 mx-auto'>Jop Applicants</h1>
                     {applierData &&
-                        applierData.map((applier, index) =>
-                            applier.cover_letter || applier.offered_amount || applier.attachment_url ? (
-                                <Accordion key={applier._id} userData={userData} indexCount={index}>
+                        applierData.map((applier, index) => {
+                            const userId = applier.applier;
+                            const user = userData?.[userId];
+                            return applier.cover_letter || applier.offered_amount || applier.attachment_url ? (
+                                <Accordion key={applier._id} firstName={user?.fname} lastName={user?.lname} indexCount={index}>
                                     <div className=''>
                                         <div className="bg-gray-200 border border-gray-300 shadow-lg rounded-md p-6 w-full mt-8">
-                                            <h2 className="text-2xl font-semibold text-green-700 mb-4">Applicant: {fname.toUpperCase()} {lname.toUpperCase()}</h2>
+                                            <h2 className="text-2xl font-semibold text-green-700 mb-4">Applicant: {user?.fname?.toUpperCase()} {user?.lname?.toUpperCase()}</h2>
                                             <div className="flex flex-col space-y-4">
                                                 <div>
                                                     <label className="text-gray-600">Attachment:</label>
@@ -188,8 +176,8 @@ export default function ApplicationsOfJob() {
                                         </div>
                                     </div>
                                 </Accordion>
-                            ) : null
-                        )}
+                            ) : null;
+                        })}
                     {!applierData || (applierData.length === 0 && (
                         <h1 className="text-3xl font-bold">No Appliers for this job</h1>
                     ))}
