@@ -108,6 +108,26 @@ const ApplyForJob = () => {
         }
     };
 
+    const handleDownload = (attachmentUrl, fileName) => {
+        const fetchFile = async () => {
+            try {
+                const response = await fetch(attachmentUrl);
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = fileName;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            } catch (error) {
+                console.error('Error downloading file:', error);
+            }
+        };
+        fetchFile();
+    };
+
     return (
         <div className="rounded-lg shadow-md p-4 w-3/4 mx-auto h-[fit-content] mt-4 bg-green-50">
             <div className='text-sm'>
@@ -142,10 +162,26 @@ const ApplyForJob = () => {
                     </span>
                 ))}
             </div>
-            <div className="text-gray">
-                {
-                    jobPost?.attachmentUrls?.map((item) => (<div> <a href={item}>{item.split("uploads/")[1]}</a> </div>))
-                }
+            <div className="text-gray mb-4">
+                <label className='font-bold text-green-600 block mb-2'>File Attachments</label>
+                <div className='mb-4'>
+                    {jobPost?.attachmentUrls?.map((attachment, index) => {
+
+                        // Split the URL at "uploads/" to get the filename
+                        const parts = attachment.split("uploads/");
+                        const filename = parts.length === 2 ? parts[1] : attachment;
+
+                        return (
+                            <div key={index} className="flex items-center">
+                                <p className="text-green-700 inline">{filename}</p>
+                                <i
+                                    className="fa-solid fa-download cursor-pointer text-2xl text-green-600 mx-4"
+                                    onClick={() => handleDownload(attachment, filename)}
+                                ></i>
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
             <form onSubmit={formSubmit} className='mb-4'>
                 <div className={`flex flex-col gap-2 ${isCoverLetterFocused ? 'focus-within:border-green-600' : ''}`}>
