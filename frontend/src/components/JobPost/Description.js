@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FaPaperclip, FaTimes } from "react-icons/fa";
 import { uploadFile } from "../../config/http";
 
@@ -7,27 +7,34 @@ const Description = ({ setIsValid, updateJobData }) => {
     const [description, setDescription] = useState("");
     const [uploadedFiles, setUploadedFiles] = useState([]);
 
-    const changeDes = (text) => {
-        setDescription(text);
+    const changeDes = (text, files = uploadedFiles) => {
+        // setDescription(text);
         setIsValid(text.length > 10);
         updateJobData({
             "description": {
                 text: text,
-                attachmentUrls: uploadedFiles.map(file => file.fileUrl)
+                attachmentUrls: files.map(file => file.fileUrl)
             }
         });
     };
 
     const handleFileChange = async (event) => {
         const files = event.target.files;
-        for (const file of files) {
-            try {
+        try {
+            const uploadedFilesPromises = Array.from(files).map(async (file) => {
                 const response = await uploadFile(file);
                 const uploadedFileUrl = response.data.fileUrl;
-                setUploadedFiles(prevFiles => [...prevFiles, { file, fileUrl: uploadedFileUrl }]);
-            } catch (error) {
-                console.error('Error during file upload:', error);
-            }
+                return { file, fileUrl: uploadedFileUrl };
+            });
+    
+            const newUploadedFiles = await Promise.all(uploadedFilesPromises);
+    
+            setUploadedFiles((prevFiles) => [...prevFiles, ...newUploadedFiles]);
+    
+            // Call changeDes with the updated description text and files
+            changeDes(description, [...uploadedFiles, ...newUploadedFiles]);
+        } catch (error) {
+            console.error('Error during file upload:', error);
         }
     };
 
@@ -37,13 +44,21 @@ const Description = ({ setIsValid, updateJobData }) => {
 
     const handleRemoveFile = (index) => {
         setUploadedFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
-    };
+
+        // Call changeDes with the updated description text and files
+        changeDes(description, uploadedFiles.filter((_, i) => i !== index));
+    }
+
+    // Call changeDes when the description text changes
+    useEffect(() => {
+        changeDes(description);
+    }, [description]);
 
     return (
         <div className="flex flex-col gap-3">
             <p className="font-semibold">Describe what you need</p>
             <textarea
-                onChange={(e) => changeDes(e.target.value)}
+                onChange={(e) => setDescription(e.target.value)}
                 value={description}
                 cols="30"
                 rows="5"
@@ -53,10 +68,11 @@ const Description = ({ setIsValid, updateJobData }) => {
             <div>
                 <p className="font-semibold inline">Attach your file(s)</p>
                 <FaPaperclip
-                    className="font-extrabold text-2xl inline ml-4 cursor-pointer"
+                    className="font-extrabold inline ml-4 text-2xl text-green-600 cursor-pointer"
                     onClick={handleFileUpload}
                 />
                 <input
+                    className="border-2 border-solid border-red-400"
                     type="file"
                     style={{ display: 'none' }}
                     ref={fileInputRef}

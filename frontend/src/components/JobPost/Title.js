@@ -3,11 +3,16 @@ import { useState } from "react";
 const Title = ({ setIsValid, updateJobData }) => {
     const [title, setTitle] = useState("");
 
+    console.log('title is', title);
+
     const handleChange = (e) => {
         const newTitle = e.target.value;
+
         setTitle(newTitle);
         setIsValid(newTitle.length > 0);
-        updateJobData({ title: title })
+        updateJobData({ title: newTitle })
+
+        
 
     };
 
