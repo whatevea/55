@@ -14,7 +14,13 @@ const JobPostLayout = () => {
     const [jobData, setJobData] = useState({ provider: "65e1967022146dc8e878fb56" })
     const [currentTab, setTab] = useState(1);
     const [isValid, setIsValid] = useState(false);
+
+    console.log('jobData is', jobData);
+
     const updateJobData = (jobObject) => {
+
+        console.log('jobObject is', jobObject);
+
         setJobData(prevState => ({
             ...prevState,
             ...jobObject
@@ -105,9 +111,9 @@ const JobPostLayout = () => {
             {/* <p className="w-1/6 w-2/6 w-3/6 w-4/6 w-5/6"></p> */}
             <div className="nextbtn  w-full p-2">
                 {
-                    currentTab > 1 && (<button onClick={() => setTab(currentTab - 1)} className={`disabled:cursor-not-allowed disabled:text-[#9aaa97] text-white  rounded-2xl px-6 py-3 border disabled:bg-[#e4ebe4] bg-green-700  font-semibold`} > Back  </button>)
+                    currentTab > 1 && (<button onClick={() => setTab(currentTab - 1)} className={`disabled:cursor-not-allowed disabled:text-[#9aaa97] text-white  rounded-md bg-green-600 hover:bg-green-500 px-3 py-1.5 border disabled:bg-[#e4ebe4] font-semibold` } > Back  </button>)
                 }
-                <button disabled={!isValid} onClick={increaseTab} className={`disabled:cursor-not-allowed disabled:text-[#9aaa97] text-white  rounded-2xl px-6 py-3 border disabled:bg-[#e4ebe4] float-right bg-green-700  font-semibold`} > Next :{orders[currentTab + 1].name}  </button>
+                <button disabled={!isValid} onClick={increaseTab} className={`disabled:cursor-not-allowed disabled:text-[#9aaa97] text-white  rounded-md bg-green-600 hover:bg-green-500 px-3 py-1.5 border disabled:bg-[#e4ebe4] float-right font-semibold`} > Next :{orders[currentTab + 1].name}  </button>
             </div>
         </div>
     );

@@ -4,13 +4,8 @@ import moment from 'moment';
 import { Link } from 'react-router-dom';
 
 function HirerJobList() {
-
     const [jobPosts, setJobPosts] = useState([]);
-
-    console.log('jobPosts is', jobPosts)
-
     let formattedCreatedAt
-
     useEffect(() => {
         // Function to fetch job posts from the backend
         const fetchJobPosts = async () => {
