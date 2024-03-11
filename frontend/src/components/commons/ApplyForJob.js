@@ -162,7 +162,7 @@ const ApplyForJob = () => {
                     </span>
                 ))}
             </div>
-            <div className="text-gray mb-4">
+            {/* <div className="text-gray mb-4">
                 <label className='font-bold text-green-600 block mb-2'>File Attachments</label>
                 <div className='mb-4'>
                     {jobPost?.attachmentUrls?.map((attachment, index) => {
@@ -182,12 +182,33 @@ const ApplyForJob = () => {
                         );
                     })}
                 </div>
+            </div> */}
+            <div className="text-gray mb-4">
+                <label className='font-bold text-green-600 block mb-2'>Attached Files</label>
+                <div className='mb-4'>
+                    {uploadedFiles.length > 0 ? (
+                        uploadedFiles.map((file, index) => (
+                            <div key={index} className="flex items-center">
+                                <a href={file.fileUrl} target="_blank" rel="noopener noreferrer" className="text-green-700 inline">
+                                    {file.file.name}
+                                </a>
+                                <i
+                                    className="fa-solid fa-download cursor-pointer text-2xl text-green-600 mx-4"
+                                    onClick={() => handleDownload(file.fileUrl, file.file.name)}
+                                ></i>
+                            </div>
+                        ))
+                    ) : (
+                        <p className="text-green-700">No files are attached</p>
+                    )}
+                </div>
             </div>
+
             <form onSubmit={formSubmit} className='mb-4'>
                 <div className={`flex flex-col gap-2 ${isCoverLetterFocused ? 'focus-within:border-green-600' : ''}`}>
                     <label className='font-bold text-green-600'>Cover Letter</label>
                     <textarea
-                        className={`p-2 focus:outline-none focus:ring-1 focus:ring-green-600 ${coverLetterError ? 'border border-red-500' : ''}`}
+                        className={`p-2 focus:outline-none focus:ring-1 rounded-lg focus:ring-green-600 ${coverLetterError ? 'border border-red-500' : ''}`}
                         onChange={(e) => setCoverLetter(e.target.value)}
                         onFocus={() => { setCoverLetterFocused(true); setCoverLetterError(false); }}
                         onBlur={() => setCoverLetterFocused(false)}
@@ -200,7 +221,7 @@ const ApplyForJob = () => {
                     <div className='flex flex-col gap-2'>
                         <label className='font-bold text-green-600'>{jobPost?.budgetType === 'hourly' ? 'Hourly Rate' : 'Fixed Rate'}</label>
                         <input
-                            className={`p-2 focus:outline-none focus:ring-1 focus:ring-green-600 ${hourlyRateError || isNumericError ? 'border border-red-500' : ''}`}
+                            className={`p-2 focus:outline-none rounded-lg focus:ring-1 focus:ring-green-600 ${hourlyRateError || isNumericError ? 'border border-red-500' : ''}`}
                             type='text'
                             value={hourlyOrFixedRate}
                             onChange={(e) => setHourlyOrFixedRate(e.target.value)}

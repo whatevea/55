@@ -142,7 +142,7 @@ export default function ApplicationsOfJob() {
                                         <div className="bg-gray-200 border border-gray-300 shadow-lg rounded-md p-6 w-full mt-8">
                                             <h2 className="text-2xl font-semibold text-green-700 mb-4">Applicant: {user?.fname?.toUpperCase()} {user?.lname?.toUpperCase()}</h2>
                                             <div className="flex flex-col space-y-4">
-                                                <div>
+                                                {/* <div>
                                                     <label className="text-gray-600">Attachment:</label>
                                                     {applier.attachment_urls.map((attachment, index) => {
 
@@ -160,7 +160,30 @@ export default function ApplicationsOfJob() {
                                                             </div>
                                                         );
                                                     })}
+                                                </div> */}
+                                                <div>
+                                                    <label className="text-gray-600">Attachment:</label>
+                                                    {applier.attachment_urls.length > 0 ? (
+                                                        applier.attachment_urls.map((attachment, index) => {
+                                                            // Split the URL at "uploads/" to get the filename
+                                                            const parts = attachment.split("uploads/");
+                                                            const filename = parts.length === 2 ? parts[1] : attachment;
+
+                                                            return (
+                                                                <div key={index} className="flex items-center">
+                                                                    <p className="text-green-600 inline">{filename}</p>
+                                                                    <i
+                                                                        className="fa-solid fa-download cursor-pointer text-2xl text-green-600 mx-4"
+                                                                        onClick={() => handleDownload(attachment, filename)}
+                                                                    ></i>
+                                                                </div>
+                                                            );
+                                                        })
+                                                    ) : (
+                                                        <p className="text-green-700">No File Attachments</p>
+                                                    )}
                                                 </div>
+
                                                 <div>
                                                     <label className="text-gray-600">Cover Letter:</label>
                                                     <p className="text-green-700">{applier.cover_letter}</p>
