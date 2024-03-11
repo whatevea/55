@@ -2,15 +2,23 @@ import React, { useEffect, useState } from 'react';
 import http from '../../config/http';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function HirerJobList() {
+
+    const userId = useSelector((state) => state?.User?.userData?._id);
+
+    
     const [jobPosts, setJobPosts] = useState([]);
     let formattedCreatedAt
     useEffect(() => {
         // Function to fetch job posts from the backend
         const fetchJobPosts = async () => {
             try {
-                const response = await http.get('/hire/postjob');
+                // const hirerUserData = await http.get(`/auth/getUserData/${userId}`);
+                // console.log('hirerUserData is',hirerUserData);
+
+                const response = await http.get(`/hire/postjob/${userId}`);
                 setJobPosts(response.data.data); // Assuming the response contains job posts data
             } catch (error) {
                 console.error('Error fetching job posts:', error);
