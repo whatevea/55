@@ -130,7 +130,7 @@ const Register = () => {
                         </h2>
                     </div>
                     <div className="text-center">
-                        <h3 className="text-normal font-semibold text-green-600">Please choose Freelaner or Hirer</h3>
+                        <h3 className="text-normal font-semibold text-green-600">Please choose Freelancer or Hirer</h3>
                     </div>
                     <div className="accountType flex flex-col my-2 mt-5 md:flex-row md:justify-center md:w-full items-center gap-4 ">
                         <div className={`rounded-md h-22 w-full cursor-pointer border-2 border-green-600 text-center py-1.5 ${accountType === "freelancer" ? "border-black border-2 text-white bg-green-600" : " border-gray-400"}`} onClick={() => changeAccountType("freelancer")} >

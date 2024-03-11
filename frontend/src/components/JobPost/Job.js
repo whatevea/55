@@ -13,7 +13,7 @@ export default function Job({ job_id, hirer, job_state, job_title, wage, date, b
 
                 <div className="md:grid md:place-content-center md:gap-0 mt-11 gap-3">
                     <div className="flex">
-                        <button className="bg-green-600 text-white p-1 m-1 rounded-md">
+                        <button className="bg-green-600 text-white px-3 py-1.5 m-1 rounded-md">
                             {job_state}
                         </button>
                         <p className="p-1 m-1"></p>

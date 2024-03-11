@@ -134,15 +134,14 @@ const Navbar = () => {
                             </div>
                         </div>
                         <div className="justify-between gap-4 hidden md:flex">
-                            <div className="lg:border  border-2 border-solid border-gray-300 rounded-xl flex items-center">
-                                {/* Your search input here */}
+                            {/* <div className="lg:border  border-2 border-solid border-gray-300 rounded-xl flex items-center">
                                 <i className="fa-solid fa-magnifying-glass text-green-600 hover:text-green-600 mr-2 ml-2 scale-125"></i>
                                 <input
                                     className="outline-none bg-transparent p-1.5 hidden lg:flex"
                                     type="text"
                                     placeholder="Search "
                                 />
-                            </div>
+                            </div> */}
                             <div className="flex justify-between gap-4">
                                 {isLoggedIn ? (
                                     <DropdownButton userLoggingOut={userLoggedOut} />
