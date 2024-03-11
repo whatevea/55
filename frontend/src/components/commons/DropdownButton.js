@@ -66,29 +66,29 @@ const DropdownButton = ({ userLoggingOut }) => {
         <div className="relative inline-block text-left">
             <button
                 onClick={handleToggle}
-                className="bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="bg-green-600 hover:bg-green-500 text-white text-sm font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
                 Hi, {firstName.toUpperCase()} {lastName.toUpperCase()} <i className="fa-solid fa-caret-down text-white"></i>
             </button>
             {isOpen && (
-                <div className="hidden md:block origin-top-right absolute right-0 mt-2 w-[250px] shadow-lg rounded-b-lg bg-green-50 ring-1 ring-black ring-opacity-5">
+                <div className="hidden md:block origin-top-right absolute right-0 mt-4 w-[250px] shadow-lg rounded-b-lg bg-green-50 ring-1 ring-black ring-opacity-5">
                     <div className="flex flex-col">
-                        <div className=''>
-                            <img src={face} alt='user-image' className='left-[16px] top-[12px] relative w-[80px] h-[80px] rounded-full mt-1 '/>
-                            <p className='relative top-[-38px] left-[110px] '>{firstName.toUpperCase()} {data.userData.lname.toUpperCase()}</p>
+                        <div className='relative flex flex-col items-center gap-2 p-2'>
+                            <img src={face} alt='user-image' className='w-[80px] h-[80px] rounded-full mt-1 '/>
+                            <p className='text-sm'>{firstName.toUpperCase()} {data.userData.lname.toUpperCase()}</p>
                         </div>
                         {options.map((opt) => (
                             <button
                                 key={opt.action}
                                 onClick={() => handleOptionClick(opt.action)}
-                                className={`block px-4 py-2 text-lg text-left text-black hover:bg-green-500 hover:text-white hover:font-bold ${opt.label == 'Profile' ? 'border-t mt-2 border-b border-solid border-green-600' : 'border-b border-solid border-green-600'}`}
+                                className={`block px-4 py-1.5 text-sm text-left text-black hover:bg-green-500 hover:text-white hover:font-bold ${opt.label == 'Profile' ? 'border-t mt-2 border-b border-solid border-green-600' : 'border-b border-solid border-green-600'}`}
                             >
                                 {opt.label}
                             </button>
                         ))}
                         <button
                             onClick={() => handleOptionClick('Logout')}
-                            className="block px-4 py-2 text-lg text-black text-left hover:bg-green-500 hover:text-white hover:font-bold hover:rounded-b-lg"
+                            className="block px-4 py-1.5 text-sm text-black text-left hover:bg-green-500 hover:text-white hover:font-bold hover:rounded-b-lg"
                         >
                             Logout
                         </button>

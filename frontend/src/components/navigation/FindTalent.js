@@ -40,7 +40,7 @@ const FindTalent = () => {
                         <button
                             key={opt.action}
                             onClick={() => handleOptionClick(opt.action)}
-                            className={`block px-4 py-2 text-left text-lg font-semibold text-black hover:bg-green-500  hover:text-white hover:font-bold ${opt.label=='Search For Talent'?'': 'border-b border-solid border-green-600' } ${opt.label == "Search For Talent" ? 'hover:rounded-b-lg' : ''}`}
+                            className={`block px-4 py-1.5 text-left text-sm font-semibold text-black hover:bg-green-500  hover:text-white hover:font-bold ${opt.label=='Search For Talent'?'': 'border-b border-solid border-green-600' } ${opt.label == "Search For Talent" ? 'hover:rounded-b-lg' : ''}`}
                         >
                             {opt.label}
                         </button>
