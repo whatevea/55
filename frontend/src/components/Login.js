@@ -1,27 +1,25 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect} from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
 import { toastConfig } from "../config/toastConfig";
 import http from "../config/http";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/reducers/userSlice";
 import { ScaleLoader } from "react-spinners";
 
 const Login = () => {
     const navigate = useNavigate();
     const isLoggedIn = useSelector((state) => state.User?.isLoggedIn);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (isLoggedIn) {
-                toast.error("You are logged in sorry !!", toastConfig);
-                navigate("/");   
-        }        
+            toast.error("You are logged in sorry !!", toastConfig);
+            navigate("/");
+        }
     }, []);
 
     const [loading, setLoading] = useState(false);
-    const dispatch = useDispatch();
     const [formData, setFormData] = useState({
         email: "",
         password: ""
@@ -76,7 +74,8 @@ const Login = () => {
             setLoading(true);
 
             const response = await http.post("auth/login", formData);
-            if (response.status === 201) toast.warn(response?.data?.message, toastConfig);
+
+            console.log('response is', response);
 
             if (response.status === 200) {
                 const userData = {
@@ -95,15 +94,28 @@ const Login = () => {
                     navigate('/');
                 }, 1000);
 
+            } else if (response.status === 400) {
+                toast.warn(response.data.message, toastConfig);
             } else {
                 toast.error('Login failed. Please check your credentials.');
             }
         } catch (error) {
-            toast.error('An error occurred. Please try again later.');
-            console.error('Login error:', error);
+            setLoading(false);
+            if (error.response) {
+                const errorMessage = error.response.data.message || 'An error occurred.';
+                toast.error(errorMessage, toastConfig);
+                console.error('Login error:', error.response);
+            } else if (error.message) {
+                // The request was made but no response was received
+                toast.error(`Request failed: ${error.message}`, toastConfig);
+                console.error('Login error:', error.message);
+            } else {
+                toast.error('An unexpected error occurred.', toastConfig);
+                console.error('Login error:', error);
+            }
         }
     };
-
+    
     return (
         <div>
             {loading ? (

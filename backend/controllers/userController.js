@@ -39,8 +39,15 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body
+
+    // Check if email and password are provided
+    if (!email || !password) {
+        res.status(400);
+        throw new Error('Please provide email and password');
+    }
+
     const user = await User.findOne({ email })
-    console.log('user is', user)
+
     if (user && (await bcrypt.compare(password, user.password))) {
         res.status(200).json({
             _id: user.id, email: user.email, fname: user.fname, lname: user.lname, token: generateJWTtoken(user._id), user_type: user.user_type
