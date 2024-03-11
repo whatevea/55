@@ -21,9 +21,6 @@ const JobSeekerLayout = () => {
             console.error('Error fetching filtered jobs:', error);
         }
     }   
-    
-    console.log('filteredJobs is', filteredJobs);
-
 
     return (
         <div className='mb-10'>

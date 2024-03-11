@@ -7,11 +7,15 @@ import Description from "./Description";
 import http from "../../config/http";
 import JobPosted from "./JobPosted";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 
 const JobPostLayout = () => {
+
+    const userData = useSelector((state) => state.User);
+
     const navigate = useNavigate()
-    const [jobData, setJobData] = useState({ provider: "65e1967022146dc8e878fb56" })
+    const [jobData, setJobData] = useState({ provider: userData.userData._id.toString() })
     const [currentTab, setTab] = useState(1);
     const [isValid, setIsValid] = useState(false);
 
