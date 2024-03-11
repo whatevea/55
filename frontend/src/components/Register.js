@@ -1,10 +1,11 @@
-import { useState } from "react"; import { MdOutlineAlternateEmail, MdOutlineDriveFileRenameOutline, MdVisibility, MdVisibilityOff } from "react-icons/md"
-import { FaKey, FaUserAstronaut } from "react-icons/fa";
+import { useState } from "react";
 import http from "../config/http";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from 'react-router-dom'
 import { ScaleLoader } from "react-spinners";
-import logo from '../images/logo.png'
+import { toastConfig } from "../config/toastConfig";
+
+
 const Register = () => {
     const [accountType, setAccountType] = useState("freelancer");
     const [showPassword, setShowPassword] = useState(false);
@@ -16,6 +17,13 @@ const Register = () => {
         password: "",
     });
 
+    const [validation, setValidation] = useState({
+        fname: true,
+        lname: true,
+        email: true,
+        password: true,
+    });
+
     const navigate = useNavigate()
 
     const changeAccountType = (type) => {
@@ -23,48 +31,68 @@ const Register = () => {
         setAccountType(type);
     }
 
-
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+
+        // Reset validation status when the user types
+        setValidation({ ...validation, [name]: true });
+
     }
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     }
 
+    const validateForm = () => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        const newValidation = {
+            fname: !!formData.fname.trim(),
+            lname: !!formData.lname.trim(),
+            email: emailRegex.test(formData.email),
+            password: !!formData.password.trim(),
+        };
+
+        setValidation(newValidation);
+
+        if (!newValidation.fname || !newValidation.lname || !newValidation.email || !newValidation.password) {
+            toast.error("All fields are required", toastConfig);
+            return false;
+        }
+
+        return true;
+    };
+
     const registerUser = async (e) => {
         e.preventDefault()
+
+        if (!validateForm()) {
+            return;
+        }
+
         try {
-            // Validate email format
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(formData.email)) {
-                toast("Invalid Email");
-                return;
-            }
 
             // Set loading to true to show the loader animation
             setLoading(true);
 
             // Submit registration data
             await http.post("/auth/register", { ...formData, "user_type": accountType });
-            toast("Registration successful!");
+            toast.success("Registration successful!");
 
             // Redirect to login page after a delay (you can adjust the delay as needed)
             setTimeout(() => {
                 setLoading(false);
                 navigate('/auth/login');
-            }, 2000);
+            }, 1000);
 
-            // Optionally, you can redirect the user or show a success message
         } catch (error) {
             // Handle registration error
             console.error("Registration failed:", error);
             // Optionally, you can show an error message to the user
         } finally {
             // Set loading back to false after registration attempt
-            // setLoading(false);
+            setLoading(false);
         }
     }
 
@@ -101,16 +129,19 @@ const Register = () => {
                             Register
                         </h2>
                     </div>
+                    <div className="text-center">
+                        <h3 className="text-normal font-semibold text-green-600">Please choose Freelaner or Hirer</h3>
+                    </div>
                     <div className="accountType flex flex-col my-2 mt-5 md:flex-row md:justify-center md:w-full items-center gap-4 ">
                         <div className={`rounded-md h-22 w-full cursor-pointer border-2 border-green-600 text-center py-1.5 ${accountType === "freelancer" ? "border-black border-2 text-white bg-green-600" : " border-gray-400"}`} onClick={() => changeAccountType("freelancer")} >
                             Freelancer
                         </div>
                         <div className={`rounded-md h-22 w-full py-1.5 cursor-pointer  border-2 border-green-600 text-center ${accountType === "hire" ? "border-black border-2 text-white bg-green-600" : " border-gray-400"}`} onClick={() => { changeAccountType("hire") }}>
-                            Hire
+                            Hirer
                         </div>
                     </div>
                     <div className="mt-10 w-full">
-                        <form className="space-y-4" onSubmit={registerUser}>
+                        <form className="space-y-4" onSubmit={registerUser} noValidate>
                             <div className="flex flex-col justify-between">
                                 <label htmlFor="fname" className="block text-base font-medium leading-6 text-gray-900">
                                     First Name:
@@ -125,9 +156,10 @@ const Register = () => {
                                         placeholder="First Name"
                                         value={formData.fname}
                                         onChange={handleInputChange}
-                                        className="block rounded-md border-2 border-solid border-gray-300 px-2 py-1.5 text-gray-900    placeholder:text-gray-400 w-full  focus:border-green-600 sm:text-sm sm:leading-6 focus:outline-none"
+                                        className={`block rounded-md border-2 border-solid border-gray-300 px-2 py-1.5 text-gray-900 placeholder:text-gray-400 w-full focus:border-green-600 sm:text-sm sm:leading-6 focus:outline-none ${validation.fname ? "" : "border-red-500"}`}
                                     />
                                 </div>
+                                {!validation.fname && <p className="text-sm text-red-500 mt-1">Please enter your first name.</p>}
                             </div>
                             <div className="flex flex-col">
                                 <label htmlFor="lname" className="block text-base font-medium leading-6 text-gray-900">
@@ -143,9 +175,10 @@ const Register = () => {
                                         placeholder="Last Name"
                                         value={formData.lname}
                                         onChange={handleInputChange}
-                                        className="block rounded-md border-2 border-solid border-gray-300 px-2 py-1.5 text-gray-900    placeholder:text-gray-400 w-full  focus:border-green-600 sm:text-sm sm:leading-6 focus:outline-none"
+                                        className={`block rounded-md border-2 border-solid border-gray-300 px-2 py-1.5 text-gray-900 placeholder:text-gray-400 w-full focus:border-green-600 sm:text-sm sm:leading-6 focus:outline-none ${validation.lname ? "" : "border-red-500"}`}
                                     />
                                 </div>
+                                {!validation.lname && <p className="text-sm text-red-500 mt-1">Please enter your last name.</p>}
                             </div>
                             <div className="flex flex-col">
                                 <label htmlFor="email" className="block text-base font-medium leading-6 text-gray-900">
@@ -161,9 +194,10 @@ const Register = () => {
                                         placeholder="Email Address"
                                         value={formData.email}
                                         onChange={handleInputChange}
-                                        className="block rounded-md border-2 border-solid border-gray-300 px-2 py-1.5 text-gray-900    placeholder:text-gray-400 w-full focus:border-green-600 sm:text-sm sm:leading-6 focus:outline-none"
+                                        className={`block rounded-md border-2 border-solid border-gray-300 px-2 py-1.5 text-gray-900 placeholder:text-gray-400 w-full focus:border-green-600 sm:text-sm sm:leading-6 focus:outline-none ${validation.email ? "" : "border-red-500"}`}
                                     />
                                 </div>
+                                {!validation.email && <p className="text-sm text-red-500 mt-1">Please enter valid email.</p>}
                             </div>
                             <div className="flex flex-col">
                                 <div className="flex items-center justify-between">
@@ -181,10 +215,11 @@ const Register = () => {
                                         placeholder="Password"
                                         value={formData.password}
                                         onChange={handleInputChange}
-                                        className="block rounded-md border-2 border-solid border-gray-300 px-2 py-1.5 text-gray-900    placeholder:text-gray-400 w-full focus:border-green-600 sm:text-sm sm:leading-6 focus:outline-none"
+                                        className={`block rounded-md border-2 border-solid border-gray-300 px-2 py-1.5 text-gray-900 placeholder:text-gray-400 w-full focus:border-green-600 sm:text-sm sm:leading-6 focus:outline-none ${validation.password ? "" : "border-red-500"}`}
                                     />
 
                                 </div>
+                                {!validation.password && <p className="text-sm text-red-500 mt-1">Please enter password.</p>}
                             </div>
                             <div>
                                 <button
