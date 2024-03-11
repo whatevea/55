@@ -63,4 +63,23 @@ export const getApplierList = asyncHandler(async (req, res) => {
     });
 })
 
+export const getJobsListBasedOnHirerUserId = asyncHandler( async (req,res) => {
+    const hirerUserId = req.params.hirerUserId; // Assuming the parameter is named 'hirerUserId'
+
+    try {
+        const jobs = await Job.find({ provider: hirerUserId }).sort({ createdAt: -1 });
+        res.status(200).json({
+            success: true,
+            data: jobs,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Error fetching jobs based on hirer user ID',
+            error: error.message,
+        });
+    }
+
+})
+
 export default addJob
