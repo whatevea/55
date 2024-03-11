@@ -34,7 +34,7 @@ export const addJob = asyncHandler(async (req, res) => {
 });
 
 export const getJobsList = asyncHandler(async (req, res) => {
-    const jobs = await Job.find();
+    const jobs = await Job.find().sort({ createdAt: -1 });
     res.status(200).json({
         success: true,
         data: jobs,
@@ -55,7 +55,6 @@ export const getSingleJobPost = asyncHandler(async (req, res) => {
 })
 
 export const getApplierList = asyncHandler(async (req, res) => {
-    console.log('you got called');
     const job_id = req.params.id;  // Use req.params to get URL parameters
     const applied = await Applied_Vacancy.find({ job: job_id });
     res.status(200).json({
