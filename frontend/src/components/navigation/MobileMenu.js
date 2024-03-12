@@ -8,9 +8,7 @@ export default function MobileMenu() {
   const [userDetails, setUserDetails] = useState(null);
 
   const navigate = useNavigate()
-  const dispatch = useDispatch()
-
-  console.log('userDetails.userData.fname is', userDetails.userData.fname);
+  const dispatch = useDispatch()  
 
   useEffect(() => {
     // Retrieve user details from localStorage when the component mounts
@@ -39,7 +37,7 @@ export default function MobileMenu() {
   return (
     <div className="bg-white z-10">
       <div className="md:hidden mb-4">
-        <h3 className="text-green-500 mx-2 font-semibold">Hi, {`${userDetails.userData.fname.toUpperCase()} ${userDetails.userData.lname.toUpperCase()}`}</h3>
+        <h3 className="text-green-500 mx-2 font-semibold">Hi, {`${userDetails?.userData?.fname.toUpperCase()} ${userDetails?.userData?.lname.toUpperCase()}`}</h3>
       </div>
 
       {/* <div className="border-2 border-solid border-gray-300 rounded-md mt-4 mx-2 mb-4">

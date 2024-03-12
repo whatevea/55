@@ -18,13 +18,8 @@ const JobPostLayout = () => {
     const [jobData, setJobData] = useState({ provider: userData.userData._id.toString() })
     const [currentTab, setTab] = useState(1);
     const [isValid, setIsValid] = useState(false);
-
-    console.log('jobData is', jobData);
-
+    
     const updateJobData = (jobObject) => {
-
-        console.log('jobObject is', jobObject);
-
         setJobData(prevState => ({
             ...prevState,
             ...jobObject

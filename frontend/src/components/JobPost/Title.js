@@ -2,9 +2,6 @@ import { useState } from "react";
 
 const Title = ({ setIsValid, updateJobData }) => {
     const [title, setTitle] = useState("");
-
-    console.log('title is', title);
-
     const handleChange = (e) => {
         const newTitle = e.target.value;
 
