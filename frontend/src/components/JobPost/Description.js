@@ -63,12 +63,12 @@ const Description = ({ setIsValid, updateJobData }) => {
                 cols="30"
                 rows="5"
                 placeholder="Already have a description? Paste it here"
-                className="sm:w-1/2 outline-none border p-4 rounded-md"
+                className=" outline-none border-2 focus:border-green-600 p-4 rounded-md"
             />
             <div>
                 <p className="font-semibold inline">Attach your file(s)</p>
                 <FaPaperclip
-                    className="font-extrabold inline ml-4 text-2xl text-green-600 cursor-pointer"
+                    className="font-extrabold inline ml-4 text-xl text-green-600 cursor-pointer"
                     onClick={handleFileUpload}
                 />
                 <input
@@ -85,7 +85,7 @@ const Description = ({ setIsValid, updateJobData }) => {
                     <a href={file.fileUrl} target="_blank" rel="noopener noreferrer" className="text-sm">
                         {file.file.name}
                     </a>
-                    <FaTimes className="text-red-500 cursor-pointer" onClick={() => handleRemoveFile(index)} />
+                    <FaTimes className="text-green-600 cursor-pointer" onClick={() => handleRemoveFile(index)} />
                 </div>
             ))}
         </div>

@@ -89,16 +89,16 @@ const JobPostLayout = () => {
 
     return (
         <div className="flex flex-col gap-10">
-            <div className="p-4 w-full flex flex-col sm:flex-row ">
-                <div className="firsthalf p-2 sm:w-1/2">
+            <div className="p-4 w-full flex flex-col md:flex-row gap-4">
+                <div className="firsthalf p-2 w-1/2">
                     <div className="flex flex-col gap-4">
-                        <p className="text-gray-600">{currentTab}/6 <span className="ml-4"> Job Post</span></p>
-                        <p className="text-3xl">{orders[currentTab].title}</p>
+                        <p className="text-green-600 text-xl font-bold">{currentTab}/6 <span className="ml-4"> Job Post</span></p>
+                        <p className="text-xl md:text-3xl">{orders[currentTab].title}</p>
                         <p className="break-words">{orders[currentTab].description}</p>
 
                     </div>
                 </div>
-                <div className="secondhalf p-2 sm:w-1/2">
+                <div className="secondhalf p-2 w-1/2">
                     <Component setIsValid={setIsValid} updateJobData={updateJobData} />
                 </div>
             </div>
@@ -108,11 +108,11 @@ const JobPostLayout = () => {
                 <div className={`h-full greenbar w-${currentTab}/6 rounded-md bg-green-700 `}></div>
             </div>
             {/* <p className="w-1/6 w-2/6 w-3/6 w-4/6 w-5/6"></p> */}
-            <div className="nextbtn  w-full p-2">
+            <div className="nextbtn w-full flex flex-col gap-4 md:flex-row md:justify-between p-2">
                 {
                     currentTab > 1 && (<button onClick={() => setTab(currentTab - 1)} className={`disabled:cursor-not-allowed disabled:text-[#9aaa97] text-white  rounded-md bg-green-600 hover:bg-green-500 px-3 py-1.5 border disabled:bg-[#e4ebe4] font-semibold` } > Back  </button>)
                 }
-                <button disabled={!isValid} onClick={increaseTab} className={`disabled:cursor-not-allowed disabled:text-[#9aaa97] text-white  rounded-md bg-green-600 hover:bg-green-500 px-3 py-1.5 border disabled:bg-[#e4ebe4] float-right font-semibold`} > Next :{orders[currentTab + 1].name}  </button>
+                <button disabled={!isValid} onClick={increaseTab} className={`disabled:cursor-not-allowed disabled:text-[#9aaa97] text-white rounded-md bg-green-600 hover:bg-green-500 px-3 py-1.5 border disabled:bg-[#e4ebe4] font-semibold`} > Next :{orders[currentTab + 1].name}  </button>
             </div>
         </div>
     );
