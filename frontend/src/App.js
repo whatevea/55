@@ -19,6 +19,7 @@ import MyJobs from "./components/JobPost/MyJobs";
 import Profile from "./components/commons/Profile";
 import SearchForTalent from "./components/commons/SearchForTalent";
 import Fileupload from "./components/commons/Fileupload";
+import MessageWindow from "./components/commons/MessageWindow";
 
 
 
@@ -58,6 +59,7 @@ function App() {
                     <Route path="seeappliers/:job_id" element={<ApplicationsofJob />} />
                     <Route path="hirer-profile" element={<Profile />} />
                     <Route path="searchfortalent" element={<SearchForTalent />} />
+                    <Route path="message" element={<MessageWindow />} />
                     
 
 
