@@ -31,12 +31,12 @@ const Budget = ({ setIsValid, updateJobData }) => {
     return (
         <div>
             <div className="buttons flex w-1/2 gap-2">
-                <button className={`rounded-md border-2 p-2 ${budgetType === "hourly" ? 'border-green-500 font-bold' : 'border-gray-500'}`} onClick={() => setBudgetType("hourly")}>
-                    <FaClock className="inline mr-4" />
+                <button className={`rounded-md border-2 p-2 ${budgetType === "hourly" ? 'border-green-500 font-bold text-green-500' : 'border-gray-500'}`} onClick={() => setBudgetType("hourly")}>
+                    <FaClock className="inline mr-4 text-green-600" />
                     Hourly rate
                 </button>
-                <button className={`rounded-md border-2 p-2 ${budgetType === "fixedPrice" ? 'border-green-500 font-bold' : 'border-gray-500'}`} onClick={() => setBudgetType("fixedPrice")}>
-                    <FaTag className="inline mr-4" />
+                <button className={`rounded-md border-2 p-2 ${budgetType === "fixedPrice" ? 'border-green-500 font-bold text-green-500' : 'border-gray-500'}`} onClick={() => setBudgetType("fixedPrice")}>
+                    <FaTag className="inline mr-4 text-green-600" />
                     Fixed price
                 </button>
             </div>
@@ -44,16 +44,16 @@ const Budget = ({ setIsValid, updateJobData }) => {
                 <div className="flex mt-8 justify-between w-1/2">
                     <div>
                         <p>From</p>
-                        $<input type="number" className="w-20 h-8 inline p-4 border ml-4 rounded-lg" value={hourlyRateFrom} min={5} max={100} onChange={(e) => setHourlyRateFrom(e.target.valueAsNumber)} /> /hr
+                        $<input type="number" className="w-20 h-8 inline p-4 border-2 focus:border-green-600 outline-none ml-4 rounded-lg" value={hourlyRateFrom} min={5} max={100} onChange={(e) => setHourlyRateFrom(e.target.valueAsNumber)} /> /hr
                     </div>
                     <div>
                         <p>To</p>
-                        $<input type="number" className="w-20 h-8 inline p-4 border ml-4 rounded-lg" value={hourlyRateTo} min={5} max={100} onChange={(e) => setHourlyRateTo(e.target.valueAsNumber)} /> /hr
+                        $<input type="number" className="w-20 h-8 inline p-4 border-2 focus:border-green-600 outline-none ml-4 rounded-lg" value={hourlyRateTo} min={5} max={100} onChange={(e) => setHourlyRateTo(e.target.valueAsNumber)} /> /hr
                     </div>
                 </div>
             ) : (
                 <div className="mt-8">
-                    Total Price : $<input type="number" className="w-20 h-8 inline p-4 border ml-4 rounded-lg" value={fixedPrice} min={5} max={10000} onChange={(e) => setFixedPrice(e.target.valueAsNumber)} />
+                    Total Price : $<input type="number" className="w-20 h-8 inline p-4 border-2 focus:border-green-600 outline-none ml-4 rounded-lg" value={fixedPrice} min={5} max={10000} onChange={(e) => setFixedPrice(e.target.valueAsNumber)} />
                 </div>
             )}
         </div>
