@@ -10,6 +10,8 @@ export default function MobileMenu() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
+  console.log('userDetails.userData.fname is', userDetails.userData.fname);
+
   useEffect(() => {
     // Retrieve user details from localStorage when the component mounts
     const storedUserDetails = localStorage.getItem("userData");
@@ -36,14 +38,18 @@ export default function MobileMenu() {
 
   return (
     <div className="bg-white z-10">
-      <div className="border-2 border-solid border-gray-300 rounded-md mt-4 mx-2 mb-4">
+      <div className="md:hidden mb-4">
+        <h3 className="text-green-500 mx-2 font-semibold">Hi, {`${userDetails.userData.fname.toUpperCase()} ${userDetails.userData.lname.toUpperCase()}`}</h3>
+      </div>
+
+      {/* <div className="border-2 border-solid border-gray-300 rounded-md mt-4 mx-2 mb-4">
         <i className="fa-solid fa-magnifying-glass mx-2 scale-125 text-green-600"></i>
         <input
           className="outline-none bg-white text-black font-semibold p-1 w-3/4"
           type="text"
           placeholder="Search"
         />
-      </div>
+      </div> */}
       <ul className="flex flex-col gap-4 mx-2">
         <li className="flex items-center hover:text-green-500 cursor-pointer">
           Find Talent <i className="fa-solid fa-angle-down ml-2 mt-1"></i>{" "}
@@ -51,12 +57,12 @@ export default function MobileMenu() {
         <li className="flex items-center hover:text-green-500 cursor-pointer">
           Find Work <i className="fa-solid fa-angle-down ml-2 mt-1"></i>{" "}
         </li>
-        <li className="flex items-center hover:text-green-500 cursor-pointer">
+        {/* <li className="flex items-center hover:text-green-500 cursor-pointer">
           Why Upwork? <i className="fa-solid fa-angle-down ml-2 mt-1"></i>{" "}
         </li>
         <li className="flex items-center hover:text-green-500 cursor-pointer">
           Blog Enterprise <i className="fa-solid fa-angle-down ml-2 mt-1"></i>{" "}
-        </li>
+        </li> */}
       </ul>
       <div className="flex justify-between gap-4">
         {userDetails ? (
