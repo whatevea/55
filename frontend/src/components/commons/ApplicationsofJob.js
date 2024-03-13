@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import http from "../../config/http";
 import { useNavigate, useParams } from 'react-router-dom';
 import Accordion from './AccordionComp';
-import MessageWindow from './MessageWindow';
 
 export default function ApplicationsOfJob() {
     const { job_id } = useParams();
@@ -77,10 +76,10 @@ export default function ApplicationsOfJob() {
         fetchFile();
     };
 
-    const message = () => {
-        navigate('/hirer/message')
+    const message = (userId) => {
+        navigate('/hirer/message', { state: { userId } })
       };
-
+      
     return (
         <div className='w-[80%] mx-auto'>
             <div className="bg-green-50 shadow-md rounded-md overflow-hidden mt-4">
@@ -183,7 +182,7 @@ export default function ApplicationsOfJob() {
                                                 </div>
                                             </div>
                                             <div className='mt-4'>
-                                                <button className='rounded-md text-white bg-green-600 hover:bg-green-500 px-3 py-1.5 text-base font-semibold' onClick={() => message()}>Contact Applicant</button>
+                                                <button className='rounded-md text-white bg-green-600 hover:bg-green-500 px-3 py-1.5 text-base font-semibold' onClick={() => message(user?._id)}>Contact Applicant</button>
                                             </div>
                                            
                                         </div>
