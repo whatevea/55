@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import multer from 'multer';
 import path from 'path';
+import http from 'http'; // Import the HTTP module
+import { Server } from 'socket.io'; // Import Socket.IO
 
 // Routes imports
 import authRoutes from './routes/authRoutes.js';
@@ -17,6 +19,9 @@ dotenv.config(); // Load environment variables
 connectDB(); // Establish database connection
 
 const app = express(); // Initialize express app
+const server = http.createServer(app); // Create HTTP server
+
+const io = new Server(server); // Create Socket.IO instance
 
 // Middleware
 app.use(cors()); // Enable CORS
