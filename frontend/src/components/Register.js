@@ -78,18 +78,14 @@ const Register = () => {
 
             // Submit registration data
             await http.post("/auth/register", { ...formData, "user_type": accountType });
-            toast.success("Registration successful!");
-
-            // Redirect to login page after a delay (you can adjust the delay as needed)
-            setTimeout(() => {
-                setLoading(false);
-                navigate('/auth/login');
-            }, 1000);
-
+            toast.success("Registration successful!");        
+            setLoading(false);
+            navigate('/auth/login');
         } catch (error) {
             // Handle registration error
             console.error("Registration failed:", error);
-            // Optionally, you can show an error message to the user
+            // Display the error message using react-toastify
+            toast.error((error.response.data.message || 'Registration failed'), toastConfig);
         } finally {
             // Set loading back to false after registration attempt
             setLoading(false);

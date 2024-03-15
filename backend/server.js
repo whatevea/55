@@ -10,6 +10,7 @@ import { Server } from 'socket.io'; // Import Socket.IO
 import authRoutes from './routes/authRoutes.js';
 import hireRoutes from "./routes/hireRoutes.js";
 import freelancerRoutes from "./routes/freelancerRoutes.js";
+import chatRoutes from './routes/chatRoutes.js'
 
 // Middleware and DB connection imports
 import { errorHandler } from './middleware/errorMiddleware.js';
@@ -23,10 +24,17 @@ const server = http.createServer(app); // Create HTTP server
 
 const io = new Server(server); // Create Socket.IO instance
 
+const corsOptions = {
+    origin: 'http://localhost:3000', // Update this with your frontend origin
+    optionsSuccessStatus: 200 // Some legacy browsers choke on 204
+  };
+
 // Middleware
-app.use(cors()); // Enable CORS
+app.use(cors(corsOptions)); // Enable CORS
 app.use(express.json()); // Support JSON-encoded bodies
 app.use(express.urlencoded({ extended: false })); // Support URL-encoded bodies
+
+
 
 // Serve the uploads folder statically
 const uploadsDir = path.resolve('uploads');
@@ -45,10 +53,13 @@ const storage = multer.diskStorage({
 // Initialize multer with the defined storage
 const upload = multer({ storage: storage });
 
+
+
 // Routes
 app.use('/auth', authRoutes); // Authentication routes
 app.use("/hire", hireRoutes); // Hiring-related routes
 app.use("/freelancer", freelancerRoutes);
+app.use('/chats', chatRoutes)
 
 // Test route
 app.get('/test', (req, res) => {
@@ -76,8 +87,37 @@ app.post('/upload', upload.single('file'), (req, res) => {
 // Error handling middleware
 app.use(errorHandler);
 
+
+// Add a separate CORS middleware for Socket.IO requests
+io.use((socket, next) => {
+    const origin = socket.handshake.headers.origin;
+    if (origin === 'http://localhost:3000' || !origin) {
+        return next();
+    }
+    return next(new Error('Not allowed by CORS'));
+});
+
+io.on('connection', (socket) => {
+
+    console.log('A user connected');
+    // Handle messaging logic here
+
+    // Handle incoming messages
+    socket.on('sendMessage', (message) => {
+        console.log('Received message from client:', message);
+        // Broadcast the message to all connected clients
+        io.emit('message', message);
+    });
+
+    // Handle disconnections
+    socket.on('disconnect', () => {
+        console.log('A user disconnected');
+    });
+
+});
+
 // Start server
 const port = process.env.PORT || 5000;
-app.listen(port, () => {
-    console.log(`Backend is running on http://127.0.0.1:${port}`);
+server.listen(port, () => {
+    console.log(`Backend is running on http://localhost:${port}`);
 });

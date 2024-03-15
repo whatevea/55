@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import React, { useState, useRef, useEffect } from 'react';
 import http from '../../config/http';
+import io from 'socket.io-client';
 
 const ChatComponent = () => {
   const [messages, setMessages] = useState([]);
@@ -8,6 +9,7 @@ const ChatComponent = () => {
   const [userData, setUserData] = useState(null);
   const [myChats, setMyChats] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [socket, setSocket] = useState(null);
   const messagesEndRef = useRef(null);
   const location = useLocation();
   const messageReceiverId = location.state?.userId;
@@ -33,9 +35,9 @@ const ChatComponent = () => {
 
   useEffect(() => {
     if (messageReceiverId) {
-        setSelectedUser(messageReceiverId);
+      setSelectedUser(messageReceiverId);
     }
-}, [messageReceiverId]);
+  }, [messageReceiverId]);
 
   useEffect(() => {
     fetchUserData(messageReceiverId);
@@ -59,6 +61,9 @@ const ChatComponent = () => {
       };
       setMessages([...messages, newMessageObj]);
       setNewMessage('');
+
+      // Emit the new message to the server
+      socket.emit('sendMessage', newMessageObj);
     }
   };
 
@@ -75,6 +80,22 @@ const ChatComponent = () => {
   const handleUserClick = (userId) => {
     setSelectedUser(userId);
   };
+
+  // Establish Socket.IO connection
+  useEffect(() => {
+    const newSocket = io('http://localhost:5000'); // Create new socket
+
+    // Listen for incoming messages from the server
+    newSocket.on('message', (message) => {
+      setMessages((prevMessages) => [...prevMessages, message]);
+    });
+
+    setSocket(newSocket); // Set socket state variable
+
+    return () => {
+      newSocket.disconnect();
+    };
+  }, []);
 
   return (
     <div className="flex h-[600px] p-7 rounded-xl">
