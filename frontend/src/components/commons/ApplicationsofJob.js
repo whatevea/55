@@ -18,7 +18,7 @@ export default function ApplicationsOfJob() {
         try {
             const response = await http.get(`/auth/getUserData/${userId}`);
 
-            const userData = response.data.data; // Adjust this based on your server response structure
+            const userData = response?.data?.data; // Adjust this based on your server response structure
             setUserData((prevData) => ({
                 ...prevData,
                 [userId]: userData,
@@ -37,12 +37,12 @@ export default function ApplicationsOfJob() {
                     http.get(`/hire/getappliers/${job_id}`),
                 ]);
 
-                if (mainData.data && mainData.data.data) {
-                    setData(mainData.data.data);
+                if (mainData?.data && mainData?.data?.data) {
+                    setData(mainData?.data?.data);
                     setApplierData(applierData.data.data);
 
                     // Fetch user data for each applier
-                    applierData.data.data.forEach((applier) => {
+                    applierData?.data?.data?.forEach((applier) => {
                         if (applier.applier) {
                             fetchUserData(applier.applier);
                         }
@@ -155,8 +155,8 @@ export default function ApplicationsOfJob() {
                                                     {applier.attachment_urls.length > 0 ? (
                                                         applier.attachment_urls.map((attachment, index) => {
                                                             // Split the URL at "uploads/" to get the filename
-                                                            const parts = attachment.split("uploads/");
-                                                            const filename = parts.length === 2 ? parts[1] : attachment;
+                                                            const parts = attachment?.split("uploads/");
+                                                            const filename = parts?.length === 2 ? parts[1] : attachment;
                                                             return (
                                                                 <div key={index} className="flex items-center">
                                                                     <p className="text-green-600 inline">{filename}</p>

@@ -60,9 +60,6 @@ function App() {
                     <Route path="hirer-profile" element={<Profile />} />
                     <Route path="searchfortalent" element={<SearchForTalent />} />
                     <Route path="message" element={<MessageContainer />} />
-                    
-
-
                 </Route>
                 <Route path="/upload" element={<Fileupload />} />
 
