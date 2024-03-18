@@ -2,8 +2,12 @@ import { useLocation } from 'react-router-dom';
 import React, { useState, useRef, useEffect } from 'react';
 import http from '../../config/http';
 import io from 'socket.io-client';
+import { useSelector } from 'react-redux';
 
 const ChatComponent = () => {
+
+  const senderData = useSelector((state) => state.User);    
+  const messageSenderId = senderData?.userData?._id;
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [userData, setUserData] = useState(null);
@@ -14,10 +18,20 @@ const ChatComponent = () => {
   const location = useLocation();
   const messageReceiverId = location.state?.userId;
 
+  console.log('messageSenderId', messageSenderId);
+  console.log('messageReceiverId', messageReceiverId);
+  console.log('selectedUser', selectedUser);
+  console.log('messages', messages);
 
-  console.log('newMessage is', newMessage);
-  console.log('messages is', messages)
-  console.log('selectedUser is', selectedUser)
+  const chatInformation = messages.filter((message) => {
+    console.log('message inside filter is', message);
+    // if()
+    return (messageSenderId === messageSenderId || messageSenderId === messageReceiverId)
+    
+  });
+
+  console.log('chatInformation is', chatInformation);
+
 
   // Fetching messageReceiverId Data
   const fetchUserData = async (userId) => {
@@ -56,7 +70,8 @@ const ChatComponent = () => {
   const handleSendMessage = () => {
     if (newMessage.trim() !== '') {
       const newMessageObj = {
-        sender: 'user',
+        messageSenderId: messageSenderId,
+        messageReceiverId: messageReceiverId,
         text: newMessage,
       };
       setMessages([...messages, newMessageObj]);
@@ -136,21 +151,19 @@ const ChatComponent = () => {
           {selectedUser &&
             messages
               .filter(
-                (message) =>
-                  (message.sender === 'user') ||
-                  (message.sender === selectedUser)
+                (message) => (messageSenderId === messageSenderId || messageSenderId === messageReceiverId)
               )
               .map((message, index) => (
                 <div
                   key={index}
                   className={`flex justify-${message.sender === selectedUser ? 'start' : 'end'} mb-2 p-2`}
                 >
-                  {message.sender === 'user' && (
+                  {message.messageSenderId === `${messageSenderId}` && (
                     <div className={`chat-bubble rounded-lg p-2 w-[50%] bg-green-600 text-white`}>
                       <span>{message.text}</span>
                     </div>
                   )}
-                  {message.sender !== 'user' && (
+                  {message.messageSenderId !== `${messageSenderId}` && (
                     <div className={`rounded-lg p-2 w-[50%] bg-white text-gray-600`}>
                       <span>{message.text}</span>
                     </div>
