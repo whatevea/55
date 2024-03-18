@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 const ChatComponent = () => {
 
-  const senderData = useSelector((state) => state.User);    
+  const senderData = useSelector((state) => state.User);
   const messageSenderId = senderData?.userData?._id;
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
@@ -27,7 +27,7 @@ const ChatComponent = () => {
     console.log('message inside filter is', message);
     // if()
     return (messageSenderId === messageSenderId || messageSenderId === messageReceiverId)
-    
+
   });
 
   console.log('chatInformation is', chatInformation);
@@ -146,34 +146,35 @@ const ChatComponent = () => {
 
       {/* Chat Area */}
       <div className="flex-1 bg-green-50 p-4 flex flex-col">
-        <div className="overflow-y-auto  mb-4 p-4 flex-grow ">
+        <div className="overflow-y-auto  mb-4 p-4 flex-grow">
           {/* Render messages */}
           {selectedUser &&
             messages
               .filter(
-                (message) => (messageSenderId === messageSenderId || messageSenderId === messageReceiverId)
+                (message) => (message.messageSenderId === messageSenderId || message.messageSenderId === messageReceiverId)
               )
               .map((message, index) => (
                 <div
                   key={index}
-                  className={`flex justify-${message.sender === selectedUser ? 'start' : 'end'} mb-2 p-2`}
+                  className={`flex ${message.messageSenderId !== messageSenderId ? 'justify-start' : 'justify-end'} mb-2 p-2`}
                 >
                   {message.messageSenderId === `${messageSenderId}` && (
-                    <div className={`chat-bubble rounded-lg p-2 w-[50%] bg-green-600 text-white`}>
+                    <div className={`rounded-lg p-2 w-[50%] bg-green-600 text-white font-semibold`}>
                       <span>{message.text}</span>
                     </div>
                   )}
                   {message.messageSenderId !== `${messageSenderId}` && (
-                    <div className={`rounded-lg p-2 w-[50%] bg-white text-gray-600`}>
+                    <div className={`rounded-lg p-2 w-[50%] bg-white text-gray-600 font-semibold`}>
                       <span>{message.text}</span>
                     </div>
                   )}
                 </div>
               ))}
-          <div ref={messagesEndRef} />
+          <div ref={messagesEndRef} >        
+          </div>
         </div>
 
-        {/* Input Area */}
+        {/* Input Area Start */}
         <div className="flex items-center">
           <input
             type="text"
@@ -190,6 +191,7 @@ const ChatComponent = () => {
             Send
           </button>
         </div>
+        {/* Input Area End */}
       </div>
     </div>
   );
