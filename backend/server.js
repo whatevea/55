@@ -22,15 +22,15 @@ connectDB(); // Establish database connection
 const app = express(); // Initialize express app
 const server = http.createServer(app); // Create HTTP server
 
-const io = new Server(server); // Create Socket.IO instance
+const io = new Server(server,{
+    cors: {
+        origin: "http://localhost:3000"
+      }
+}); // Create Socket.IO instance
 
-const corsOptions = {
-    origin: 'http://localhost:3000', // Update this with your frontend origin
-    optionsSuccessStatus: 200 // Some legacy browsers choke on 204
-  };
 
 // Middleware
-app.use(cors(corsOptions)); // Enable CORS
+app.use(cors()); // Enable CORS
 app.use(express.json()); // Support JSON-encoded bodies
 app.use(express.urlencoded({ extended: false })); // Support URL-encoded bodies
 
@@ -87,16 +87,6 @@ app.post('/upload', upload.single('file'), (req, res) => {
 // Error handling middleware
 app.use(errorHandler);
 
-
-// Add a separate CORS middleware for Socket.IO requests
-io.use((socket, next) => {
-    const origin = socket.handshake.headers.origin;
-    if (origin === 'http://localhost:3000' || !origin) {
-        return next();
-    }
-    return next(new Error('Not allowed by CORS'));
-});
-
 io.on('connection', (socket) => {
 
     console.log('A user connected');
@@ -106,7 +96,7 @@ io.on('connection', (socket) => {
     socket.on('sendMessage', (message) => {
         console.log('Received message from client:', message);
         // Broadcast the message to all connected clients
-        io.emit('message', message);
+        // io.emit('message', message);
     });
 
     // Handle disconnections
