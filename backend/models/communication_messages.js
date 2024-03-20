@@ -1,15 +1,16 @@
 import mongoose from 'mongoose';
+const { Schema } = mongoose;
 
-const messageSchema = new mongoose.Schema({
+const messageSchema = new Schema({
 
     sender_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: User,
+        type: Schema.Types.ObjectId,
+        ref: 'User',
         required: true,
     },
     receiver_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: User,
+        type: Schema.Types.ObjectId,
+        ref: 'User',
         required: true,
     },
     content: {

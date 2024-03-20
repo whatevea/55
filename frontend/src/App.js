@@ -50,6 +50,8 @@ function App() {
                     <Route path="apply/:id" element={<ApplyForJob />} />
                     <Route path="myjobs" element={<MyJobs />} />
                     <Route path="freelancer-profile" element={<Profile />} />
+                    <Route path="message" element={<MessageContainer />} />
+
                 </Route>
 
                 <Route path="/hirer" element={<HireLayout />}>

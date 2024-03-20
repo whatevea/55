@@ -62,9 +62,13 @@ const getUserData = asyncHandler(async (req, res) => {
     
     const user_id = req.params.userId;  // Use req.params to get URL parameters
     const user = await User.findById(user_id);
+
+    // Exclude the password property from the user object
+    const { password, ...userData } = user.toObject();
+
     res.status(200).json({
         success: true,
-        data: user,
+        data: userData
     });
 })
 

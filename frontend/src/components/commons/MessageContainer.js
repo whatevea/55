@@ -16,52 +16,51 @@ const ChatComponent = () => {
   const [socket, setSocket] = useState(null);
   const messagesEndRef = useRef(null);
   const location = useLocation();
+  const [retrievedChatData, setRetrievedChatData] = useState(null);
   const messageReceiverId = location.state?.userId;
+  const currentLoggedInUser = messageSenderId
+  const [messageSenderUser, setMessageSenderUser] = useState(null);
 
+  console.log('location is', location);
+
+  console.log('currentLoggedInUser', currentLoggedInUser);
   console.log('messageSenderId', messageSenderId);
   console.log('messageReceiverId', messageReceiverId);
   console.log('selectedUser', selectedUser);
   console.log('messages', messages);
-
-  const chatInformation = messages.filter((message) => {
-    console.log('message inside filter is', message);
-    // if()
-    return (messageSenderId === messageSenderId || messageSenderId === messageReceiverId)
-
-  });
-
-  console.log('chatInformation is', chatInformation);
+  console.log('mychats is', myChats);
+  console.log('retrievedChatData is', retrievedChatData);
 
 
-  // Fetching messageReceiverId Data
-  const fetchUserData = async (userId) => {
-    try {
-      const response = await http.get(`/auth/getUserData/${userId}`);
-      const userData = response.data.data; // Adjust this based on your server response structure
-      setUserData((prevData) => ({
-        ...prevData,
-        [userId]: userData,
-      }));
-    } catch (error) {
-      console.error(`Failed to fetch user data for ${userId}:`, error);
-    }
-  };
-
+  // Fetch chat data and user data
   useEffect(() => {
-    if (messageReceiverId) {
-      setSelectedUser(messageReceiverId);
-    }
-  }, [messageReceiverId]);
+    const fetchData = async () => {
+      try {
+        const [chatResponse, userResponse] = await Promise.all([
+          http.get(`/chats/fetchChats/${currentLoggedInUser}`),
+          http.get(`/auth/getUserData/${messageReceiverId}`)
+        ]);
 
-  useEffect(() => {
-    fetchUserData(messageReceiverId);
-  }, [messageReceiverId]);
+        const chatData = chatResponse.data;
+        const userData = userResponse.data.data;
 
-  useEffect(() => {
-    if (userData) {
-      setMyChats([userData]); // Add userData to myChats array
-    }
-  }, [userData]);
+        console.log('userData is inside try', userData);
+
+        setRetrievedChatData(chatData);
+        setUserData(userData);
+        setSelectedUser(messageReceiverId);
+        if (userData) {
+          setMyChats([userData]);
+        }
+
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [currentLoggedInUser, messageReceiverId]);
+
 
   const handleMessageChange = (e) => {
     setNewMessage(e.target.value);
@@ -100,6 +99,9 @@ const ChatComponent = () => {
   useEffect(() => {
     const newSocket = io('http://localhost:5000'); // Create new socket
 
+    // Join a room with the current user's ID
+    newSocket.emit('join', messageSenderId);
+
     // Listen for incoming messages from the server
     newSocket.on('message', (message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
@@ -117,28 +119,28 @@ const ChatComponent = () => {
       {/* Left Sidebar */}
       <div className="bg-green-100 w-52 py-4 px-2">
         <h2 className='my-2 flex justify-center text-xl font-semibold'>My Chats</h2>
-        {myChats.map((chat, index) => (
+        {myChats?.map((chat, index) => (
           <div
             key={index}
-            className={`flex items-center mb-4 rounded-md p-2 cursor-pointer ${chat[messageReceiverId]?._id === selectedUser
+            className={`flex items-center mb-4 rounded-md p-2 cursor-pointer ${chat?._id === selectedUser
               ? 'bg-green-600 text-white'
               : 'hover:bg-green-600 hover:text-white'
               }`}
-            onClick={() => handleUserClick(chat[messageReceiverId]?._id)}
+            onClick={() => handleUserClick(chat?._id)}
           >
             <div
-              className={`text-xl mr-2 ${chat[messageReceiverId]?.userId === selectedUser
+              className={`text-xl mr-2 ${chat?._id === selectedUser
                 ? 'bg-green-600 text-white'
                 : 'hover:bg-green-600 hover:text-white'
                 }`}
             >
-              {chat[messageReceiverId]?.fname[0]?.toUpperCase()}
+              {chat?.fname[0]?.toUpperCase()}
             </div>
             <span className="font-bold">
-              {chat[messageReceiverId]?.fname.charAt(0).toUpperCase() +
-                chat[messageReceiverId]?.fname.slice(1)}{' '}
-              {chat[messageReceiverId]?.lname.charAt(0).toUpperCase() +
-                chat[messageReceiverId]?.lname.slice(1)}
+              {chat?.fname.charAt(0).toUpperCase() +
+                chat?.fname.slice(1)}{' '}
+              {chat?.lname.charAt(0).toUpperCase() +
+                chat?.lname.slice(1)}
             </span>
           </div>
         ))}
@@ -150,7 +152,7 @@ const ChatComponent = () => {
           {/* Render messages */}
           {selectedUser &&
             messages
-              .filter(
+              ?.filter(
                 (message) => (message.messageSenderId === messageSenderId || message.messageSenderId === messageReceiverId)
               )
               .map((message, index) => (
@@ -170,7 +172,7 @@ const ChatComponent = () => {
                   )}
                 </div>
               ))}
-          <div ref={messagesEndRef} >        
+          <div ref={messagesEndRef} >
           </div>
         </div>
 
