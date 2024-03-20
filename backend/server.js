@@ -4,6 +4,7 @@ import cors from 'cors';
 import multer from 'multer';
 import path from 'path';
 import http from 'http'; // Import the HTTP module
+import Communication_Messages from './models/communication_messages.js';
 import { Server } from 'socket.io'; // Import Socket.IO
 
 // Routes imports
@@ -22,10 +23,10 @@ connectDB(); // Establish database connection
 const app = express(); // Initialize express app
 const server = http.createServer(app); // Create HTTP server
 
-const io = new Server(server,{
+const io = new Server(server, {
     cors: {
         origin: "http://localhost:3000"
-      }
+    }
 }); // Create Socket.IO instance
 
 
@@ -92,11 +93,36 @@ io.on('connection', (socket) => {
     console.log('A user connected');
     // Handle messaging logic here
 
+    // Join a room when a user connects
+    socket.on('join', (userId) => {
+        socket.join(userId);
+    });
+
     // Handle incoming messages
-    socket.on('sendMessage', (message) => {
+    socket.on('sendMessage', async (message) => {
         console.log('Received message from client:', message);
-        // Broadcast the message to all connected clients
-        // io.emit('message', message);
+
+        // Check if the message content is not blank
+        if (!message.text.trim()) {
+            console.log('Message content is blank');
+            return; // Exit early if the message content is blank
+        }
+
+        // Save the message to the database
+        try {
+            const newMessage = new Communication_Messages({
+                sender_id: message.messageSenderId,
+                receiver_id: message.messageReceiverId,
+                content: message.text
+            });
+            await newMessage.save();
+            console.log('Message saved to database:', newMessage);
+        } catch (error) {
+            console.error('Error saving message to database:', error);
+        }
+        console.log('we are here inside the socket.on');
+        // Emit the message to the receiver
+        io.to(message.messageReceiverId).emit('message', message);
     });
 
     // Handle disconnections

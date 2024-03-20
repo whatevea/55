@@ -43,6 +43,10 @@ const DropdownButton = ({ userLoggingOut }) => {
                 navigate('/hirer/dashboard');
                 setIsOpen(false);
                 break;
+            case 'Messages':
+                navigate(data.userData.user_type === 'freelancer' ? '/freelancer/message' : '/hirer/message');
+                setIsOpen(false);
+                break;
             default:
                 break;
         }
@@ -52,12 +56,14 @@ const DropdownButton = ({ userLoggingOut }) => {
         { label: 'Profile', action: 'Profile' },
         { label: 'Search Jobs', action: 'Search Jobs' },
         { label: 'My Applied Jobs', action: 'My Applied Jobs' },
+        { label: 'Messages', action: 'Messages' },
     ];
 
     const hireOptions = [
         { label: 'Profile', action: 'Profile' },
         { label: 'Post Jobs', action: 'Post Jobs' },
         { label: 'My Posted Jobs', action: 'My Posted Jobs' },
+        { label: 'Messages', action: 'Messages' },
     ];
 
     const options = data.userData.user_type === 'freelancer' ? freelancerOptions : hireOptions;
@@ -74,7 +80,7 @@ const DropdownButton = ({ userLoggingOut }) => {
                 <div className="hidden md:block origin-top-right absolute right-0 mt-4 w-[250px] shadow-lg rounded-b-lg bg-green-50 ring-1 ring-black ring-opacity-5">
                     <div className="flex flex-col">
                         <div className='relative flex flex-col items-center gap-2 p-2'>
-                            <img src={face} alt='user-image' className='w-[80px] h-[80px] rounded-full mt-1 '/>
+                            <img src={face} alt='user-image' className='w-[80px] h-[80px] rounded-full mt-1 ' />
                             <p className='text-sm'>{firstName.toUpperCase()} {data.userData.lname.toUpperCase()}</p>
                         </div>
                         {options.map((opt) => (

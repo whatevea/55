@@ -2,17 +2,16 @@ import React, { useEffect, useState } from 'react';
 import http from "../../config/http";
 import { useNavigate, useParams } from 'react-router-dom';
 import Accordion from './AccordionComp';
+import { useSelector } from 'react-redux';
 
 export default function ApplicationsOfJob() {
+
+    const jobProviderDetails = useSelector((state) => state.User.userData);
     const { job_id } = useParams();
-
     const navigate = useNavigate()
-
-
     const [jobData, setData] = useState(null);
     const [applierData, setApplierData] = useState(null)
     const [userData, setUserData] = useState([]);
-    
 
     const fetchUserData = async (userId) => {
         try {
@@ -77,7 +76,12 @@ export default function ApplicationsOfJob() {
     };
 
     const message = (userId) => {
-        navigate('/hirer/message', { state: { userId } })
+        navigate('/hirer/message', { 
+            state: { 
+                userId,
+                jobProviderDetails,
+                userData: userData[userId]
+            }})
       };
       
     return (
