@@ -92,12 +92,8 @@ export default function ApplicationsOfJob() {
                 start_date: new Date(),
             };
 
-
             // Make a POST request to the '/chats/conversationRoom' endpoint
             const response = await http.post('/contract/psuedoContract', requestData);
-
-            // Handle successful response
-            console.log('response.data.conversation._id', response?.data?.conversation?._id);
 
             // Navigate to the message page with the provided state
             navigate('/hirer/message', {
@@ -105,7 +101,6 @@ export default function ApplicationsOfJob() {
                     userId,
                     jobProviderDetails,
                     userData: userData[userId],
-                    conversation_id: response?.data?.conversation?._id
 
                 }
             });
