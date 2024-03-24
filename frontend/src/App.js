@@ -50,7 +50,7 @@ function App() {
                     <Route path="apply/:id" element={<ApplyForJob />} />
                     <Route path="myjobs" element={<MyJobs />} />
                     <Route path="freelancer-profile" element={<Profile />} />
-                    <Route path="message" element={<MessageContainer />} />
+                    <Route path="message" element={<MessageContainer user_type={"freelancer"} />} />
 
                 </Route>
 
@@ -61,7 +61,7 @@ function App() {
                     <Route path="seeappliers/:job_id" element={<ApplicationsofJob />} />
                     <Route path="hirer-profile" element={<Profile />} />
                     <Route path="searchfortalent" element={<SearchForTalent />} />
-                    <Route path="message" element={<MessageContainer />} />
+                    <Route path="message" element={<MessageContainer user_type={"hirer"} />} />
                 </Route>
                 <Route path="/upload" element={<Fileupload />} />
 

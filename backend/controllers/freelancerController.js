@@ -5,7 +5,7 @@ import Job from '../models/job.js';
 
 export const apply_job = asyncHandler(async (req, res) => {
 
-    console.log('req.body is', req.body);
+    
 
     const { job, user_id, cover_letter, offered_amount, attachment_urls } = req.body;
 
@@ -26,7 +26,7 @@ export const getSelfAppliedJobs = asyncHandler(async (req, res) => {
         const appliedVacancies = await Applied_Vacancy.find({ applier: userId })
             .populate('job')
             .exec();
-        console.log(appliedVacancies)
+        
 
         if (!appliedVacancies || appliedVacancies.length === 0) {
             return res.status(404).json({ message: 'No applied vacancies found for the user' });

@@ -6,6 +6,10 @@ const schema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
     },
+    hirer: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
     job: {
         type: Schema.Types.ObjectId,
         ref: 'Job',
@@ -14,8 +18,13 @@ const schema = new Schema({
         type: Date,
     },
     status: {
+        default: 'Not Started',
         type: String,
     }
-})
+},
+    {
+        timestamps: true
+    }
+)
 const Contract = mongoose.model('Contract', schema);
 export default Contract;
