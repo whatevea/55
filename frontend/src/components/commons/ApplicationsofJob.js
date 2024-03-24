@@ -13,6 +13,12 @@ export default function ApplicationsOfJob() {
     const [applierData, setApplierData] = useState(null)
     const [userData, setUserData] = useState([]);
 
+    console.log('userData is', userData);
+    console.log('jobProviderDetails is', jobProviderDetails._id);
+    console.log('job_id is', job_id);
+
+
+
     const fetchUserData = async (userId) => {
         try {
             const response = await http.get(`/auth/getUserData/${userId}`);
@@ -75,15 +81,41 @@ export default function ApplicationsOfJob() {
         fetchFile();
     };
 
-    const message = (userId) => {
-        navigate('/hirer/message', { 
-            state: { 
-                userId,
-                jobProviderDetails,
-                userData: userData[userId]
-            }})
-      };
-      
+    const message = async (userId) => {
+        try {
+            console.log('userId is', userId)
+            // Data to be sent in the POST request body
+            const requestData = {
+                employee: userId,
+                hirer: jobProviderDetails._id,
+                job: job_id,
+                start_date: new Date(),
+            };
+
+
+            // Make a POST request to the '/chats/conversationRoom' endpoint
+            const response = await http.post('/contract/psuedoContract', requestData);
+
+            // Handle successful response
+            console.log('response.data.conversation._id', response?.data?.conversation?._id);
+
+            // Navigate to the message page with the provided state
+            navigate('/hirer/message', {
+                state: {
+                    userId,
+                    jobProviderDetails,
+                    userData: userData[userId],
+                    conversation_id: response?.data?.conversation?._id
+
+                }
+            });
+        } catch (error) {
+            // Handle error
+            console.error('Error creating chat room:', error);
+        }
+    };
+
+
     return (
         <div className='w-[80%] mx-auto'>
             <div className="bg-green-50 shadow-md rounded-md overflow-hidden mt-4">
@@ -188,7 +220,7 @@ export default function ApplicationsOfJob() {
                                             <div className='mt-4'>
                                                 <button className='rounded-md text-white bg-green-600 hover:bg-green-500 px-3 py-1.5 text-base font-semibold' onClick={() => message(user?._id)}>Contact Applicant</button>
                                             </div>
-                                           
+
                                         </div>
                                     </div>
                                 </Accordion>

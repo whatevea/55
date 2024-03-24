@@ -6,12 +6,12 @@ import path from 'path';
 import http from 'http'; // Import the HTTP module
 import Communication_Messages from './models/communication_messages.js';
 import { Server } from 'socket.io'; // Import Socket.IO
-
 // Routes imports
 import authRoutes from './routes/authRoutes.js';
 import hireRoutes from "./routes/hireRoutes.js";
 import freelancerRoutes from "./routes/freelancerRoutes.js";
 import chatRoutes from './routes/chatRoutes.js'
+import contractRoutes from './routes/contractRoutes.js';
 
 // Middleware and DB connection imports
 import { errorHandler } from './middleware/errorMiddleware.js';
@@ -61,7 +61,7 @@ app.use('/auth', authRoutes); // Authentication routes
 app.use("/hire", hireRoutes); // Hiring-related routes
 app.use("/freelancer", freelancerRoutes);
 app.use('/chats', chatRoutes)
-
+app.use("/contract", contractRoutes);
 // Test route
 app.get('/test', (req, res) => {
     res.send('This is route 1');
@@ -89,47 +89,20 @@ app.post('/upload', upload.single('file'), (req, res) => {
 app.use(errorHandler);
 
 io.on('connection', (socket) => {
+    console.log('A user connected:', socket.id);
 
-    console.log('A user connected');
-    // Handle messaging logic here
+    socket.on('chatMessage', (obj) => {
+        io.to(obj.room).emit('message', obj);
+    })
 
-    // Join a room when a user connects
-    socket.on('join', (userId) => {
-        socket.join(userId);
-    });
+    socket.on("joinRoom",(contractId)=>{
+        socket.join(contractId)
+        console.log(`User with id ${socket.id} joined room ${contractId}`)
+    })
 
-    // Handle incoming messages
-    socket.on('sendMessage', async (message) => {
-        console.log('Received message from client:', message);
-
-        // Check if the message content is not blank
-        if (!message.text.trim()) {
-            console.log('Message content is blank');
-            return; // Exit early if the message content is blank
-        }
-
-        // Save the message to the database
-        try {
-            const newMessage = new Communication_Messages({
-                sender_id: message.messageSenderId,
-                receiver_id: message.messageReceiverId,
-                content: message.text
-            });
-            await newMessage.save();
-            console.log('Message saved to database:', newMessage);
-        } catch (error) {
-            console.error('Error saving message to database:', error);
-        }
-        console.log('we are here inside the socket.on');
-        // Emit the message to the receiver
-        io.to(message.messageReceiverId).emit('message', message);
-    });
-
-    // Handle disconnections
-    socket.on('disconnect', () => {
-        console.log('A user disconnected');
-    });
-
+    socket.on('disconnection', () => {
+        console.log('A user disconnected:', socket.id);
+    })  
 });
 
 // Start server
