@@ -19,17 +19,12 @@ const ChatComponent = ({user_type}) => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [selectedUser, setSelectedUser] = useState(jobApplierData?._id);
-  const [socket, setSocket] = useState(null);
   const messagesEndRef = useRef(null);
-  const [retrievedChatData, setRetrievedChatData] = useState(null);
   const currentLoggedInUser = messageSenderId
   const [contracts, setContracts] = useState(null);
   const [activeContract, setactiveContract] = useState(null)
 
   const hirerId = jobProviderData?._id;
-
-console.log('contracts is', contracts);
-
 
   const loggedInUserId = senderData.userData._id
 
@@ -38,10 +33,6 @@ console.log('contracts is', contracts);
 
   jobProviderArray.push(jobProviderData)
   jobApplierArray.push(jobApplierData)
-
-  const conversationsData = retrievedChatData?.map((chat) => {
-    console.log('chat is', chat);
-  })
 
   useEffect(() => {
     const fetchContract = async () => {
@@ -60,53 +51,6 @@ console.log('contracts is', contracts);
 
     fetchContract();
   }, []);
-
-
-
-  // Fetch chat data and user data
-  useEffect(() => {
-    const fetchChatData = async () => {
-      try {
-        console.log('we are inside try');
-        const [chatResponse] = await Promise.all([
-          http.get(`/chats/fetchChats/${currentLoggedInUser}`),
-        ])
-
-        const chatData = chatResponse?.data;
-        console.log('chatData is', chatData);
-        setRetrievedChatData(chatData);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchChatData();
-  }, [currentLoggedInUser, jobApplierData?._id]);
-
-  const handleMessageChange = (e) => {
-    setNewMessage(e.target.value);
-  };
-
-  const handleSendMessage = () => {
-    if (newMessage.trim() !== '') {
-      const newMessageObj = {
-        messageSenderData: jobProviderData,
-        messageReceiverData: jobApplierData,
-        text: newMessage,
-      };
-      setMessages([...messages, newMessageObj]);
-      setNewMessage('');
-
-      // Emit the new message to the private room
-      socket.emit('chatMessage', newMessageObj);
-    }
-  };
-
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleSendMessage();
-    }
-  };
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });

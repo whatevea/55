@@ -1,25 +1,38 @@
 import Contract from '../models/contract.js';
 
 export const createContract = async (req, res) => {
-    try {
-        const { employee, hirer, job, start_date } = req.body;
+  try {
+    const { employee, hirer, job, start_date } = req.body;
 
-        const contract = new Contract({
-            employee,
-            hirer,
-            job,
-            start_date,
-            status: 'Not Started'
-        });
+    console.log('employee is', employee);
+    console.log('hirer is', hirer);
 
-        await contract.save();
+    // Check if a contract already exists with the given employee and hirer
+    const existingContract = await Contract.findOne({ employee, hirer });
 
-        res.status(201).json(contract);
+    console.log('existing contract', existingContract);
 
-    } catch (error) {
-        res.status(409).json({ message: error.message });
+    if (existingContract) {
+      return res.status(200).json({ message: 'Contract already exists' });
     }
+
+    const contract = new Contract({
+      employee,
+      hirer,
+      job,
+      start_date,
+      status: 'Not Started'
+    });
+
+    await contract.save();
+
+    res.status(201).json(contract);
+
+  } catch (error) {
+    res.status(409).json({ message: error.message });
+  }
 }
+
 
 export const getContracts = async (req, res) => {
     try {
