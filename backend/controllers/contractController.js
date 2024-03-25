@@ -35,25 +35,25 @@ export const createContract = async (req, res) => {
 
 
 export const getContracts = async (req, res) => {
-    try {
-        const contracts = await Contract.find().populate('employee').populate('hirer').populate('job');
+  try {
+    const contracts = await Contract.find().populate('employee').populate('hirer').populate('job');
 
-        res.status(200).json(contracts);
+    res.status(200).json(contracts);
 
-    } catch (error) {
-        res.status(404).json({ message: error.message });
-    }
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
 }
 
 //get contract by freelancer's user_id 
 export const getContractByFreelancer = async (req, res) => {
-    try {
+  try {
     const { freelancerId } = req.params;
 
-    const contract = await Contract.find({employee: freelancerId}).populate('employee').populate('hirer').populate('job');
+    const contract = await Contract.find({ employee: freelancerId }).populate('employee').populate('hirer').populate('job');
 
-    if(!contract) {
-      return res.status(404).json({message: "Contract not found"});
+    if (!contract) {
+      return res.status(404).json({ message: "Contract not found" });
     }
 
     res.status(200).json(contract);
@@ -62,16 +62,41 @@ export const getContractByFreelancer = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 }
- 
+
 //get contract by hirer's user id
 export const getContractByHirer = async (req, res) => {
-    try {
+  try {
     const { hirerId } = req.params;
 
-    const contract = await Contract.find({hirer: hirerId}).populate('employee').populate('hirer').populate('job');
+    const contract = await Contract.find({ hirer: hirerId }).populate('employee').populate('hirer').populate('job');
 
-    if(!contract) {
-      return res.status(404).json({message: "Contract not found"});
+    if (!contract) {
+      return res.status(404).json({ message: "Contract not found" });
+    }
+
+    res.status(200).json(contract);
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
+// fetch contract based the contract_id
+export const getContractById = async (req, res) => {
+  console.log('in the function getContractById');
+  try {
+    const { contractId } = req.params;
+
+    // Added logging to check contractId value
+    console.log('in the function getContractById contractId is', contractId);
+
+    // Changed findById to findOne to handle invalid ObjectId
+    const contract = await Contract.find({ _id: contractId }).populate('employee').populate('hirer').populate('job');
+
+    console.log('contract is', contract);
+
+    if (!contract) {
+      return res.status(404).json({ message: "Contract not found" });
     }
 
     res.status(200).json(contract);

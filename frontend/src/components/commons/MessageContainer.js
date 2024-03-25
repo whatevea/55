@@ -7,8 +7,6 @@ import ChatArea from './ChatArea';
 
 const ChatComponent = ({user_type}) => {
 
-  console.log('user_type is', user_type);
-
   const location = useLocation();
   const jobProviderData = location.state?.jobProviderDetails
   const jobApplierData = location.state?.userData
@@ -23,26 +21,18 @@ const ChatComponent = ({user_type}) => {
   const currentLoggedInUser = messageSenderId
   const [contracts, setContracts] = useState(null);
   const [activeContract, setactiveContract] = useState(null)
-
   const hirerId = jobProviderData?._id;
-
   const loggedInUserId = senderData.userData._id
 
-  const jobApplierArray = []
-  const jobProviderArray = []
-
-  jobProviderArray.push(jobProviderData)
-  jobApplierArray.push(jobApplierData)
+  console.log('contracts is', contracts);
+  
 
   useEffect(() => {
     const fetchContract = async () => {
-
-
       try {
         const url = user_type === 'hirer' ? `/contract/hirer/${loggedInUserId}` : `/contract/freelancer/${loggedInUserId}`
         const response = await http.get(url);
-        const contract = response.data;
-        console.log('contract Value is', contract);
+        const contract = response.data;        
         setContracts(contract);
       } catch (error) {
         console.error(error);
@@ -62,7 +52,7 @@ const ChatComponent = ({user_type}) => {
   }
 
   return (
-    <div className="flex h-[600px] p-7 rounded-xl">
+    <div className="flex h-[600px] p-7 rounded-xl border border-blue-500 m-4">
       {/* Left Sidebar */}
       <div className="bg-green-100 w-52 py-4 px-2">
         <h2 className='my-2 flex justify-center text-xl font-semibold'>My Chats</h2>
