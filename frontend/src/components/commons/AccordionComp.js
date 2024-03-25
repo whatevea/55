@@ -13,7 +13,7 @@ const Accordion = memo(({ children, indexCount, firstName, lastName }) => {
         <span className="text-white text-lg font-bold">Applicant Name: {firstName?.toUpperCase()} {lastName?.toUpperCase()} </span>
         <span className="text-white text-xl font-bold">
           {
-            isOpen ? <i class="fa-solid fa-minus"></i> : <i className="text-lg fa-solid fa-plus"></i>
+            isOpen ? <i className="fa-solid fa-minus"></i> : <i className="text-lg fa-solid fa-plus"></i>
           }
 
         </span>

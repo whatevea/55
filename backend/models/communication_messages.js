@@ -2,15 +2,23 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const messageSchema = new Schema({
-    senderData: {
-        type: Schema.Types.Mixed,
+    senderId: {
+        type: Schema.Types.ObjectId,
+        ref:'User',
         required: true,
     },
-    receiverData: {
-        type: Schema.Types.Mixed,
+    receiverId: {
+        type: Schema.Types.ObjectId,
+        ref:'User',
         required: true,
     },
-    content: {
+    roomId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Contract',
+        required: true
+    },
+
+    message: {
         type: String,
         required: true,
     }

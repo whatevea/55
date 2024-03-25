@@ -4,8 +4,9 @@ import cors from 'cors';
 import multer from 'multer';
 import path from 'path';
 import http from 'http'; // Import the HTTP module
-import Communication_Messages from './models/communication_messages.js';
+import ChatMessages from './models/communication_messages.js';
 import { Server } from 'socket.io'; // Import Socket.IO
+
 // Routes imports
 import authRoutes from './routes/authRoutes.js';
 import hireRoutes from "./routes/hireRoutes.js";
@@ -34,8 +35,6 @@ const io = new Server(server, {
 app.use(cors()); // Enable CORS
 app.use(express.json()); // Support JSON-encoded bodies
 app.use(express.urlencoded({ extended: false })); // Support URL-encoded bodies
-
-
 
 // Serve the uploads folder statically
 const uploadsDir = path.resolve('uploads');
@@ -91,18 +90,39 @@ app.use(errorHandler);
 io.on('connection', (socket) => {
     console.log('A user connected:', socket.id);
 
-    socket.on('chatMessage', (obj) => {
-        io.to(obj.room).emit('message', obj);
+    socket.on('chatMessage', async (obj) => {
+        console.log('obj is', obj);
+        try {
+
+
+
+            // Save the chat message to the database
+            const newChatMessage = new ChatMessages({
+                message: obj.message,
+                senderId: obj.senderId,
+                receiverId: obj.receiverId,
+                roomId: obj.roomId,                
+            });
+            await newChatMessage.save();
+
+            // Emit the chat message to the private room
+            socket.to(obj.roomId).emit('message-received', obj.message);
+        } catch (error) {
+            console.error('Error saving chat message:', error);
+        }
     })
 
-    socket.on("joinRoom",(contractId)=>{
+    socket.on("joinRoom", (contractId) => {
+        console.log('contractId is', contractId);
         socket.join(contractId)
         console.log(`User with id ${socket.id} joined room ${contractId}`)
+        socket.to(contractId).emit('userJoined', { userId: socket.id })
     })
+
 
     socket.on('disconnection', () => {
         console.log('A user disconnected:', socket.id);
-    })  
+    })
 });
 
 // Start server
