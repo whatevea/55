@@ -91,9 +91,7 @@ export const getContractById = async (req, res) => {
     console.log('in the function getContractById contractId is', contractId);
 
     // Changed findById to findOne to handle invalid ObjectId
-    const contract = await Contract.find({ _id: contractId }).populate('employee').populate('hirer').populate('job');
-
-    console.log('contract is', contract);
+    const contract = await Contract.find({ _id: contractId }).populate('employee').populate('hirer').populate('job');    
 
     if (!contract) {
       return res.status(404).json({ message: "Contract not found" });
