@@ -90,11 +90,16 @@ app.use(errorHandler);
 io.on('connection', (socket) => {
     console.log('A user connected:', socket.id);
 
+    socket.on("joinRoom", (contractId) => {
+        console.log('contractId is', contractId);
+        socket.join(contractId)
+        console.log(`User with id ${socket.id} joined room ${contractId}`)
+        socket.to(contractId).emit('userJoined', { userId: socket.id })
+    })
+
     socket.on('chatMessage', async (obj) => {
         console.log('obj is', obj);
         try {
-
-
 
             // Save the chat message to the database
             const newChatMessage = new ChatMessages({
@@ -106,17 +111,10 @@ io.on('connection', (socket) => {
             await newChatMessage.save();
 
             // Emit the chat message to the private room
-            socket.to(obj.roomId).emit('message-received', obj.message);
+            socket.to(obj.roomId).emit('message-received', obj);
         } catch (error) {
             console.error('Error saving chat message:', error);
         }
-    })
-
-    socket.on("joinRoom", (contractId) => {
-        console.log('contractId is', contractId);
-        socket.join(contractId)
-        console.log(`User with id ${socket.id} joined room ${contractId}`)
-        socket.to(contractId).emit('userJoined', { userId: socket.id })
     })
 
 

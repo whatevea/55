@@ -22,11 +22,8 @@ const ChatComponent = ({user_type}) => {
   const [contracts, setContracts] = useState(null);
   const [activeContract, setactiveContract] = useState(null)
   const hirerId = jobProviderData?._id;
-  const loggedInUserId = senderData.userData._id
-
-  console.log('contracts is', contracts);
+  const loggedInUserId = senderData.userData._id 
   
-
   useEffect(() => {
     const fetchContract = async () => {
       try {
@@ -52,7 +49,7 @@ const ChatComponent = ({user_type}) => {
   }
 
   return (
-    <div className="flex h-[600px] p-7 rounded-xl border border-blue-500 m-4">
+    <div className="flex h-[600px] p-7 rounded-xl m-4">
       {/* Left Sidebar */}
       <div className="bg-green-100 w-52 py-4 px-2">
         <h2 className='my-2 flex justify-center text-xl font-semibold'>My Chats</h2>

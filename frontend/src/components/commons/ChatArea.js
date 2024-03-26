@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
 import io from 'socket.io-client';
 import http from '../../config/http';
+import { toastConfig } from '../../config/toastConfig';
+import { toast } from 'react-toastify';
 
 
 const ChatArea = ({ contractId }) => {
@@ -11,9 +13,10 @@ const ChatArea = ({ contractId }) => {
     const [messages, setMessages] = useState([]);
     const [receiverUser, setReceiverUser] = useState('')
     const userData = useSelector((state) => state.User);
-    const loggedInUserId = userData?.userData?._id;    
+    const loggedInUserId = userData?.userData?._id;
+    const messagesContainerRef = useRef(null);
 
-    console.log('receiverUser is', receiverUser);
+    console.log('messages is', messages);
 
     useEffect(() => {
         if (contractId) {
@@ -56,6 +59,7 @@ const ChatArea = ({ contractId }) => {
 
         newSocket.on("message-received", (message) => {
             console.log('message is', message)
+            setMessages((prevMessages) => [...prevMessages, message]);
         });
 
         setSocket(newSocket);
@@ -64,6 +68,11 @@ const ChatArea = ({ contractId }) => {
     }, [contractId]);
 
     const handleSendMessage = () => {
+        if (!contractId) {
+            toast.error('No User Found. Please select a user to chat.', toastConfig);
+            return;
+        }
+
         if (inputText) {
 
             const newMessageData = {
@@ -73,18 +82,12 @@ const ChatArea = ({ contractId }) => {
                 roomId: contractId,
 
             }
-            // socket.emit("chatMessage", {
-            //     message: inputText,
-            //     roomId: contractId,
-            // });
             setMessages([...messages, newMessageData]);
-            socket.emit( "chatMessage", newMessageData );
+            socket.emit("chatMessage", newMessageData);
             setInputText("");
         }
-
-
-
     };
+
 
     const handleKeyDown = (event) => {
         if (event.key === "Enter") {
@@ -92,24 +95,34 @@ const ChatArea = ({ contractId }) => {
         }
     };
 
+    useEffect(() => {
+        // Scroll to the bottom of the message area when a new message is sent or received
+        const scrollToBottom = () => {
+            messagesContainerRef.current?.scrollTo(0, messagesContainerRef.current.scrollHeight);
+        };
 
+        // Call the scrollToBottom function after a short delay to ensure the DOM updates
+        setTimeout(scrollToBottom, 100);
+    }, [messages]);
 
     return (
         <>
             {/* hello the contract id id {contractId} */}
-            <div className="flex-1 bg-green-50 p-4 flex flex-col height-[full] border border-red-500">
+            <div className="flex-1 bg-green-50 p-4 flex flex-col height-[full]">
 
                 {/* Messages Area Start */}
                 {/* Map through messages array and display messages */}
-                <div className="flex-grow overflow-auto">
+                <div className="flex-grow overflow-auto relative ref={messagesContainerRef}">
                     {/* Render messages */}
-                    {messages.map((msg, index) => (
-                        <div key={index} className={`flex ${msg.senderId === loggedInUserId ? "justify-end" : "justify-start"}`}>
-                            <div className={`${msg.sender === loggedInUserId ? "bg-green-600 ml-auto" : "bg-gray-300"} text-white p-2 rounded-lg max-w-[70%] my-1`}>
-                                {msg.message}
+                    <div className="flex flex-col justify-end h-full">
+                        {messages.map((msg, index) => (
+                            <div key={index} className={`flex ${msg.senderId === loggedInUserId ? "justify-end" : "justify-start"} m-4`}>
+                                <div className={`${msg.senderId === loggedInUserId ? "bg-green-600 ml-auto" : "bg-gray-500"} text-white p-2 rounded-lg max-w-[70%] my-1`}>
+                                    {msg.message}
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
                 {/* Messages Area End */}
 
