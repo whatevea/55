@@ -602,6 +602,9 @@ const Profile = () => {
                 userSkills={userSkills}
                 errors={errors}
               />
+              {errors.skills && (
+                <p className="text-red-500 text-sm mt-1">{errors.skills}</p>
+              )}
             </div>
             <div className="mb-4 flex justify-start">
               <button
