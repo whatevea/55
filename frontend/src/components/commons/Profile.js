@@ -11,6 +11,8 @@ const Profile = () => {
   const [loading, setLoading] = useState(false);
   const [newUserState, setNewUserState] = useState(null);
   const navigate = useNavigate();
+  const [showPasswordFields, setShowPasswordFields] = useState(false);
+  const [userSkills, setUserSkills] = useState(null);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -91,7 +93,7 @@ const Profile = () => {
         } else {
           navigate("/hirer/hirer-profile");
         }
-      }, 2000);
+      }, 1000);
 
       // Optionally, you can redirect the user or show a success message
     } catch (error) {
@@ -103,12 +105,17 @@ const Profile = () => {
       // setLoading(false);
     }
   };
-  console.log("newUserState is", newUserState);
 
   const updateSkills = (skills) => {
     console.log("skills is", skills);
     setFormData({ ...formData, skills });
   };
+
+  const togglePasswordFields = () => {
+    setShowPasswordFields(!showPasswordFields);
+  };
+
+  console.log("formData is", formData);
 
   return (
     <div>
@@ -124,7 +131,7 @@ const Profile = () => {
           />
         </div>
       ) : (
-        <div className="bg-white p-8 rounded-md shadow-md w-2/4 mx-auto mt-8">
+        <div className="bg-white p-8 rounded-md shadow-md w-2/4 mx-auto mt-8 mb-8">
           <h1 className="text-2xl font-semibold mb-6 text-center">
             Update Profile
           </h1>
@@ -206,40 +213,56 @@ const Profile = () => {
               </label>
               <SkillsCreateTableComponent updateSkills={updateSkills} />
             </div>
-            <div className="mb-4">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-600"
+            <div className="mb-4 flex justify-start">
+              <button
+                type="button"
+                className="bg-green-600 hover:bg-green-500 text-white text-sm font-bold py-2 px-4 rounded"
+                onClick={togglePasswordFields}
               >
-                Old Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                className="mt-1 p-2 w-full border-2 rounded-md focus:outline-none focus:border-green-500 placeholder:text-gray-400"
-                required
-              />
+                {showPasswordFields
+                  ? "Hide Password Fields"
+                  : "Change Password"}
+              </button>
             </div>
-            <div className="mb-4">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-600"
-              >
-                New Password
-              </label>
-              <input
-                type="password"
-                id="newPassword"
-                name="newPassword"
-                value={formData.newPassword}
-                onChange={handleChange}
-                className="mt-1 p-2 w-full border-2 rounded-md focus:outline-none focus:border-green-500 placeholder:text-gray-400"
-                required
-              />
-            </div>
+
+            {showPasswordFields && (
+              <div className="mb-4">
+                <div className="mb-4">
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium text-gray-600"
+                  >
+                    Current Password
+                  </label>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    className="mt-1 p-2 w-full border-2 rounded-md focus:outline-none focus:border-green-500 placeholder:text-gray-400"
+                    required
+                  />
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="newPassword"
+                    className="block text-sm font-medium text-gray-600"
+                  >
+                    New Password
+                  </label>
+                  <input
+                    type="password"
+                    id="newPassword"
+                    name="newPassword"
+                    value={formData.newPassword}
+                    onChange={handleChange}
+                    className="mt-1 p-2 w-full border-2 rounded-md focus:outline-none focus:border-green-500 placeholder:text-gray-400"
+                    required
+                  />
+                </div>
+              </div>
+            )}
             {/* <div className="mb-4">
                 <label htmlFor="user_type" className="block text-sm font-medium text-gray-600">
                     User Type
