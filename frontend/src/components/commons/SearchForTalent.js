@@ -42,16 +42,18 @@ const SearchForTalent = () => {
                 {user.fname.toUpperCase()} {user.lname.toUpperCase()}
               </p>
             </div>
-            <div className="flex flex-col  justify-between bg-green-100 p-4 rounded-lg  md:w-[70%]">
+            <div className="flex flex-col bg-green-100 p-2 rounded-lg md:w-[70%]">
               <div className="text-gray-800 font-semibold">
                 <h1 className="text-base mt-2 mb-2">Users Bio:</h1>
-                <div className="">{user.bio}</div>
+                <div className="inset-x-0 px-4 py-2 text-sm font-semibold">
+                  {user.bio}
+                </div>
                 <h1 className="text-base mt-2">Users Skills:</h1>
-                <div className="flex flex-wrap items-center mt-2">
+                <div className="flex flex-wrap gap-1 md:flex-row inset-x-0 px-4 py-2 items-center mt-2">
                   {user.skills.map((skill, index) => (
                     <span
                       key={index}
-                      className="ml-2 p-1.5 rounded-lg flex items-center gap-2 text-sm font-semibold bg-gray-300"
+                      className="ml-2 px-3 py-1.5 rounded-lg flex items-center text-sm font-semibold bg-gray-300"
                     >
                       {skill.label}{" "}
                     </span>
