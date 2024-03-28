@@ -20,7 +20,6 @@ import Profile from "./components/commons/Profile";
 import SearchForTalent from "./components/commons/SearchForTalent";
 import Fileupload from "./components/commons/Fileupload";
 import MessageContainer from "./components/commons/MessageContainer";
-import SkillsCreateTableComponent from "./components/commons/SkillsCreateTableComponent";
 
 function App() {
   const userData = useSelector((state) => state.User);
