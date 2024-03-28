@@ -47,6 +47,8 @@ const Profile = () => {
           user_type: userFromBackend.user_type,
           skills: userFromBackend.skills,
         });
+
+        setUserSkills(userFromBackend.skills);
       } catch (error) {
         console.error("Error fetching job posts:", error);
       }
@@ -211,7 +213,10 @@ const Profile = () => {
               >
                 Skills
               </label>
-              <SkillsCreateTableComponent updateSkills={updateSkills} />
+              <SkillsCreateTableComponent
+                updateSkills={updateSkills}
+                userSkills={userSkills}
+              />
             </div>
             <div className="mb-4 flex justify-start">
               <button

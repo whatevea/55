@@ -1,13 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 
-const SkillsCreateTableComponent = ({ updateSkills }) => {
+const SkillsCreateTableComponent = ({ updateSkills, userSkills }) => {
+  console.log("userSkills is", userSkills);
+
   const [inputValue, setInputValue] = useState("");
   const [value, setValue] = useState([]);
   const [skillsComponentHasValue, setSkillsComponentHasValue] = useState(false);
 
   console.log("inputValue is", inputValue);
   console.log("value is", value);
+
+  useEffect(() => {
+    if (userSkills && userSkills.length > 0) {
+      setValue(userSkills);
+    }
+  }, [userSkills]);
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -42,6 +50,8 @@ const SkillsCreateTableComponent = ({ updateSkills }) => {
       return updatedValue;
     });
   };
+
+  console.log("value is", value);
 
   return (
     <>
