@@ -113,13 +113,15 @@ const updateUser = asyncHandler(async (req, res) => {
     });
   }
 
-  const isPasswordValid = await bcrypt.compare(password, user.password);
+  if (password) {
+    const isPasswordValid = await bcrypt.compare(password, user.password);
 
-  if (!isPasswordValid) {
-    return res.status(401).json({
-      success: false,
-      message: "Incorrect password",
-    });
+    if (!isPasswordValid) {
+      return res.status(401).json({
+        success: false,
+        message: "Incorrect password",
+      });
+    }
   }
 
   // Step 2: Update user data, including the password if a new password is provided
@@ -132,11 +134,14 @@ const updateUser = asyncHandler(async (req, res) => {
     skills,
   };
 
-  if (newPassword) {
+  if (newPassword && newPassword !== "") {
     // Hash the new password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(newPassword, salt);
     updatedUserData.password = hashedPassword;
+  } else {
+    // Remove password field from update data if no new password provided
+    delete updatedUserData.password;
   }
 
   // Update the user in the database
