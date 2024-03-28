@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 
-const SkillsCreateTableComponent = ({ updateSkills, userSkills }) => {
-  console.log("userSkills is", userSkills);
+const SkillsCreateTableComponent = ({ updateSkills, userSkills, errors }) => {
+  console.log("errors we are inside SkillsCreateTableComponent is", errors);
 
   const [inputValue, setInputValue] = useState("");
   const [value, setValue] = useState([]);
   const [skillsComponentHasValue, setSkillsComponentHasValue] = useState(false);
-
-  console.log("inputValue is", inputValue);
-  console.log("value is", value);
 
   useEffect(() => {
     if (userSkills && userSkills.length > 0) {
@@ -51,23 +48,29 @@ const SkillsCreateTableComponent = ({ updateSkills, userSkills }) => {
     });
   };
 
-  console.log("value is", value);
+  if (errors.skills) {
+    console.log("border-red-500");
+  } else {
+    console.log(
+      "border-2 border-solid border-gray-300 px-2 py-1.5 text-gray-900 placeholder:text-gray-400 w-full focus-within:border-green-600 sm:text-sm sm:leading-6 block rounded-md"
+    );
+  }
 
   return (
     <>
       <div
         className={`${
-          skillsComponentHasValue
-            ? "border-red-500"
-            : "border-2 border-solid border-gray-300"
-        } px-2 py-1.5 text-gray-900 placeholder:text-gray-400 w-full focus-within:border-green-600 sm:text-sm sm:leading-6 block rounded-md`}
+          errors?.skills
+            ? "border-2 border-red-500 rounded-md px-2 py-1.5"
+            : "border-2 border-solid border-gray-300 px-2 py-1.5 text-gray-900 placeholder:text-gray-400 w-full focus-within:border-green-600 sm:text-sm sm:leading-6 block rounded-md"
+        } `}
       >
         <input
           type="text"
           value={inputValue}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
-          placeholder="Type something and press enter..."
+          placeholder="Type your skills and press enter..."
           className="w-full outline-none mb-1 focus:outline-none placeholder:text-base"
         />
         <div className="flex flex-wrap gap-2">

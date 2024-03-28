@@ -2,6 +2,7 @@ import asyncHandler from "express-async-handler";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import User from "../models/user.js";
+
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -94,6 +95,7 @@ const updateUser = asyncHandler(async (req, res) => {
     fname,
     lname,
     newPassword,
+    confirmNewPassword,
     password,
     user_type,
     bio,
@@ -101,7 +103,7 @@ const updateUser = asyncHandler(async (req, res) => {
     skills,
   } = req.body;
 
-  console.log("skills is", skills);
+  console.log("confirmNewPassword is", confirmNewPassword);
 
   // Step 1: Verify the current password
   const user = await User.findById(_id);
@@ -122,6 +124,14 @@ const updateUser = asyncHandler(async (req, res) => {
         message: "Incorrect password",
       });
     }
+  }
+
+  // Check if newPassword and confirmNewPassword are the same
+  if (newPassword !== confirmNewPassword) {
+    return res.status(400).json({
+      success: false,
+      message: "New password and confirm password do not match",
+    });
   }
 
   // Step 2: Update user data, including the password if a new password is provided
