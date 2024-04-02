@@ -7,12 +7,20 @@ import {
   FaArrowRight,
   FaRegEnvelope,
 } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const SearchForTalent = () => {
   const [userData, setUserData] = useState(null);
   const [portfolios, setPortfolios] = useState({});
   const [portfolio, setPortfolio] = useState({});
   const [selectedImage, setSelectedImage] = useState(null);
+  const navigate = useNavigate();
+  const loggedInUserData = useSelector((state) => state.User);
+  const hirerUserId = loggedInUserData?.userData?._id;
+
+  console.log("loggedInUserData is", loggedInUserData);
+  console.log("userData is", userData);
 
   const fetchPortfoliosByUserId = async (userId) => {
     console.log("userId:", userId);
@@ -45,11 +53,37 @@ const SearchForTalent = () => {
     fetchUsers(); // Call the function when the component mounts
   }, []); // Empty dependency array ensures the effect runs only once on mount
 
-  const onContactClick = () => {};
-
   const handleImageClick = (imageLink, portfolio) => {
     setSelectedImage(imageLink);
     setPortfolio(portfolio);
+  };
+
+  const contactFreelancer = async (userId) => {
+    try {
+      console.log("userId is", userId);
+      // Data to be sent in the POST request body
+      // const requestData = {
+      //   employee: userId,
+      //   hirer: jobProviderDetails._id,
+      //   job: job_id,
+      //   start_date: new Date(),
+      // };
+
+      // Make a POST request to the '/chats/conversationRoom' endpoint
+      // const response = await http.post("/contract/psuedoContract", requestData);
+
+      // Navigate to the message page with the provided state
+      navigate("/hirer/message", {
+        state: {
+          userId,
+          // jobProviderDetails,
+          userData: userData[userId],
+        },
+      });
+    } catch (error) {
+      // Handle error
+      console.error("Error creating chat room:", error);
+    }
   };
 
   return (
@@ -57,7 +91,7 @@ const SearchForTalent = () => {
       {userData?.map((user) => (
         <div
           className="flex flex-col md:flex-row p-5 w-full md:w-3/4 bg-gray-100 items-center justify-between rounded-lg shadow-md "
-          key={user._id}
+          key={user?._id}
         >
           <div className="flex flex-col md:flex-row md:w-3/4 justify-between gap-2">
             <div className="flex flex-col justify-center items-center bg-green-100 p-3 rounded-lg md:w-[30%]">
@@ -111,11 +145,12 @@ const SearchForTalent = () => {
             </div>
           </div>
           <button
-            onClick={onContactClick}
             className="bg-green-600 px-4 py-2 rounded hover:bg-green-500 text-white font-semibold flex items-center mt-4 md:mt-0 md:ml-4"
+            onClick={() => contactFreelancer(user?._id)}
           >
-            <FaRegEnvelope className="text-lg inline mr-2" />
-            Contact User
+            {/* <FaRegEnvelope className="text-lg inline mr-2" />
+             */}
+            Contact Freelancer
           </button>
         </div>
       ))}
