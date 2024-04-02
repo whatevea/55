@@ -37,6 +37,9 @@ const Portfolio = () => {
   const fetchPortfolios = async () => {
     try {
       const response = await http.get(`/portfolio/get-portfolio/${userId}`);
+
+      console.log("userId:", userId);
+
       if (response.status === 200) {
         const fetchedPortfolios = response.data.portfolios;
         setPortfolios(fetchedPortfolios);
