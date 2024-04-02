@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import http from "../../config/http";
+import ImageModal from "./ImageModal";
 import {
   FaUserCircle,
   FaArrowLeft,
@@ -9,8 +10,25 @@ import {
 
 const SearchForTalent = () => {
   const [userData, setUserData] = useState(null);
+  const [portfolios, setPortfolios] = useState({});
+  const [portfolio, setPortfolio] = useState({});
+  const [selectedImage, setSelectedImage] = useState(null);
 
-  console.log("userData is", userData);
+  const fetchPortfoliosByUserId = async (userId) => {
+    console.log("userId:", userId);
+
+    try {
+      const response = await http.get(`/portfolio/get-portfolio/${userId}`);
+
+      console.log("response.data:", response.data.portfolios);
+      setPortfolios((prevPortfolios) => ({
+        ...prevPortfolios,
+        [userId]: response.data.portfolios,
+      }));
+    } catch (error) {
+      console.error(`Error fetching portfolios for user ${userId}:`, error);
+    }
+  };
 
   useEffect(() => {
     // Function to fetch job posts from the backend
@@ -18,6 +36,7 @@ const SearchForTalent = () => {
       try {
         const response = await http.get("/auth/getBulkUserData");
         setUserData(response.data.data); // Assuming the response contains job posts data
+        response.data.data.forEach((user) => fetchPortfoliosByUserId(user._id));
       } catch (error) {
         console.error("Error fetching User Data:", error);
       }
@@ -27,6 +46,11 @@ const SearchForTalent = () => {
   }, []); // Empty dependency array ensures the effect runs only once on mount
 
   const onContactClick = () => {};
+
+  const handleImageClick = (imageLink, portfolio) => {
+    setSelectedImage(imageLink);
+    setPortfolio(portfolio);
+  };
 
   return (
     <div className="flex flex-col items-center justify-center p-4 m-4 bg-white rounded-xl shadow-md gap-4 ">
@@ -44,11 +68,11 @@ const SearchForTalent = () => {
             </div>
             <div className="flex flex-col bg-green-100 p-2 rounded-lg md:w-[70%]">
               <div className="text-gray-800 font-semibold">
-                <h1 className="text-base mt-2 mb-2">Users Bio:</h1>
+                {/* <h1 className="text-base mt-2 mb-2">Users Bio:</h1>
                 <div className="inset-x-0 px-4 py-2 text-sm font-semibold">
                   {user.bio}
-                </div>
-                <h1 className="text-base mt-2">Users Skills:</h1>
+                </div> */}
+                <h1 className="text-base mt-2">Skills:</h1>
                 <div className="flex flex-wrap gap-1 md:flex-row inset-x-0 px-4 py-2 items-center mt-2">
                   {user.skills.map((skill, index) => (
                     <span
@@ -58,6 +82,30 @@ const SearchForTalent = () => {
                       {skill.label}{" "}
                     </span>
                   ))}
+                </div>
+                <h1 className="text-base mt-2">Website Portfolio:</h1>
+                <div>
+                  {portfolios[user._id]?.length > 0 ? (
+                    <div className="flex gap-2 flex-wrap mt-2">
+                      {/* <h1 className="text-base mt-2 mb-2">
+                        Website Portfolios:
+                      </h1> */}
+                      {portfolios[user._id].map((portfolio) => (
+                        // <div key={portfolio._id}>
+                        <img
+                          key={portfolio._id}
+                          src={portfolio.imageLink}
+                          className="w-[20%] rounded-lg hover:cursor-pointer"
+                          onClick={() =>
+                            handleImageClick(portfolio.imageLink, portfolio)
+                          }
+                        />
+                        // </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p>No portfolios found for this user.</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -71,7 +119,13 @@ const SearchForTalent = () => {
           </button>
         </div>
       ))}
-
+      {selectedImage && (
+        <ImageModal
+          imageLink={selectedImage}
+          portfolio={portfolio}
+          onClose={() => setSelectedImage(null)}
+        />
+      )}
       {/* Pagination */}
       <div className="flex mt-6">
         <button className="p-2 mx-1 text-lg rounded bg-green-600 hover:bg-green-500 text-white font-semibold">

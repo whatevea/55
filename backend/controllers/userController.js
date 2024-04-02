@@ -166,7 +166,10 @@ const updateUser = asyncHandler(async (req, res) => {
 });
 
 const getBulkUserData = asyncHandler(async (req, res) => {
-  const freelancers = await User.find({ user_type: "freelancer" });
+  const freelancers = await User.find(
+    { user_type: "freelancer" },
+    { password: 0 }
+  );
 
   res.status(200).json({
     success: true,
