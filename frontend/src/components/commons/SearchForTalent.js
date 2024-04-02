@@ -127,7 +127,7 @@ const SearchForTalent = () => {
         />
       )}
       {/* Pagination */}
-      <div className="flex mt-6">
+      {/* <div className="flex mt-6">
         <button className="p-2 mx-1 text-lg rounded bg-green-600 hover:bg-green-500 text-white font-semibold">
           <FaArrowLeft className="inline mr-1" /> Prev Page
         </button>
@@ -143,7 +143,7 @@ const SearchForTalent = () => {
         <button className="p-2 mx-1 text-lg rounded bg-green-600 hover:bg-green-500 text-white font-semibold">
           Next Page <FaArrowRight className="inline ml-1" />
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };
