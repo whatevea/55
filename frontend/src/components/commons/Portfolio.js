@@ -138,6 +138,7 @@ const Portfolio = () => {
     const errors = validateForm();
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
+      toast.error("Please fill in all required fields", toastConfig);
       return;
     }
 
