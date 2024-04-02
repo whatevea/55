@@ -11,6 +11,8 @@ import Lights from "../../assets/images/lights.jpg";
 import Forest from "../../assets/images/nature.jpg";
 import http from "../../config/http";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { toastConfig } from "../../config/toastConfig";
 
 const Portfolio = () => {
   const userData = useSelector((state) => state.User);
@@ -18,6 +20,7 @@ const Portfolio = () => {
 
   const filters = ["Show all", "Nature", "Cars", "People"];
   const [selectedFilter, setSelectedFilter] = useState("Show all");
+  const [formErrors, setFormErrors] = useState({});
   const [portfolios, setPortfolios] = useState([]);
   const fileInputRef = useRef(null);
 
@@ -47,6 +50,24 @@ const Portfolio = () => {
 
     fetchPortfolios();
   }, [userId]);
+
+  const validateForm = () => {
+    let errors = {};
+
+    if (!formData.image) {
+      errors.image = "Please select an image.";
+    }
+
+    if (!formData.link.trim()) {
+      errors.link = "Please enter a website link.";
+    }
+
+    if (!formData.description.trim()) {
+      errors.description = "Please enter a description.";
+    }
+
+    return errors;
+  };
 
   const images = [
     {
@@ -113,6 +134,13 @@ const Portfolio = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validate the form
+    const errors = validateForm();
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      return;
+    }
+
     try {
       // Create a FormData object from the existing formData state
       const formDataToSubmit = new FormData();
@@ -139,6 +167,8 @@ const Portfolio = () => {
         // Handle the successful response from the server
         console.log("Portfolio submitted successfully");
 
+        toast.success("Portfolio submitted successfully");
+
         // Reset the form after submission
         setFormData(initialFormData);
 
@@ -149,8 +179,8 @@ const Portfolio = () => {
         console.error("Failed to submit portfolio");
       }
     } catch (error) {
-      console.log("we are inside catch");
       console.error("Error:", error);
+      toast.error("All fields are required", toastConfig);
     }
   };
 
@@ -192,6 +222,9 @@ const Portfolio = () => {
                 ref={fileInputRef}
               />
             </div>
+            {formErrors.image && (
+              <div className="text-red-500">{formErrors.image}</div>
+            )}
 
             <div className="flex flex-col gap-2">
               <label className="text-base font-semibold">
@@ -199,23 +232,36 @@ const Portfolio = () => {
               </label>
               <input
                 type="text"
-                className="px-2 py-1.5 border-2 border-gray-300 rounded-md focus:outline-none focus:border-green-500 placeholder:text-gray-400"
+                className={`${
+                  formErrors.link
+                    ? "border-2 border-red-500"
+                    : "border-2 border-gray-300"
+                } px-2 py-1.5  rounded-md focus:outline-none focus:border-green-500 placeholder:text-gray-400`}
                 name="link"
                 value={formData.link}
                 onChange={handleChange}
               />
             </div>
+            {formErrors.link && (
+              <div className="text-red-500">{formErrors.link}</div>
+            )}
 
             <div className="flex flex-col gap-2">
               <label className="text-base font-semibold">Description:</label>
               <textarea
-                className="p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-green-500 placeholder:text-gray-400"
+                className={`${
+                  formErrors.description
+                    ? "border-2 border-red-500"
+                    : "border-2 border-gray-300"
+                } px-2 py-1.5  rounded-md focus:outline-none focus:border-green-500 placeholder:text-gray-400`}
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
               ></textarea>
             </div>
-
+            {formErrors.description && (
+              <div className="text-red-500">{formErrors.description}</div>
+            )}
             <button
               type="submit"
               className="text-base font-semibold bg-green-600 hover:bg-green-500 hover:text-white px-2 py-1.5 rounded-md text-white mt-2"
