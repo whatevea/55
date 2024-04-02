@@ -1,8 +1,8 @@
 import { useState } from "react";
 import http from "../config/http";
-import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { ScaleLoader } from "react-spinners";
+import { toast } from "react-toastify";
 import { toastConfig } from "../config/toastConfig";
 
 const Register = () => {
