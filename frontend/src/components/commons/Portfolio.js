@@ -22,6 +22,7 @@ const Portfolio = () => {
   const [selectedFilter, setSelectedFilter] = useState("Show all");
   const [formErrors, setFormErrors] = useState({});
   const [portfolios, setPortfolios] = useState([]);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const fileInputRef = useRef(null);
 
   const initialFormData = {
@@ -33,21 +34,21 @@ const Portfolio = () => {
 
   const [formData, setFormData] = useState(initialFormData);
 
-  useEffect(() => {
-    const fetchPortfolios = async () => {
-      try {
-        const response = await http.get(`/portfolio/get-portfolio/${userId}`); // Assuming your API endpoint is /portfolio/user/:userId
-        if (response.status === 200) {
-          const fetchedPortfolios = response.data.portfolios;
-          setPortfolios(fetchedPortfolios);
-        } else {
-          console.error("Failed to fetch portfolios:", response.error);
-        }
-      } catch (error) {
-        console.error("Error fetching portfolios:", error);
+  const fetchPortfolios = async () => {
+    try {
+      const response = await http.get(`/portfolio/get-portfolio/${userId}`);
+      if (response.status === 200) {
+        const fetchedPortfolios = response.data.portfolios;
+        setPortfolios(fetchedPortfolios);
+      } else {
+        console.error("Failed to fetch portfolios:", response.error);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching portfolios:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchPortfolios();
   }, [userId]);
 
@@ -166,8 +167,6 @@ const Portfolio = () => {
 
       if (response.status === 200) {
         // Handle the successful response from the server
-        console.log("Portfolio submitted successfully");
-
         toast.success("Portfolio submitted successfully");
 
         // Reset the form after submission
@@ -175,6 +174,7 @@ const Portfolio = () => {
 
         // Reset the file input field after successful submission
         fileInputRef.current.value = null;
+        await fetchPortfolios();
       } else {
         // Handle the error response from the server
         console.error("Failed to submit portfolio");
