@@ -64,7 +64,7 @@ app.use("/hire", hireRoutes); // Hiring-related routes
 app.use("/freelancer", freelancerRoutes);
 app.use("/chats", chatRoutes);
 app.use("/contract", contractRoutes);
-// app.use("/portfolio", portfolioRoutes);
+app.use("/portfolio", portfolioRoutes);
 // Test route
 app.get("/test", (req, res) => {
   res.send("This is route 1");
@@ -99,27 +99,26 @@ app.post(
   "/portfolio/submit-portfolio",
   upload.single("image"),
   async (req, res) => {
+    console.log(
+      "we are inside /portfolio/submit-portfolio and req.body is",
+      req.body
+    );
+
     try {
-      const { link, description } = req.body;
-
-      console.log("req.file is", req.file);
-
+      const { link, description, userId } = req.body;
       const imageFilename = req.file ? req.file.filename : null;
-
-      console.log("imageFilename is", imageFilename);
 
       // Construct the image URL based on where your images are stored
       const imageUrl = `http://localhost:${
         process.env.PORT || 5000
       }/uploads/${imageFilename}`;
 
-      console.log("imageUrl is", imageUrl);
-
       // Save the portfolio data (link, description, and image filename) to your database
       const newPortfolio = new Portfolio({
         imageLink: imageUrl,
         websiteLink: link,
         description: description,
+        userId: userId,
       });
 
       await newPortfolio.save();

@@ -1,7 +1,10 @@
 import express from "express";
-import { addPortfolio } from "../controllers/portfolioController.js";
+import {
+  addPortfolio,
+  getPortfolio,
+} from "../controllers/portfolioController.js";
 
 const router = express.Router();
-router.post("/submit-portfolio", addPortfolio);
+router.get("/get-portfolio/:userId", getPortfolio);
 
 export default router;

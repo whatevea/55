@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import Girl from "../../assets/images/people1_girl.jpg";
 import Man from "../../assets/images/people2_man.jpg";
 import Woman from "../../assets/images/people3_woman.jpg";
@@ -9,16 +10,43 @@ import Mountains from "../../assets/images/mountains.jpg";
 import Lights from "../../assets/images/lights.jpg";
 import Forest from "../../assets/images/nature.jpg";
 import http from "../../config/http";
+import { useSelector } from "react-redux";
 
 const Portfolio = () => {
+  const userData = useSelector((state) => state.User);
+  const userId = userData.userData?._id;
+
   const filters = ["Show all", "Nature", "Cars", "People"];
   const [selectedFilter, setSelectedFilter] = useState("Show all");
+  const [portfolios, setPortfolios] = useState([]);
+  const fileInputRef = useRef(null);
 
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     image: null,
     link: "",
     description: "",
-  });
+    userId: userId,
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
+
+  useEffect(() => {
+    const fetchPortfolios = async () => {
+      try {
+        const response = await http.get(`/portfolio/get-portfolio/${userId}`); // Assuming your API endpoint is /portfolio/user/:userId
+        if (response.status === 200) {
+          const fetchedPortfolios = response.data.portfolios;
+          setPortfolios(fetchedPortfolios);
+        } else {
+          console.error("Failed to fetch portfolios:", response.error);
+        }
+      } catch (error) {
+        console.error("Error fetching portfolios:", error);
+      }
+    };
+
+    fetchPortfolios();
+  }, [userId]);
 
   const images = [
     {
@@ -91,19 +119,31 @@ const Portfolio = () => {
       formDataToSubmit.append("image", formData.image);
       formDataToSubmit.append("link", formData.link);
       formDataToSubmit.append("description", formData.description);
+      formDataToSubmit.append("userId", formData.userId);
+
+      // Log the contents of formDataToSubmit
+      console.log("formDataToSubmit:", formDataToSubmit);
+      for (const [key, value] of formDataToSubmit.entries()) {
+        console.log(`inside for loop ${key}: ${value}`);
+      }
 
       // Send the FormData object to the server
-
-      console.log("we are here");
-
       const response = await http.post(
         "/portfolio/submit-portfolio",
         formDataToSubmit
       );
 
-      if (response.ok) {
+      console.log("response is", response);
+
+      if (response.status === 200) {
         // Handle the successful response from the server
         console.log("Portfolio submitted successfully");
+
+        // Reset the form after submission
+        setFormData(initialFormData);
+
+        // Reset the file input field after successful submission
+        fileInputRef.current.value = null;
       } else {
         // Handle the error response from the server
         console.error("Failed to submit portfolio");
@@ -112,13 +152,6 @@ const Portfolio = () => {
       console.log("we are inside catch");
       console.error("Error:", error);
     }
-
-    // Reset the form after submission
-    setFormData({
-      image: null,
-      link: "",
-      description: "",
-    });
   };
 
   const handleChange = (e) => {
@@ -152,7 +185,12 @@ const Portfolio = () => {
               <label className="text-base font-semibold">
                 Upload Website Image:
               </label>
-              <input type="file" name="image" onChange={handleChange} />
+              <input
+                type="file"
+                name="image"
+                onChange={handleChange}
+                ref={fileInputRef}
+              />
             </div>
 
             <div className="flex flex-col gap-2">
@@ -202,7 +240,7 @@ const Portfolio = () => {
         ))}
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {filteredImages.map((image, index) => (
+        {/* {filteredImages.map((image, index) => (
           <div
             key={index}
             className="bg-white shadow-md rounded-lg overflow-hidden"
@@ -213,7 +251,45 @@ const Portfolio = () => {
               <p>{image.description}</p>
             </div>
           </div>
-        ))}
+       ))}*/}
+        {portfolios.length > 0
+          ? portfolios.map((portfolio, index) => (
+              <div
+                key={index}
+                className="bg-white shadow-md rounded-lg overflow-hidden"
+              >
+                <img
+                  src={portfolio.imageLink}
+                  alt="Portfolio Image"
+                  className="w-full"
+                />
+                <div className="p-4 flex flex-col items-center">
+                  <h2 className="text-lg font-bold">
+                    <a
+                      className="hover:underline"
+                      href={`https://${portfolio.websiteLink}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {portfolio.websiteLink}
+                    </a>
+                  </h2>
+                  <p>{portfolio.description}</p>
+                </div>
+              </div>
+            ))
+          : filteredImages.map((image, index) => (
+              <div
+                key={index}
+                className="bg-white shadow-md rounded-lg overflow-hidden"
+              >
+                <img src={image.src} alt={image.alt} className="w-full" />
+                <div className="p-4 flex flex-col items-center">
+                  <h2 className="text-lg font-bold">{image.alt}</h2>
+                  <p>{image.description}</p>
+                </div>
+              </div>
+            ))}
       </div>
     </div>
   );
