@@ -59,6 +59,16 @@ const SearchForTalent = () => {
   };
 
   const contactFreelancer = async (userId) => {
+    // in this code check whether contract exists or not if not create a new one if exists fetch that contract and create chat with existing one or create new one
+    // userId is employee
+    // hirerUserId is job_provider
+
+    const response = await http.get(
+      `/contract/getContractByEmployeeIdAndHirerId/${userId}/${hirerUserId}`
+    );
+
+    console.log("response is inside contactFreelancer:", response);
+
     try {
       console.log("userId is", userId);
       // Data to be sent in the POST request body
