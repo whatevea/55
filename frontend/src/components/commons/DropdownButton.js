@@ -88,7 +88,7 @@ const DropdownButton = ({ userLoggingOut }) => {
         onClick={handleToggle}
         className="bg-green-600 hover:bg-green-500 text-white text-sm font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
       >
-        Hi, {firstName.toUpperCase()} {lastName.toUpperCase()}{" "}
+        Hi, {firstName?.toUpperCase()} {lastName?.toUpperCase()}{" "}
         <i className="fa-solid fa-caret-down text-white"></i>
       </button>
       {isOpen && (
@@ -101,7 +101,8 @@ const DropdownButton = ({ userLoggingOut }) => {
                 className="w-[80px] h-[80px] rounded-full mt-1 "
               />
               <p className="text-sm">
-                {firstName.toUpperCase()} {data.userData.lname.toUpperCase()}
+                {firstName?.toUpperCase()}{" "}
+                {data?.userData?.lname?.toUpperCase()}
               </p>
             </div>
             {options.map((opt) => (

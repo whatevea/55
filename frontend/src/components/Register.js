@@ -47,8 +47,8 @@ const Register = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     const newValidation = {
-      fname: !!formData.fname.trim(),
-      lname: !!formData.lname.trim(),
+      fname: !!formData?.fname.trim(),
+      lname: !!formData?.lname.trim(),
       email: emailRegex.test(formData.email),
       password: !!formData.password.trim(),
     };
@@ -198,7 +198,7 @@ const Register = () => {
                     autoComplete="fname"
                     required
                     placeholder="First Name"
-                    value={formData.fname}
+                    value={formData?.fname}
                     onChange={handleInputChange}
                     className={`block rounded-md border-2 border-solid border-gray-300 px-2 py-1.5 text-gray-900 placeholder:text-gray-400 w-full focus:border-green-600 sm:text-sm sm:leading-6 focus:outline-none ${
                       validation.fname ? "" : "border-red-500"
