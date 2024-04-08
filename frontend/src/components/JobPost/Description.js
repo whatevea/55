@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { FaPaperclip, FaTimes } from "react-icons/fa";
+import { MdHelp } from "react-icons/md";
 import { uploadFile } from "../../config/http";
 
 const Description = ({ setIsValid, updateJobData, jobData }) => {
@@ -10,8 +11,9 @@ const Description = ({ setIsValid, updateJobData, jobData }) => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
 
   const changeDes = (text, files = uploadedFiles) => {
-    // setDescription(text);
-    setIsValid(text.length > 10);
+    const isValidDescription = text.length > 20;
+    const isValidFiles = files.length > 0;
+    setIsValid(isValidDescription && isValidFiles);
     updateJobData({
       description: {
         text: text,
@@ -74,7 +76,12 @@ const Description = ({ setIsValid, updateJobData, jobData }) => {
         className=" outline-none border-2 focus:border-green-600 p-4 rounded-md"
       />
       <div>
-        <p className="font-semibold inline">Attach your file(s)</p>
+        <p className="font-semibold inline">
+          Attach your file(s){" "}
+          <span className="text-sm font-bold italic text-green-600">
+            This field is mandatory Please attach atleast one file
+          </span>
+        </p>
         <FaPaperclip
           className="font-extrabold inline ml-4 text-xl text-green-600 cursor-pointer"
           onClick={handleFileUpload}

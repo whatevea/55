@@ -69,7 +69,7 @@ const Budget = ({ setIsValid, updateJobData, jobData }) => {
             onClick={() => setBudgetType("fixedPrice")}
           >
             <FaTag className="inline mr-4 text-green-600" />
-            Fixed Rate
+            Fixed Price
           </button>
         ) : (
           <>
@@ -82,7 +82,7 @@ const Budget = ({ setIsValid, updateJobData, jobData }) => {
               onClick={() => setBudgetType("fixedPrice")}
             >
               <FaTag className="inline mr-4 text-green-600" />
-              Fixed Rate
+              Fixed Price
             </button>
             <button
               className={`rounded-md border-2 p-2 ${
@@ -93,7 +93,7 @@ const Budget = ({ setIsValid, updateJobData, jobData }) => {
               onClick={() => setBudgetType("hourly")}
             >
               <FaClock className="inline mr-4 text-green-600" />
-              Hourly Rate
+              Hourly Price
             </button>
           </>
         )}
