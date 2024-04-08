@@ -3,16 +3,27 @@ import Job from "../models/job.js";
 import Applied_Vacancy from "../models/applied_vacancy.js";
 
 export const addJob = asyncHandler(async (req, res) => {
-  const { title, skill, scope, budget, provider, description } = req.body;
+  const {
+    title,
+    user_class,
+    user_university,
+    category,
+    scope,
+    budget,
+    provider,
+    description,
+  } = req.body;
+
+  console.log("req.body is", req.body);
 
   let data = {
     provider: provider,
     budgetType: budget.type,
     title: title,
-    skills_required: skill,
-    scopeDuration: scope.duration,
-    scopeExperience: scope.experience,
+    scopeDuration: scope?.duration,
+    scopeExperience: scope?.experience,
     description: description.text,
+    category: category,
     attachmentUrls: description.attachmentUrls,
   };
 

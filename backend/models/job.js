@@ -15,17 +15,12 @@ const jobSchema = new Schema(
     description: {
       type: String,
     },
-    // skills_required: {
-    //   required: true,
-    //   type: [String],
-    // },
-    university: {
+
+    user_university: {
       type: String,
-      // required: true,
     },
-    class: {
+    user_class: {
       type: String,
-      // required: true,
     },
     budgetType: {
       required: true,
@@ -42,16 +37,23 @@ const jobSchema = new Schema(
     },
     scopeDuration: {
       type: String,
+      default: "0 days",
     },
     scopeExperience: {
       type: String,
+      default: "Entry",
     },
     attachmentUrls: {
       type: [String],
     },
+
+    category: {
+      type: String,
+      required: true,
+    },
+
     description: {
       type: String,
-
       required: true,
     },
   },

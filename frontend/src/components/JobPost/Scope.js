@@ -25,7 +25,7 @@ const Scope = ({ setIsValid, updateJobData, jobData }) => {
   }, []);
 
   return (
-    <div className="font-semibold h-52 border-2 border-red-500">
+    <div className="font-semibold h-52">
       <p>How long will you render your services?</p>
       <div>
         <input
