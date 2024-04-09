@@ -17,6 +17,7 @@ function HirerJobList() {
         // console.log('hirerUserData is',hirerUserData);
 
         const response = await http.get(`/hire/postjob/${userId}`);
+        console.log("response.data.data is", response.data.data);
         setJobPosts(response.data.data); // Assuming the response contains job posts data
       } catch (error) {
         console.error("Error fetching job posts:", error);
@@ -26,12 +27,14 @@ function HirerJobList() {
     fetchJobPosts(); // Call the function when the component mounts
   }, []); // Empty dependency array ensures the effect runs only once on mount
 
+  console.log("jobPosts is", jobPosts);
+
   return (
     <div className="px-6">
       <div className="text-center text-3xl text-green-600 font-bold mt-4">
         <h1 className="text-2xl mx-auto">See your Jobs:</h1>
       </div>
-      {jobPosts.reverse().map((jobPost) => (
+      {jobPosts.map((jobPost) => (
         <div
           className="bg-green-50  rounded-md shadow-sm overflow-hidden m-4 p-4 flex items-center justify-between"
           key={jobPost.id}

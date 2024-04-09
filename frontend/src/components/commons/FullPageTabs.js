@@ -54,8 +54,10 @@ const FullPageTabs = ({ jobTitle, filteredJobs }) => {
     fetchJobPosts(); // Call the function when the component mounts
   }, []); // Empty dependency array ensures the effect runs only once on mount
 
+  console.log("jobPosts is", jobPosts);
+
   return (
-    <div className="flex flex-col h-screen overflow-auto">
+    <div className="flex flex-col h-screen overflow-auto border-2 border-yellow-500">
       <div className="flex flex-col justify-between p-4 bg-green-600 text-white rounded-t-xl">
         <div className="text-2xl font-bold mb-2">Job Listings</div>
         <div>
@@ -67,10 +69,10 @@ const FullPageTabs = ({ jobTitle, filteredJobs }) => {
       </div>
       <div className="flex-1 p-4 bg-gray-50">
         {filteredJobs.length > 0
-          ? filteredJobs.map((job) =>
+          ? filteredJobs?.map((job) =>
               renderJobPosting(job, appliedJobsId.includes(job._id))
             )
-          : jobPosts.map((job) =>
+          : jobPosts?.map((job) =>
               renderJobPosting(job, appliedJobsId.includes(job._id))
             )}
       </div>

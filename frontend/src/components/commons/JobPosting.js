@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import { FaReact } from "react-icons/fa"; // Example icon import
 const JobPosting = memo(({ job, hasApplied }) => {
-  const skills = job.skills_required;
+  const skills = job?.skills_required;
   return (
     <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 hover:bg-green-50">
       <div className="flex items-center justify-between">
@@ -49,17 +49,6 @@ const JobPosting = memo(({ job, hasApplied }) => {
         )}
       </div>
       <p className="text-sm my-4 break-words">{job.description}</p>
-      <div className="flex flex-col gap-2 md:flex-row mt-4 ">
-        {skills.map((skill) => (
-          <span
-            key={skill}
-            className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2"
-          >
-            {skill}
-          </span>
-        ))}
-        {/* <span className="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">JavaScript</span> */}
-      </div>
       <div className="flex items-center justify-between mt-4"></div>
       <div className="flex items-center justify-between mt-2">
         {hasApplied && (

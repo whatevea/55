@@ -1,6 +1,8 @@
 import asyncHandler from "express-async-handler";
 import Job from "../models/job.js";
 import Applied_Vacancy from "../models/applied_vacancy.js";
+import mongoose from "mongoose";
+const { ObjectId } = mongoose.Types;
 
 export const addJob = asyncHandler(async (req, res) => {
   const {
@@ -75,13 +77,40 @@ export const getApplierList = asyncHandler(async (req, res) => {
   });
 });
 
+// export const getJobsListBasedOnHirerUserId = asyncHandler(async (req, res) => {
+//   const hirerUserId = req.params.hirerUserId; // Assuming the parameter is named 'hirerUserId'
+
+//   try {
+//     const jobs = await Job.find({ provider: hirerUserId }).sort({
+//       createdAt: -1,
+//     });
+
+//     console.log("jobs is", jobs);
+
+//     res.status(200).json({
+//       success: true,
+//       data: jobs,
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       message: "Error fetching jobs based on hirer user ID",
+//       error: error.message,
+//     });
+//   }
+// });
+
 export const getJobsListBasedOnHirerUserId = asyncHandler(async (req, res) => {
-  const hirerUserId = req.params.hirerUserId; // Assuming the parameter is named 'hirerUserId'
+  const hirerUserId = req.params.hirerUserId;
 
   try {
-    const jobs = await Job.find({ provider: hirerUserId }).sort({
-      createdAt: -1,
-    });
+    const jobs = await Job.aggregate([
+      { $match: { provider: new mongoose.Types.ObjectId(hirerUserId) } },
+      { $sort: { createdAt: -1 } },
+    ]);
+
+    console.log("jobs is", jobs);
+
     res.status(200).json({
       success: true,
       data: jobs,
