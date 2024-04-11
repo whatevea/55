@@ -19,21 +19,20 @@ const renderJobPosting = (job, hasApplied) => (
   </div>
 );
 
-const ProductContent = ({
-  //   filteredJobs,
-  productJobs,
-  appliedJobsId,
-  productFilteredJobs,
-}) => {
-  return (   
-    <div className="flex-1 p-4 ">
-      {productFilteredJobs?.length > 0
-        ? productFilteredJobs?.map((job) =>
-            renderJobPosting(job, appliedJobsId.includes(job._id))
-          )
-        : productJobs?.map((job) =>
-            renderJobPosting(job, appliedJobsId.includes(job._id))
-          )}
+const ProductContent = ({ appliedJobsId, categoryWiseJobs }) => {
+  console.log("categoryWiseJobs is", categoryWiseJobs);
+
+  return (
+    <div>
+      {categoryWiseJobs?.length > 0 ? (
+        categoryWiseJobs?.map((job, index) =>
+          renderJobPosting(job, index, appliedJobsId.includes(job._id))
+        )
+      ) : (
+        <div className="text-center py-8 font-bold text-xl text-green-600">
+          No jobs found in this category.
+        </div>
+      )}
     </div>
   );
 };

@@ -55,6 +55,61 @@ export const getJobsList = asyncHandler(async (req, res) => {
   });
 });
 
+// GETTING LIST OF JOBS BY CATEGORY
+export const getJobsListByCategory = asyncHandler(async (req, res) => {
+  const { category, search } = req.query;
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 4;
+
+  let query = { category }; // Initial query object with category filter
+
+  console.log("query is", query);
+
+  // If search query is provided, add it to the query object
+  console.log("search is", search);
+  if (search !== null && search !== undefined && search !== "") {
+    console.log("if we have search this log will show");
+    query = {
+      ...query,
+      $or: [
+        { title: { $regex: search, $options: "i" } }, // Match title case-insensitively
+        { description: { $regex: search, $options: "i" } }, // Match description case-insensitively
+        { category: { $regex: search, $options: "i" } },
+      ],
+    };
+  }
+
+  console.log("if search query is provided, query does look like this", query);
+
+  const totalJobs = await Job.countDocuments(query); // Count documents based on category and search
+  // console.log("category is", category);
+  // console.log("page is", page);
+  // console.log("limit is", limit);
+
+  const skip = (page - 1) * limit;
+
+  const totalPages = Math.ceil(totalJobs / limit);
+  const nextPage = page < totalPages ? page + 1 : null; // Calculate nextPage
+
+  let remainingDocs = totalJobs - page * limit;
+  if (remainingDocs > limit) remainingDocs = limit;
+
+  const jobs = await Job.find(query)
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit);
+
+  console.log("jobs is", jobs);
+
+  res.status(200).json({
+    success: true,
+    data: jobs,
+    currentPage: page,
+    totalPages: totalPages,
+    nextPage: nextPage,
+  });
+});
+
 export const getSingleJobPost = asyncHandler(async (req, res) => {
   const jobId = req.params.id; // Assuming the parameter is named 'id'
   // Use findById to find a single document by its ID
@@ -77,13 +132,39 @@ export const getApplierList = asyncHandler(async (req, res) => {
   });
 });
 
+export const getJobsListBasedOnHirerUserId = asyncHandler(async (req, res) => {
+  const hirerUserId = req.params.hirerUserId; // Assuming the parameter is named 'hirerUserId'
+
+  console.log("we are calling here inside getJobsListBasedOnHirerUserId");
+
+  try {
+    const jobs = await Job.find({ provider: hirerUserId }).sort({
+      createdAt: -1,
+    });
+
+    // console.log("jobs is", jobs);
+
+    res.status(200).json({
+      success: true,
+      data: jobs,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error fetching jobs based on hirer user ID",
+      error: error.message,
+    });
+  }
+});
+
 // export const getJobsListBasedOnHirerUserId = asyncHandler(async (req, res) => {
-//   const hirerUserId = req.params.hirerUserId; // Assuming the parameter is named 'hirerUserId'
+//   const hirerUserId = req.params.hirerUserId;
 
 //   try {
-//     const jobs = await Job.find({ provider: hirerUserId }).sort({
-//       createdAt: -1,
-//     });
+//     const jobs = await Job.aggregate([
+//       { $match: { provider: new mongoose.Types.ObjectId(hirerUserId) } },
+//       { $sort: { createdAt: -1 } },
+//     ]);
 
 //     console.log("jobs is", jobs);
 
@@ -99,29 +180,5 @@ export const getApplierList = asyncHandler(async (req, res) => {
 //     });
 //   }
 // });
-
-export const getJobsListBasedOnHirerUserId = asyncHandler(async (req, res) => {
-  const hirerUserId = req.params.hirerUserId;
-
-  try {
-    const jobs = await Job.aggregate([
-      { $match: { provider: new mongoose.Types.ObjectId(hirerUserId) } },
-      { $sort: { createdAt: -1 } },
-    ]);
-
-    console.log("jobs is", jobs);
-
-    res.status(200).json({
-      success: true,
-      data: jobs,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Error fetching jobs based on hirer user ID",
-      error: error.message,
-    });
-  }
-});
 
 export default addJob;

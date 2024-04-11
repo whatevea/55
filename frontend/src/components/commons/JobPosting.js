@@ -1,7 +1,5 @@
 import React, { memo } from "react";
-import { FaReact } from "react-icons/fa"; // Example icon import
 const JobPosting = memo(({ job, hasApplied }) => {
-  const skills = job?.skills_required;
   return (
     <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 hover:bg-green-50">
       <div className="flex items-center justify-between">
