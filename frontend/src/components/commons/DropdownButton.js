@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
 import face from "../../assets/images/nerd-face.jpg";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const DropdownButton = ({ userLoggingOut }) => {
@@ -13,10 +13,25 @@ const DropdownButton = ({ userLoggingOut }) => {
   }
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const dropdownRef = useRef(null);
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
 
   const handleOptionClick = (option) => {
     switch (option) {
@@ -83,7 +98,7 @@ const DropdownButton = ({ userLoggingOut }) => {
     data.userData.user_type === "freelancer" ? freelancerOptions : hireOptions;
 
   return (
-    <div className="relative inline-block text-left">
+    <div className="relative inline-block text-left" ref={dropdownRef}>
       <button
         onClick={handleToggle}
         className="bg-green-600 hover:bg-green-500 text-white text-sm font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"

@@ -16,7 +16,7 @@ function HirerJobList() {
         // const hirerUserData = await http.get(`/auth/getUserData/${userId}`);
         // console.log('hirerUserData is',hirerUserData);
 
-        const response = await http.get(`/hire/postjob/${userId}`);
+        const response = await http.get(`/hire/postJobByHirerUserId/${userId}`);
         console.log("response.data.data is", response.data.data);
         setJobPosts(response.data.data); // Assuming the response contains job posts data
       } catch (error) {

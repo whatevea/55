@@ -48,7 +48,7 @@ export const getFilteredJobs = asyncHandler(async (req, res) => {
   const filteredJobs = await Job.find({
     category: categoryParam,
     title: { $regex: text, $options: "i" },
-  });
+  }).sort({ createdAt: -1 });
 
   console.log("filteredJobs is", filteredJobs);
 

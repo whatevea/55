@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import JobPosting from "./JobPosting";
 
-const renderJobPosting = (job, hasApplied) => (
-  <div key={job._id}>
+const renderJobPosting = (job, index, hasApplied) => (
+  <div key={index}>
     {hasApplied ? (
       <a
         href="#"
@@ -19,22 +19,18 @@ const renderJobPosting = (job, hasApplied) => (
   </div>
 );
 
-const ServiceContent = ({
-  //   filteredJobs,
-  serviceJobs,
-  appliedJobsId,
-  serviceFilteredJobs,
-}) => {
+const ServiceContent = ({ appliedJobsId, categoryWiseJobs }) => {
   return (
-    // <div className="border-2 border-blue-500">This is the Service content.</div>
-    <div className="flex-1 p-4 ">
-      {serviceFilteredJobs.length > 0
-        ? serviceFilteredJobs?.map((job) =>
-            renderJobPosting(job, appliedJobsId.includes(job._id))
-          )
-        : serviceJobs?.map((job) =>
-            renderJobPosting(job, appliedJobsId.includes(job._id))
-          )}
+    <div>
+      {categoryWiseJobs?.length > 0 ? (
+        categoryWiseJobs?.map((job, index) =>
+          renderJobPosting(job, index, appliedJobsId.includes(job._id))
+        )
+      ) : (
+        <div className="text-center py-8 text-xl font-bold text-green-600">
+          No jobs found in this category.
+        </div>
+      )}
     </div>
   );
 };
