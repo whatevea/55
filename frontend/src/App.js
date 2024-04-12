@@ -21,6 +21,7 @@ import SearchForTalent from "./components/commons/SearchForTalent";
 import Fileupload from "./components/commons/Fileupload";
 import MessageContainer from "./components/commons/MessageContainer";
 import Portfolio from "./components/commons/Portfolio";
+import Cart from "./components/commons/Cart.js";
 
 function App() {
   const userData = useSelector((state) => state.User);
@@ -63,6 +64,7 @@ function App() {
             element={<MessageContainer user_type={"freelancer"} />}
           />
           <Route path="portfolio" element={<Portfolio />} />
+          <Route path="cart" element={<Cart />} />
         </Route>
 
         <Route path="/hirer" element={<HireLayout />}>

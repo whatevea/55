@@ -16,8 +16,6 @@ export const addJob = asyncHandler(async (req, res) => {
     description,
   } = req.body;
 
-  console.log("req.body is", req.body);
-
   let data = {
     provider: provider,
     budgetType: budget.type,
@@ -29,9 +27,8 @@ export const addJob = asyncHandler(async (req, res) => {
     attachmentUrls: description.attachmentUrls,
   };
 
-  if (budget.type === "hourly") {
-    data.budgetHourlyMin = budget.hourlyRateFrom;
-    data.budgetHourlyMax = budget.hourlyRateTo;
+  if (budget.type === "hourlyPrice") {
+    data.budgetHourlyPrice = budget.hourlyRate;
   }
   if (budget.type === "fixedPrice") {
     data.budgetFixed = budget.fixedPrice;
@@ -63,10 +60,7 @@ export const getJobsListByCategory = asyncHandler(async (req, res) => {
 
   let query = { category }; // Initial query object with category filter
 
-  console.log("query is", query);
-
   // If search query is provided, add it to the query object
-  console.log("search is", search);
   if (search !== null && search !== undefined && search !== "") {
     console.log("if we have search this log will show");
     query = {
@@ -79,13 +73,7 @@ export const getJobsListByCategory = asyncHandler(async (req, res) => {
     };
   }
 
-  console.log("if search query is provided, query does look like this", query);
-
   const totalJobs = await Job.countDocuments(query); // Count documents based on category and search
-  // console.log("category is", category);
-  // console.log("page is", page);
-  // console.log("limit is", limit);
-
   const skip = (page - 1) * limit;
 
   const totalPages = Math.ceil(totalJobs / limit);
@@ -98,8 +86,6 @@ export const getJobsListByCategory = asyncHandler(async (req, res) => {
     .sort({ createdAt: -1 })
     .skip(skip)
     .limit(limit);
-
-  console.log("jobs is", jobs);
 
   res.status(200).json({
     success: true,

@@ -4,19 +4,15 @@ import { FaClock, FaTag } from "react-icons/fa";
 const Budget = ({ setIsValid, updateJobData, jobData }) => {
   const [budgetType, setBudgetType] = useState(
     jobData?.budget?.type ||
-      (jobData?.category === "Product" ? "fixedPrice" : "hourly")
+      (jobData?.category === "Product" ? "fixedPrice" : "hourlyPrice")
   );
 
-  const [hourlyRateFrom, setHourlyRateFrom] = useState(
-    jobData?.budget && jobData?.budget?.hourlyRateFrom
-      ? jobData.budget.hourlyRateFrom
+  const [hourlyRate, setHourlyRate] = useState(
+    jobData?.budget && jobData?.budget?.hourlyRate
+      ? jobData.budget.hourlyRate
       : 0
   );
-  const [hourlyRateTo, setHourlyRateTo] = useState(
-    jobData?.budget && jobData?.budget?.hourlyRateTo
-      ? jobData.budget.hourlyRateTo
-      : 0
-  );
+
   const [fixedPrice, setFixedPrice] = useState(
     jobData?.budget && jobData?.budget?.fixedPrice
       ? jobData?.budget?.fixedPrice
@@ -25,12 +21,8 @@ const Budget = ({ setIsValid, updateJobData, jobData }) => {
 
   // Validation check function
   useEffect(() => {
-    if (budgetType === "hourly") {
-      setIsValid(
-        hourlyRateFrom >= 5 &&
-          hourlyRateTo <= 100 &&
-          hourlyRateFrom < hourlyRateTo
-      );
+    if (budgetType === "hourlyPrice") {
+      setIsValid(hourlyRate >= 5 && hourlyRate <= 100);
     } else {
       setIsValid(fixedPrice >= 5 && fixedPrice <= 10000);
     }
@@ -38,12 +30,11 @@ const Budget = ({ setIsValid, updateJobData, jobData }) => {
     updateJobData({
       budget: {
         type: budgetType,
-        hourlyRateFrom: budgetType === "hourly" ? hourlyRateFrom : null,
-        hourlyRateTo: budgetType === "hourly" ? hourlyRateTo : null,
+        hourlyRate: budgetType === "hourlyPrice" ? hourlyRate : null,
         fixedPrice: budgetType === "fixedPrice" ? fixedPrice : null,
       },
     });
-  }, [budgetType, hourlyRateFrom, hourlyRateTo, fixedPrice]);
+  }, [budgetType, hourlyRate, fixedPrice]);
 
   return (
     <div className="text-center">
@@ -86,11 +77,11 @@ const Budget = ({ setIsValid, updateJobData, jobData }) => {
             </button>
             <button
               className={`rounded-md border-2 p-2 ${
-                budgetType === "hourly"
+                budgetType === "hourlyPrice"
                   ? "border-green-500 font-semibold text-green-500"
                   : "border-gray-500"
               }`}
-              onClick={() => setBudgetType("hourly")}
+              onClick={() => setBudgetType("hourlyPrice")}
             >
               <FaClock className="inline mr-4 text-green-600" />
               Hourly Price
@@ -99,23 +90,25 @@ const Budget = ({ setIsValid, updateJobData, jobData }) => {
         )}
       </div>
       <div className="h-52 text-center">
-        {budgetType === "hourly" ? (
-          <div className="">
-            <div className="flex justify-center gap-4">
+        {budgetType === "hourlyPrice" ? (
+          <div className="mt-8">
+            <div>
               <div>
-                <p>From</p>
-                $
+                Hourly Price: $
                 <input
                   type="number"
                   className="w-20 h-8 inline p-4 border-2 focus:border-green-500 outline-none ml-4 rounded-lg"
-                  value={hourlyRateFrom}
+                  value={hourlyRate}
                   min={5}
                   max={100}
-                  onChange={(e) => setHourlyRateFrom(e.target.valueAsNumber)}
+                  onChange={(e) => setHourlyRate(e.target.valueAsNumber)}
                 />{" "}
                 /hr
+                <p className="text-green-600 text-base font-semibold mt-4">
+                  Hourly Price Cannot Be Lower than $5.
+                </p>
               </div>
-              <div>
+              {/* <div>
                 <p>To</p>
                 $
                 <input
@@ -127,7 +120,7 @@ const Budget = ({ setIsValid, updateJobData, jobData }) => {
                   onChange={(e) => setHourlyRateTo(e.target.valueAsNumber)}
                 />{" "}
                 /hr
-              </div>
+              </div> */}
             </div>
           </div>
         ) : (

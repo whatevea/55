@@ -36,29 +36,29 @@ const Scope = ({ setIsValid, updateJobData, jobData }) => {
           onChange={(e) => setDuration(e.target.value)}
           checked={duration === "30days"}
         />
-        <label htmlFor="30days">Less than a month</label>
+        <label htmlFor="30days"> Month</label>
       </div>
       <div>
         <input
           type="radio"
-          id="90-180days"
-          value="90-180days"
+          id="180days"
+          value="180days"
           name="duration"
           onChange={(e) => setDuration(e.target.value)}
-          checked={duration === "90-180days"}
+          checked={duration === "180days"}
         />
-        <label htmlFor="90-180days">3 to 6 Months</label>
+        <label htmlFor="180days"> 6 Months</label>
       </div>
       <div>
         <input
           type="radio"
-          id="30-90days"
-          value="30-90days"
+          id="90days"
+          value="90days"
           name="duration"
           onChange={(e) => setDuration(e.target.value)}
-          checked={duration === "30-90days"}
+          checked={duration === "90days"}
         />
-        <label htmlFor="30-90days">1 to 3 Months</label>
+        <label htmlFor="90days"> 3 Months</label>
       </div>
       <p className="mt-4">What level of experience will it Provide?</p>
       <div>
@@ -70,7 +70,7 @@ const Scope = ({ setIsValid, updateJobData, jobData }) => {
           onChange={(e) => setExperience(e.target.value)}
           checked={experience === "entry"}
         />
-        <label htmlFor="entry">Entry</label>
+        <label htmlFor="entry"> Entry</label>
       </div>
       <div>
         <input
@@ -81,7 +81,7 @@ const Scope = ({ setIsValid, updateJobData, jobData }) => {
           onChange={(e) => setExperience(e.target.value)}
           checked={experience === "intermediate"}
         />
-        <label htmlFor="intermediate">Intermediate</label>
+        <label htmlFor="intermediate"> Intermediate</label>
       </div>
       <div>
         <input
@@ -92,7 +92,7 @@ const Scope = ({ setIsValid, updateJobData, jobData }) => {
           onChange={(e) => setExperience(e.target.value)}
           checked={experience === "advanced"}
         />
-        <label htmlFor="advanced">Advanced</label>
+        <label htmlFor="advanced"> Advanced</label>
       </div>
     </div>
   );

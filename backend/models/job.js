@@ -26,10 +26,7 @@ const jobSchema = new Schema(
       required: true,
       type: String,
     },
-    budgetHourlyMin: {
-      type: Number,
-    },
-    budgetHourlyMax: {
+    budgetHourlyPrice: {
       type: Number,
     },
     budgetFixed: {

@@ -50,7 +50,6 @@ const Tabs = ({ setCategory, category }) => {
         hasMore &&
         !loading
       ) {
-        console.log({ test: "i ok here " });
         fetchMoreJobs();
       }
     }
@@ -81,20 +80,7 @@ const Tabs = ({ setCategory, category }) => {
     setIsLoadingMore(false);
   };
 
-  const fetchSelfAppliedJobs = async () => {
-    try {
-      const response = await http.post("/freelancer/getSelfAppliedJobs", {
-        userId,
-      });
-      const appliedJobIds = response?.data?.map((item) => item.job._id);
-      setAppliedJobsId(appliedJobIds);
-    } catch (error) {
-      console.error("Error fetching applied job IDs:", error);
-    }
-  };
-
   useEffect(() => {
-    fetchSelfAppliedJobs();
     fetchJobPosts();
   }, [category]);
 
@@ -127,7 +113,7 @@ const Tabs = ({ setCategory, category }) => {
     }
   }, [hasMore, loading]);
 
-  console.log("categoryWiseJobs is:", categoryWiseJobs);
+  console.log("categoryWiseJobs is", categoryWiseJobs);
 
   return (
     <div>
@@ -169,13 +155,11 @@ const Tabs = ({ setCategory, category }) => {
         >
           {activeTab === "Product" && (
             <ProductContent
-              appliedJobsId={appliedJobsId}
               categoryWiseJobs={Object.values(categoryWiseJobs)}
             />
           )}
           {activeTab === "Service" && (
             <ServiceContent
-              appliedJobsId={appliedJobsId}
               categoryWiseJobs={Object.values(categoryWiseJobs)}
             />
           )}
