@@ -5,6 +5,7 @@ import multer from "multer";
 import path from "path";
 import http from "http"; // Import the HTTP module
 import ChatMessages from "./models/communication_messages.js";
+import { initialize, authenticate } from "./middleware/authUser.js";
 import Portfolio from "./models/portfolio.js";
 import { Server } from "socket.io"; // Import Socket.IO
 
@@ -15,6 +16,7 @@ import freelancerRoutes from "./routes/freelancerRoutes.js";
 import chatRoutes from "./routes/chatRoutes.js";
 import contractRoutes from "./routes/contractRoutes.js";
 import portfolioRoutes from "./routes/portfolioRoutes.js";
+import "./service/userAuth.js"; // Import the user authentication module
 
 // Middleware and DB connection imports
 import { errorHandler } from "./middleware/errorMiddleware.js";
@@ -37,6 +39,7 @@ const io = new Server(server, {
 app.use(cors()); // Enable CORS
 app.use(express.json()); // Support JSON-encoded bodies
 app.use(express.urlencoded({ extended: false })); // Support URL-encoded bodies
+app.use(initialize());
 
 // Serve the uploads folder statically
 const uploadsDir = path.resolve("uploads");
@@ -71,7 +74,7 @@ app.get("/test", (req, res) => {
 });
 
 // File upload route
-app.post("/upload", upload.single("file"), (req, res) => {
+app.post("/upload", authenticate, upload.single("file"), (req, res) => {
   if (!req.file) {
     return res.status(400).send("No files were uploaded.");
   }
@@ -97,6 +100,7 @@ app.post("/upload", upload.single("file"), (req, res) => {
 // Route for handling portfolio submission with image upload
 app.post(
   "/portfolio/submit-portfolio",
+  authenticate,
   upload.single("image"),
   async (req, res) => {
     console.log(

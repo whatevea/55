@@ -4,6 +4,7 @@ import http from "../../config/http";
 import ProductContent from "./ProductContent";
 import ServiceContent from "./ServiceContent";
 import { ScaleLoader } from "react-spinners";
+import { authorizationHeader } from "../../service/AuthorizationHeader";
 
 const Tabs = ({ setCategory, category }) => {
   const [activeTab, setActiveTab] = useState("Product");

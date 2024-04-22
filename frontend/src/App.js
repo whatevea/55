@@ -22,6 +22,8 @@ import Fileupload from "./components/commons/Fileupload";
 import MessageContainer from "./components/commons/MessageContainer";
 import Portfolio from "./components/commons/Portfolio";
 import Cart from "./components/commons/Cart.js";
+import DetailsPage from "./components/commons/DetailsPage.js";
+import ImageGalleryHover from "./components/commons/ImageGallery2.js";
 
 function App() {
   const userData = useSelector((state) => state.User);
@@ -57,8 +59,10 @@ function App() {
           <Route index element={<JobSeekerLayout />} />
           <Route path="jobseeker" element={<JobSeekerLayout />} />
           <Route path="apply/:id" element={<ApplyForJob />} />
+          <Route path="details-page/:id" element={<DetailsPage />} />
           <Route path="myjobs" element={<MyJobs />} />
           <Route path="freelancer-profile" element={<Profile />} />
+          <Route path="image-gallery" element={<ImageGalleryHover />} />
           <Route
             path="message"
             element={<MessageContainer user_type={"freelancer"} />}

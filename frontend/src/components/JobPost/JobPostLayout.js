@@ -7,6 +7,7 @@ import http from "../../config/http";
 import JobPosted from "./JobPosted";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import ProductOrServiceImages from "./ProductOrServiceImages";
 
 const JobPostLayout = () => {
   const userData = useSelector((state) => state.User);
@@ -28,10 +29,10 @@ const JobPostLayout = () => {
   const increaseTab = async () => {
     // Product handling logic
     if (jobData?.category === "Product") {
-      if (currentTab === 4) {
+      if (currentTab === 5) {
         navigate("/");
       }
-      if (currentTab === 3) {
+      if (currentTab === 4) {
         let res = await http.post("/hire/postJob", jobData);
 
         if (res.status === 200 || res.status === 201) {
@@ -44,10 +45,10 @@ const JobPostLayout = () => {
 
     // Service handling logic
     if (jobData?.category === "Service") {
-      if (currentTab === 5) {
+      if (currentTab === 6) {
         navigate("/");
       }
-      if (currentTab === 4) {
+      if (currentTab === 5) {
         let res = await http.post("/hire/postJob", jobData);
 
         if (res.status === 200 || res.status === 201) {
@@ -74,18 +75,24 @@ const JobPostLayout = () => {
       description: "This will help us get you a suitable client for your ask.",
     },
     3: {
+      name: "Product Images",
+      component: ProductOrServiceImages,
+      title: "Upload Your Product Images",
+      description: "Users can See What you are selling.",
+    },
+    4: {
       name: "Description",
       component: Description,
       title: "Explain your Product",
       description: "Detailed description about your Product",
     },
-    4: {
+    5: {
       name: "Post Job",
       component: JobPosted,
       title: "Congratulations",
       description: "",
     },
-    5: {
+    6: {
       name: "Go to Home",
     },
   };
@@ -112,18 +119,24 @@ const JobPostLayout = () => {
       description: "This will help us get you a suitable client for your ask.",
     },
     4: {
+      name: "Service Images",
+      component: ProductOrServiceImages,
+      title: "Upload Your Service Images",
+      description: "Users can See What you are selling.",
+    },
+    5: {
       name: "Description",
       component: Description,
       title: "Explain your Service",
       description: "Detailed description about your Service",
     },
-    5: {
+    6: {
       name: "Post Job",
       component: JobPosted,
       title: "Congratulations",
       description: "",
     },
-    6: {
+    7: {
       name: "Go to Home",
     },
   };
@@ -142,7 +155,7 @@ const JobPostLayout = () => {
 
   const Component = orders[currentTab]?.component;
 
-  console.log("jobData is", jobData);
+  console.log("isValid is", isValid);
 
   return (
     <div className="flex flex-col gap-10">

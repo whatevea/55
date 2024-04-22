@@ -26,9 +26,9 @@ const jobSchema = new Schema(
       required: true,
       type: String,
     },
-    budgetHourlyPrice: {
-      type: Number,
-    },
+    // budgetHourlyPrice: {
+    //   type: Number,
+    // },
     budgetFixed: {
       type: Number,
     },
@@ -41,6 +41,9 @@ const jobSchema = new Schema(
       default: "Entry",
     },
     attachmentUrls: {
+      type: [String],
+    },
+    imagesUrls: {
       type: [String],
     },
 

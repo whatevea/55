@@ -215,7 +215,7 @@ import React, { useMemo, useState, useEffect, useRef } from "react";
 import NavDrawer from "./NavDrawer";
 import { Link, useNavigate } from "react-router-dom";
 import MobileMenu from "../navigation/MobileMenu";
-import WhyUpwork from "../navigation/WhyUpwork";
+// import WhyUpwork from "../navigation/WhyUpwork";
 import { toast } from "react-toastify";
 import LinksDrawer from "./LinksDrawer";
 import FindWork from "../navigation/FindWork";
@@ -260,8 +260,6 @@ const Navbar = () => {
             <FindTalent />
           </div>
         );
-      // case "Find Work":
-      //   return <FindWork />;
       case "Find Work":
         return (
           <div ref={findWorkRef}>
