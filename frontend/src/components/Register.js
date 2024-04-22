@@ -170,12 +170,12 @@ const Register = () => {
             </div>
             <div
               className={`rounded-md h-22 w-full py-1.5 cursor-pointer  border-2 border-green-600 text-center ${
-                accountType === "hire"
+                accountType === "hirer"
                   ? "border-black border-2 text-white bg-green-600"
                   : " border-gray-400"
               }`}
               onClick={() => {
-                changeAccountType("hire");
+                changeAccountType("hirer");
               }}
             >
               Hirer

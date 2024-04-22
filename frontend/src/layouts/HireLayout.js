@@ -8,8 +8,11 @@ import { useEffect } from "react";
 export default function HireLayout() {
   const navigate = useNavigate();
   const userType = useSelector((state) => state.User?.userData?.user_type);
+
+  console.log("userType is", userType);
+
   useEffect(() => {
-    if (userType != "hire") {
+    if (userType !== "hirer") {
       toast.error("You are not hirer sorry !!", toastConfig);
       navigate("/");
     }

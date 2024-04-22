@@ -14,7 +14,10 @@ export const addJob = asyncHandler(async (req, res) => {
     budget,
     provider,
     description,
+    imagesUrl,
   } = req.body;
+
+  console.log("req.body is", req.body);
 
   let data = {
     provider: provider,
@@ -25,11 +28,15 @@ export const addJob = asyncHandler(async (req, res) => {
     description: description.text,
     category: category,
     attachmentUrls: description.attachmentUrls,
+    imagesUrls: imagesUrl,
   };
 
-  if (budget.type === "hourlyPrice") {
-    data.budgetHourlyPrice = budget.hourlyRate;
-  }
+  console.log("data is", data);
+
+  // if (budget.type === "hourlyPrice") {
+  //   data.budgetHourlyPrice = budget.hourlyRate;
+  // }
+
   if (budget.type === "fixedPrice") {
     data.budgetFixed = budget.fixedPrice;
   }
@@ -120,8 +127,6 @@ export const getApplierList = asyncHandler(async (req, res) => {
 
 export const getJobsListBasedOnHirerUserId = asyncHandler(async (req, res) => {
   const hirerUserId = req.params.hirerUserId; // Assuming the parameter is named 'hirerUserId'
-
-  console.log("we are calling here inside getJobsListBasedOnHirerUserId");
 
   try {
     const jobs = await Job.find({ provider: hirerUserId }).sort({

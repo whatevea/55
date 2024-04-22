@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from "react";
 import { FaPaperclip, FaTimes } from "react-icons/fa";
-import { MdHelp } from "react-icons/md";
 import { uploadFile } from "../../config/http";
 
 const Description = ({ setIsValid, updateJobData, jobData }) => {
@@ -13,7 +12,12 @@ const Description = ({ setIsValid, updateJobData, jobData }) => {
   const changeDes = (text, files = uploadedFiles) => {
     const isValidDescription = text.length > 20;
     const isValidFiles = files.length > 0;
-    setIsValid(isValidDescription && isValidFiles);
+    if (jobData.category === "Product") {
+      setIsValid(isValidDescription && isValidFiles);
+    } else {
+      setIsValid(isValidDescription);
+    }
+    // setIsValid(isValidDescription && isValidFiles);
     updateJobData({
       description: {
         text: text,
