@@ -50,7 +50,5 @@ export const getFilteredJobs = asyncHandler(async (req, res) => {
     title: { $regex: text, $options: "i" },
   }).sort({ createdAt: -1 });
 
-  console.log("filteredJobs is", filteredJobs);
-
   res.status(200).json(filteredJobs);
 });

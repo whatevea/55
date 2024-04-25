@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { FaPaperclip, FaTimes } from "react-icons/fa";
+import { toast } from "react-toastify";
+import { toastConfig } from "../../config/toastConfig";
 import { uploadFile } from "../../config/http";
 
 const Description = ({ setIsValid, updateJobData, jobData }) => {
@@ -28,6 +30,15 @@ const Description = ({ setIsValid, updateJobData, jobData }) => {
 
   const handleFileChange = async (event) => {
     const files = event.target.files;
+    const pdfFiles = Array.from(files).filter(
+      (file) => file.type === "application/pdf"
+    );
+
+    if (pdfFiles.length === 0) {
+      toast.error("Only PDF files are allowed", toastConfig);
+      return;
+    }
+
     try {
       const uploadedFilesPromises = Array.from(files).map(async (file) => {
         const response = await uploadFile(file);
@@ -82,9 +93,17 @@ const Description = ({ setIsValid, updateJobData, jobData }) => {
       <div>
         <p className="font-semibold inline">
           Attach your file(s){" "}
-          <span className="text-sm font-bold italic text-green-600">
-            This field is mandatory Please attach atleast one file
-          </span>
+          {jobData?.category === "Product" && (
+            <span className="text-sm font-bold italic text-green-600">
+              This field is mandatory Please attach atleast one file (pdf only)
+            </span>
+          )}
+          {jobData?.category === "Service" && (
+            <span className="text-sm font-bold italic text-green-600">
+              This field is not mandatory Please attach atleast one file (pdf
+              only)
+            </span>
+          )}
         </p>
         <FaPaperclip
           className="font-extrabold inline ml-4 text-xl text-green-600 cursor-pointer"

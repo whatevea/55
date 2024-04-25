@@ -114,8 +114,6 @@ const Tabs = ({ setCategory, category }) => {
     }
   }, [hasMore, loading]);
 
-  console.log("categoryWiseJobs is", categoryWiseJobs);
-
   return (
     <div>
       <div className="group lg:border-2  border-2 border-solid border-gray-600 rounded-xl flex h-[35px] items-center mb-6 hover:text-green-600 focus-within:border-green-600">

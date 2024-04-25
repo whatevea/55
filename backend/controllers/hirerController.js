@@ -17,8 +17,6 @@ export const addJob = asyncHandler(async (req, res) => {
     imagesUrl,
   } = req.body;
 
-  console.log("req.body is", req.body);
-
   let data = {
     provider: provider,
     budgetType: budget.type,
@@ -30,8 +28,6 @@ export const addJob = asyncHandler(async (req, res) => {
     attachmentUrls: description.attachmentUrls,
     imagesUrls: imagesUrl,
   };
-
-  console.log("data is", data);
 
   // if (budget.type === "hourlyPrice") {
   //   data.budgetHourlyPrice = budget.hourlyRate;
@@ -69,7 +65,6 @@ export const getJobsListByCategory = asyncHandler(async (req, res) => {
 
   // If search query is provided, add it to the query object
   if (search !== null && search !== undefined && search !== "") {
-    console.log("if we have search this log will show");
     query = {
       ...query,
       $or: [
@@ -125,39 +120,15 @@ export const getApplierList = asyncHandler(async (req, res) => {
   });
 });
 
-export const getJobsListBasedOnHirerUserId = asyncHandler(async (req, res) => {
-  const hirerUserId = req.params.hirerUserId; // Assuming the parameter is named 'hirerUserId'
-
-  try {
-    const jobs = await Job.find({ provider: hirerUserId }).sort({
-      createdAt: -1,
-    });
-
-    // console.log("jobs is", jobs);
-
-    res.status(200).json({
-      success: true,
-      data: jobs,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Error fetching jobs based on hirer user ID",
-      error: error.message,
-    });
-  }
-});
-
 // export const getJobsListBasedOnHirerUserId = asyncHandler(async (req, res) => {
-//   const hirerUserId = req.params.hirerUserId;
+//   const hirerUserId = req.params.hirerUserId; // Assuming the parameter is named 'hirerUserId'
 
 //   try {
-//     const jobs = await Job.aggregate([
-//       { $match: { provider: new mongoose.Types.ObjectId(hirerUserId) } },
-//       { $sort: { createdAt: -1 } },
-//     ]);
+//     const jobs = await Job.find({ provider: hirerUserId }).sort({
+//       createdAt: -1,
+//     });
 
-//     console.log("jobs is", jobs);
+//     // console.log("jobs is", jobs);
 
 //     res.status(200).json({
 //       success: true,
@@ -171,5 +142,37 @@ export const getJobsListBasedOnHirerUserId = asyncHandler(async (req, res) => {
 //     });
 //   }
 // });
+
+export const getJobsListBasedOnHirerUserId = asyncHandler(async (req, res) => {
+  const hirerUserId = req.params.hirerUserId; // Assuming the parameter is named 'hirerUserId'
+  const limit = parseInt(req.query.limit, 10) || 5; // default limit is 5
+  const offset = parseInt(req.query.offset, 10) || 0; // default offset is 0
+
+  try {
+    const jobs = await Job.find({ provider: hirerUserId })
+      .sort({ createdAt: -1 })
+      .skip(offset)
+      .limit(limit);
+
+    const totalCount = await Job.countDocuments({ provider: hirerUserId });
+
+    // console.log("jobs is", jobs);
+
+    res.status(200).json({
+      success: true,
+      data: jobs,
+      meta: {
+        totalCount,
+        hasNext: totalCount > offset + limit,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error fetching jobs based on hirer user ID",
+      error: error.message,
+    });
+  }
+});
 
 export default addJob;

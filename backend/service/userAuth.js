@@ -8,15 +8,9 @@ const options = {
   secretOrKey: process.env.JWT_SECRET,
 };
 
-console.log("we are into the passport strategy creation file");
-
 passport.use(
   "user",
   new StrategyJwt(options, async (jwtPayload, done) => {
-    console.log("we are into the passport jwt strategy");
-
-    console.log("jwtPayload is", jwtPayload);
-
     return User.findById(jwtPayload.id)
       .select("-password")
       .then((user) => {

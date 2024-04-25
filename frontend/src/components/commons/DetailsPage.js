@@ -6,10 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { add } from "../../redux/reducers/cartSlice";
 import { toast } from "react-toastify";
 import { toastConfig } from "../../config/toastConfig";
+import PaymentMethodOption from "./PaymentMethodOption";
 
 const DetailsPage = () => {
   const [expandedView, setExpandedView] = useState(false);
   const [jobPost, setJobPost] = useState(null);
+  const [showPopup, setShowPopup] = useState(false); // State to control the visibility of the pop-up
   const params = useParams();
   const dispatch = useDispatch();
 
@@ -35,7 +37,19 @@ const DetailsPage = () => {
     toast.success("Job added to cart", toastConfig);
   };
 
-  console.log("jobPost is:", jobPost);
+  const handleBuyNow = () => {
+    // Show the pop-up component
+    setShowPopup(true);
+    // Disable scrolling when the pop-up is displayed
+    document.body.style.overflow = "hidden";
+  };
+
+  const handleClosePopup = () => {
+    // Hide the pop-up component
+    setShowPopup(false);
+    // Enable scrolling when the pop-up is closed
+    document.body.style.overflow = "auto";
+  };
 
   return (
     <div className="flex flex-col m-4 md:flex-row gap-2 border border-gray-300 p-2 rounded-md">
@@ -118,6 +132,7 @@ const DetailsPage = () => {
             <button
               type="button"
               className="px-6 py-3 bg-green-600 text-white text-base font-semibold rounded-md hover:bg-green-500"
+              onClick={handleBuyNow} // Add event handler to Buy Now button
             >
               Buy Now
             </button>
@@ -131,6 +146,22 @@ const DetailsPage = () => {
           </div>
         </div>
       </div>
+      {/* Pop-up component */}
+      {showPopup && (
+        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-60 z-20">
+          {" "}
+          {/* Pop-up container */}
+          <div className="bg-white p-6 rounded-lg shadow-lg max-h-[100vh] overflow-y-auto">
+            <PaymentMethodOption jobPost={jobPost} />
+            <button
+              className="close-button bg-green-600 text-white hover:bg-green-500 px-2 py-1.5 rounded-md font-semibold mx-auto block w-[60%]"
+              onClick={handleClosePopup}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
