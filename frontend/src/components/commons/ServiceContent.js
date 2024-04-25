@@ -13,8 +13,6 @@ const ServiceContent = ({
   // appliedJobsId,
   categoryWiseJobs,
 }) => {
-  console.log("categoryWiseJobs", categoryWiseJobs);
-
   return (
     <div>
       {categoryWiseJobs?.length > 0 ? (

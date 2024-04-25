@@ -103,8 +103,6 @@ const updateUser = asyncHandler(async (req, res) => {
     skills,
   } = req.body;
 
-  console.log("confirmNewPassword is", confirmNewPassword);
-
   // Step 1: Verify the current password
   const user = await User.findById(_id);
 

@@ -6,8 +6,6 @@ import { toast } from "react-toastify";
 const CartItem = ({ item, itemIndex }) => {
   const dispatch = useDispatch();
 
-  console.log("item is", item);
-
   const removeFromCart = () => {
     dispatch(remove(item._id));
     toast.error("Item removed form Cart");

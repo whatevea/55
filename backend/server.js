@@ -16,6 +16,7 @@ import freelancerRoutes from "./routes/freelancerRoutes.js";
 import chatRoutes from "./routes/chatRoutes.js";
 import contractRoutes from "./routes/contractRoutes.js";
 import portfolioRoutes from "./routes/portfolioRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
 import "./service/userAuth.js"; // Import the user authentication module
 
 // Middleware and DB connection imports
@@ -68,6 +69,8 @@ app.use("/freelancer", freelancerRoutes);
 app.use("/chats", chatRoutes);
 app.use("/contract", contractRoutes);
 app.use("/portfolio", portfolioRoutes);
+app.use("/order", orderRoutes); // Order Routes
+
 // Test route
 app.get("/test", (req, res) => {
   res.send("This is route 1");
@@ -103,11 +106,6 @@ app.post(
   authenticate,
   upload.single("image"),
   async (req, res) => {
-    console.log(
-      "we are inside /portfolio/submit-portfolio and req.body is",
-      req.body
-    );
-
     try {
       const { link, description, userId } = req.body;
       const imageFilename = req.file ? req.file.filename : null;
@@ -139,8 +137,6 @@ app.post(
 app.use(errorHandler);
 
 io.on("connection", (socket) => {
-  console.log("A user connected:", socket.id);
-
   socket.on("joinRoom", (contractId) => {
     console.log("contractId is", contractId);
     socket.join(contractId);

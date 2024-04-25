@@ -10,8 +10,6 @@ const renderJobPosting = (job) => (
 );
 
 const ProductContent = ({ categoryWiseJobs }) => {
-  console.log("categoryWiseJobs is", categoryWiseJobs);
-
   return (
     <div>
       {categoryWiseJobs?.length > 0 ? (
