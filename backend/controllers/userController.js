@@ -10,7 +10,7 @@ const generateJWTtoken = (id) =>
   jwt.sign({ id }, process.env.JWT_secret, { expiresIn: "5d" });
 
 const registerUser = asyncHandler(async (req, res) => {
-  const { email, fname, lname, password, user_type } = req.body;
+  const { email, fname, lname, password } = req.body;
 
   // Check for valid email format
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -19,7 +19,7 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error("Invalid email format");
   }
 
-  if (!email || !password || !fname || !lname || !user_type) {
+  if (!email || !password || !fname || !lname) {
     res.status(400);
     throw new Error("All fields are mandatory");
   }
@@ -35,7 +35,6 @@ const registerUser = asyncHandler(async (req, res) => {
     fname,
     lname,
     password: hashedPassword,
-    user_type,
   });
   if (user) {
     res.status(201).json({
@@ -68,7 +67,7 @@ const loginUser = asyncHandler(async (req, res) => {
       fname: user.fname,
       lname: user.lname,
       token: generateJWTtoken(user._id),
-      user_type: user.user_type,
+      // user_type: user.user_type,
     });
   } else {
     res.status(400);
