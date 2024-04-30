@@ -5,17 +5,15 @@ import { toast } from "react-toastify";
 import { toastConfig } from "../config/toastConfig";
 import { useEffect } from "react";
 
-export default function HireLayout() {
+export default function BuyLayout() {
   // const navigate = useNavigate();
-  // const userType = useSelector((state) => state.User?.userData?.user_type);
-
-  // console.log("userType is", userType);
-
+  // const userType = useSelector((state) => state.User?.userData?.user_type)
   // useEffect(() => {
-  //   if (userType !== "hirer") {
-  //     toast.error("You are not hirer sorry !!", toastConfig);
-  //     navigate("/");
-  //   }
+  //   // if (userType != "freelancer") {
+  //   //     toast.error("You are not Freelancer sorry !!", toastConfig)
+  //   //     navigate("/")
+  //   // }
+  //   navigate("/");
   // }, []);
   return (
     <div>

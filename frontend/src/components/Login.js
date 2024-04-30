@@ -83,7 +83,7 @@ const Login = () => {
           email: response.data.email,
           fname: response.data.fname,
           lname: response.data.lname,
-          user_type: response.data.user_type,
+          // user_type: response.data.user_type,
         };
 
         dispatch(

@@ -5,7 +5,9 @@ import face from "../../assets/images/nerd-face.jpg";
 import http from "../../config/http";
 import NewFullPageTabs from "../commons/NewFullPageTabs";
 
-const JobSeekerLayout = () => {
+// The filename was JobSeekerLayout.js
+
+const BuyDashboard = () => {
   const [category, setCategory] = useState("Product");
 
   return (
@@ -53,4 +55,4 @@ const JobSeekerLayout = () => {
   );
 };
 
-export default JobSeekerLayout;
+export default BuyDashboard;

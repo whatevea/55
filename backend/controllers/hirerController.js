@@ -144,32 +144,33 @@ export const getApplierList = asyncHandler(async (req, res) => {
 // });
 
 export const getJobsListBasedOnHirerUserId = asyncHandler(async (req, res) => {
-  const hirerUserId = req.params.hirerUserId; // Assuming the parameter is named 'hirerUserId'
-  const limit = parseInt(req.query.limit, 10) || 5; // default limit is 5
-  const offset = parseInt(req.query.offset, 10) || 0; // default offset is 0
+  const hirerUserId = req.params.hirerUserId;
+
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 5;
+  const startIndex = (page - 1) * limit;
 
   try {
     const jobs = await Job.find({ provider: hirerUserId })
       .sort({ createdAt: -1 })
-      .skip(offset)
+      .skip(startIndex)
       .limit(limit);
 
     const totalCount = await Job.countDocuments({ provider: hirerUserId });
-
-    // console.log("jobs is", jobs);
 
     res.status(200).json({
       success: true,
       data: jobs,
       meta: {
-        totalCount,
-        hasNext: totalCount > offset + limit,
+        // totalCount,
+        hasNext: totalCount > startIndex + limit,
+        // page,
       },
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Error fetching jobs based on hirer user ID",
+      message: "Error fetching jobs for hirer user",
       error: error.message,
     });
   }
