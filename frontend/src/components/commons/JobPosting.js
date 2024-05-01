@@ -15,7 +15,7 @@ const JobPosting = memo(({ job }) => {
   };
 
   return (
-    <Link to={`/freelancer/details-page/${job._id}`} className="cursor-pointer">
+    <Link to={`/buy/content-details/${job._id}`} className="cursor-pointer">
       <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 hover:bg-green-50">
         <div className="flex flex-col md:flex-row gap-2">
           <div className="w-[100%] md:w-[50%]">

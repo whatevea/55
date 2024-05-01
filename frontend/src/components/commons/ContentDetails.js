@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { toastConfig } from "../../config/toastConfig";
 import PaymentMethodOption from "./PaymentMethodOption";
 
-const DetailsPage = () => {
+const ContentDetails = () => {
   const [expandedView, setExpandedView] = useState(false);
   const [jobPost, setJobPost] = useState(null);
   const [showPopup, setShowPopup] = useState(false); // State to control the visibility of the pop-up
@@ -166,4 +166,4 @@ const DetailsPage = () => {
   );
 };
 
-export default DetailsPage;
+export default ContentDetails;

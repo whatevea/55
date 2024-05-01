@@ -113,7 +113,7 @@ import Fileupload from "./components/commons/Fileupload";
 import MessageContainer from "./components/commons/MessageContainer";
 import Portfolio from "./components/commons/Portfolio";
 import Cart from "./components/commons/Cart.js";
-import DetailsPage from "./components/commons/DetailsPage.js";
+import ContentDetails from "./components/commons/ContentDetails.js";
 import ImageGalleryHover from "./components/commons/ImageGallery2.js";
 
 function App() {
@@ -129,11 +129,7 @@ function App() {
         <Route
           path="/"
           element={
-            isLoggedIn ? (
-              <Navigate to="/freelancer/jobseeker" />
-            ) : (
-              <Navigate to="/auth/login" />
-            )
+            isLoggedIn ? <Navigate to="/buy" /> : <Navigate to="/auth/login" />
           }
         />
         {/* Auth Routes */}
@@ -151,14 +147,14 @@ function App() {
         </Route>
 
         {/* Digital Product or Service Selling Routes */}
-        <Route path="sell" element={<SellLayout />}>
+        {/* <Route path="sell" element={<SellLayout />}>
           <Route index element={<SellDashboard />} />
           <Route path="create-content" element={<CreateContent />} />
           <Route path="my-contents" element={<MyContents />} />
           <Route path="content-details/:id" element={<ContentDetails />} />
-        </Route>
+        </Route> */}
 
-        <Route path="/freelancer" element={<FreelancerLayout />}>
+        {/* <Route path="/freelancer" element={<FreelancerLayout />}>
           <Route index element={<JobSeekerLayout />} />
           <Route path="jobseeker" element={<JobSeekerLayout />} />
           <Route path="apply/:id" element={<ApplyForJob />} />
@@ -172,7 +168,7 @@ function App() {
           />
           <Route path="portfolio" element={<Portfolio />} />
           <Route path="cart" element={<Cart />} />
-        </Route>
+        </Route> */}
 
         <Route path="/hirer" element={<HireLayout />}>
           <Route index element={<JobPostLayout />} />

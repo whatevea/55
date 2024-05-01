@@ -408,7 +408,7 @@ const Navbar = () => {
               <div className="flex justify-between gap-4">
                 {isLoggedIn ? (
                   <div className="flex gap-3 items-center">
-                    <NavLink to="/freelancer/cart">
+                    <NavLink to="/buy/cart">
                       <div className="relative">
                         <FaShoppingCart className="text-4xl cursor-pointer text-green-600 hover:text-green-500 transition transform duration-200" />
                         <div>
