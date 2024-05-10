@@ -93,18 +93,19 @@ import "./App.css";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Register from "./components/Register";
 import BuyLayout from "./layouts/BuyLayout.js";
-import HireLayout from "./layouts/HireLayout";
+import SellLayout from "./layouts/SellLayout.js";
 import Login from "./components/Login";
 import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AuthLayout from "./layouts/AuthLayout";
-import JobPostLayout from "./components/JobPost/JobPostLayout";
+import UserLayout from "./layouts/UserLayout";
+import CreateContent from "./components/JobPost/CreateContent.js";
 import BuyDashboard from "./components/JobSeeker/BuyDashboard.js";
 import Navbar from "./components/commons/Navbar";
 import ApplyForJob from "./components/commons/ApplyForJob";
 import Footer from "./components/commons/Footer";
-import HirerJobList from "./components/commons/JobsList";
+import SellDashboard from "./components/commons/SellDashboard.js";
 import ApplicationsofJob from "./components/commons/ApplicationsofJob";
 import MyJobs from "./components/JobPost/MyJobs";
 import Profile from "./components/commons/Profile";
@@ -115,6 +116,7 @@ import Portfolio from "./components/commons/Portfolio";
 import Cart from "./components/commons/Cart.js";
 import ContentDetails from "./components/commons/ContentDetails.js";
 import ImageGalleryHover from "./components/commons/ImageGallery2.js";
+import MyOrders from "./components/commons/MyOrders.js";
 
 function App() {
   const userData = useSelector((state) => state.User);
@@ -147,12 +149,24 @@ function App() {
         </Route>
 
         {/* Digital Product or Service Selling Routes */}
-        {/* <Route path="sell" element={<SellLayout />}>
-          <Route index element={<SellDashboard />} />
+        <Route path="/sell" element={<SellLayout />}>
+          <Route index element={<CreateContent />} />
           <Route path="create-content" element={<CreateContent />} />
-          <Route path="my-contents" element={<MyContents />} />
-          <Route path="content-details/:id" element={<ContentDetails />} />
-        </Route> */}
+          <Route path="sell-dashboard" element={<SellDashboard />} />
+          {/* <Route path="my-contents" element={<MyContents />} /> */}
+          {/* <Route path="content-details/:id" element={<ContentDetails />} /> */}
+        </Route>
+
+        {/* User Routes */}
+        <Route path="/user" element={<UserLayout />}>
+          <Route path="profile" element={<Profile />} />
+        </Route>
+
+        {/* Orders */}
+        <Route path="/orders" element={<AuthLayout />}>
+          <Route index element={<MyOrders />} />
+          <Route path="my-orders" element={<MyOrders />} />
+        </Route>
 
         {/* <Route path="/freelancer" element={<FreelancerLayout />}>
           <Route index element={<JobSeekerLayout />} />
@@ -170,18 +184,18 @@ function App() {
           <Route path="cart" element={<Cart />} />
         </Route> */}
 
-        <Route path="/hirer" element={<HireLayout />}>
-          <Route index element={<JobPostLayout />} />
-          <Route path="jobpost" element={<JobPostLayout />} />
-          <Route path="dashboard" element={<HirerJobList />} />
-          <Route path="seeappliers/:job_id" element={<ApplicationsofJob />} />
-          <Route path="hirer-profile" element={<Profile />} />
-          <Route path="searchfortalent" element={<SearchForTalent />} />
-          <Route
-            path="message"
-            element={<MessageContainer user_type={"hirer"} />}
-          />
-        </Route>
+        {/* <Route path="/hirer" element={<HireLayout />}> */}
+        {/* <Route index element={<JobPostLayout />} /> */}
+        {/* <Route path="jobpost" element={<JobPostLayout />} /> */}
+        {/* <Route path="dashboard" element={<HirerJobList />} /> */}
+        {/* <Route path="seeappliers/:job_id" element={<ApplicationsofJob />} /> */}
+        {/* <Route path="hirer-profile" element={<Profile />} /> */}
+        {/* <Route path="searchfortalent" element={<SearchForTalent />} /> */}
+        {/* <Route
+          path="message"
+          element={<MessageContainer user_type={"hirer"} />}
+        /> */}
+        {/* </Route> */}
         <Route path="/upload" element={<Fileupload />} />
       </Routes>
 
