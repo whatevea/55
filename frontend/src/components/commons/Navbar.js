@@ -1,8 +1,8 @@
-// import React, { useMemo, useState, useEffect } from "react";
+// import React, { useMemo, useState, useEffect, useRef } from "react";
 // import NavDrawer from "./NavDrawer";
 // import { Link, useNavigate } from "react-router-dom";
 // import MobileMenu from "../navigation/MobileMenu";
-// import WhyUpwork from "../navigation/WhyUpwork";
+// // import WhyUpwork from "../navigation/WhyUpwork";
 // import { toast } from "react-toastify";
 // import LinksDrawer from "./LinksDrawer";
 // import FindWork from "../navigation/FindWork";
@@ -16,13 +16,13 @@
 // const Navbar = () => {
 //   const [isOpen, setIsOpen] = useState(false);
 //   const [hoveredIndex, setHoveredIndex] = useState(null);
+//   const findWorkRef = useRef(null);
+//   const findTalentRef = useRef(null);
 
 //   const data = useSelector((state) => state?.User);
 //   const cart = useSelector((state) => state?.Cart);
 //   let isLoggedIn = data.isLoggedIn;
 //   const userDetails = data.userData;
-
-//   console.log("userDetails.user_type:", userDetails.user_type);
 
 //   const navigate = useNavigate();
 //   const dispatch = useDispatch();
@@ -42,9 +42,17 @@
 //   const linkViewer = useMemo(() => {
 //     switch (hoveredIndex) {
 //       case "Find Talent":
-//         return <FindTalent />;
+//         return (
+//           <div ref={findTalentRef}>
+//             <FindTalent />
+//           </div>
+//         );
 //       case "Find Work":
-//         return <FindWork />;
+//         return (
+//           <div ref={findWorkRef}>
+//             <FindWork />
+//           </div>
+//         );
 //       default:
 //         return null;
 //     }
@@ -65,6 +73,32 @@
 //     );
 //   }
 
+//   useEffect(() => {
+//     const handleClickOutside = (event) => {
+//       if (
+//         findWorkRef.current &&
+//         !findWorkRef.current.contains(event.target) &&
+//         hoveredIndex === "Find Work"
+//       ) {
+//         setHoveredIndex(null);
+//       }
+
+//       if (
+//         findTalentRef.current &&
+//         !findTalentRef.current.contains(event.target) &&
+//         hoveredIndex === "Find Talent"
+//       ) {
+//         setHoveredIndex(null);
+//       }
+//     };
+
+//     document.addEventListener("mousedown", handleClickOutside);
+
+//     return () => {
+//       document.removeEventListener("mousedown", handleClickOutside);
+//     };
+//   }, [hoveredIndex]);
+
 //   return (
 //     <>
 //       <div className="font-semibold sticky top-0 w-full bg-white z-20">
@@ -84,14 +118,7 @@
 //                   />
 //                 )}
 //               </div>
-//               <Link
-//                 className="md:ml-1"
-//                 to={
-//                   userDetails.user_type === "freelancer"
-//                     ? "/freelancer/jobseeker"
-//                     : "/hirer/dashboard"
-//                 }
-//               >
+//               <Link className="md:ml-1" to="/buy">
 //                 {/* Your logo/svg here */}
 //                 <svg
 //                   className="w-[150px] h-[30px]"
@@ -132,6 +159,7 @@
 //                         hoveredIndex === index ? "hovered" : ""
 //                       } flex items-center hover:text-green-500 cursor-pointer text-sm`}
 //                       onMouseEnter={() => setHoveredIndex(item.label)}
+//                       // onMouseLeave={() => setHoveredIndex(null)}
 //                     >
 //                       {item.label}
 //                       <i
@@ -160,7 +188,7 @@
 //               <div className="flex justify-between gap-4">
 //                 {isLoggedIn ? (
 //                   <div className="flex gap-3 items-center">
-//                     <NavLink to="/freelancer/cart">
+//                     <NavLink to="/buy/cart">
 //                       <div className="relative">
 //                         <FaShoppingCart className="text-4xl cursor-pointer text-green-600 hover:text-green-500 transition transform duration-200" />
 //                         <div>
@@ -252,39 +280,53 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
-  const linkViewer = useMemo(() => {
-    switch (hoveredIndex) {
-      case "Find Talent":
-        return (
-          <div ref={findTalentRef}>
-            <FindTalent />
-          </div>
-        );
-      case "Find Work":
-        return (
-          <div ref={findWorkRef}>
-            <FindWork />
-          </div>
-        );
-      default:
-        return null;
-    }
-  }, [hoveredIndex]);
+  // const linkViewer = useMemo(() => {
+  //   switch (hoveredIndex) {
+  //     case "Find Talent":
+  //       return (
+  //         <div ref={findTalentRef}>
+  //           <FindTalent />
+  //         </div>
+  //       );
+  //     case "Find Work":
+  //       return (
+  //         <div ref={findWorkRef}>
+  //           <FindWork />
+  //         </div>
+  //       );
+  //     default:
+  //       return null;
+  //   }
+  // }, [hoveredIndex]);
 
   let menuItems = [];
 
   if (userDetails && Object.keys(userDetails).length === 0) {
     // If userDetails is undefined or null, include both options
-    menuItems.push({ label: "Find Work", to: "/auth/login" });
-    menuItems.push({ label: "Find Talent", to: "/auth/login" });
+    menuItems.push({ label: "Buy", to: "/auth/login" });
+    menuItems.push({ label: "Sell", to: "/auth/login" });
+    menuItems.push({ label: "Profile", to: "/auth/login" });
+    menuItems.push({ label: "My Orders", to: "/auth/login" });
   } else {
-    // If userDetails is available, include the corresponding option based on user_type
-    menuItems.push(
-      userDetails.user_type === "freelancer"
-        ? { label: "Find Work", to: "/freelancer/jobseeker" }
-        : { label: "Find Talent", to: "/hirer/searchfortalent" }
-    );
+    // If userDetails is available, include the corresponding options
+    menuItems.push({ label: "Buy", to: "/buy" });
+    menuItems.push({ label: "Sell", to: "/sell" });
+    menuItems.push({ label: "Profile", to: "/user/profile" });
+    menuItems.push({ label: "My Orders", to: "/orders" });
   }
+
+  // if (userDetails && Object.keys(userDetails).length === 0) {
+  //   // If userDetails is undefined or null, include both options
+  //   menuItems.push({ label: "Find Work", to: "/auth/login" });
+  //   menuItems.push({ label: "Find Talent", to: "/auth/login" });
+  // } else {
+  //   // If userDetails is available, include the corresponding option based on user_type
+  //   menuItems.push(
+  //     userDetails.user_type === "freelancer"
+  //       ? { label: "Find Work", to: "/freelancer/jobseeker" }
+  //       : { label: "Find Talent", to: "/hirer/searchfortalent" }
+  //   );
+  // }
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -331,14 +373,7 @@ const Navbar = () => {
                   />
                 )}
               </div>
-              <Link
-                className="md:ml-1"
-                to={
-                  userDetails.user_type === "freelancer"
-                    ? "/freelancer/jobseeker"
-                    : "/hirer/dashboard"
-                }
-              >
+              <Link className="md:ml-1" to="/buy">
                 {/* Your logo/svg here */}
                 <svg
                   className="w-[150px] h-[30px]"
@@ -370,7 +405,7 @@ const Navbar = () => {
                 </svg>
               </Link>
               <div className="gap-6 hidden lg:flex">
-                <ul className="flex justify-between gap-4 ml-4">
+                {/* <ul className="flex justify-between gap-4 ml-4">
                   {menuItems.map((item, index) => (
                     <Link
                       to={item.to}
@@ -391,6 +426,17 @@ const Navbar = () => {
                             : ""
                         }`}
                       ></i>
+                    </Link>
+                  ))}
+                </ul> */}
+                <ul className="flex justify-between gap-4 ml-4">
+                  {menuItems.map((item, index) => (
+                    <Link
+                      to={item.to}
+                      key={index}
+                      className={`flex items-center hover:text-green-500 cursor-pointer text-base font-bold text-green-600`}
+                    >
+                      {item.label}
                     </Link>
                   ))}
                 </ul>
@@ -443,11 +489,11 @@ const Navbar = () => {
           </nav>
         </header>
       </div>
-      {hoveredIndex !== null && (
+      {/* {hoveredIndex !== null && (
         <LinksDrawer isOpen={true} setHoveredIndex={setHoveredIndex}>
           {linkViewer}
         </LinksDrawer>
-      )}
+      )} */}
       <div className="lg:hidden">
         <NavDrawer isOpen={isOpen} position="left">
           <MobileMenu />

@@ -6,12 +6,13 @@ import { useSelector } from "react-redux";
 import { ScaleLoader } from "react-spinners";
 import InfiniteScroll from "react-infinite-scroll-component"; // Import the component
 
-function HirerJobList() {
+function SellDashboard() {
   const userId = useSelector((state) => state?.User?.userData?._id);
 
   const [jobPosts, setJobPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const [showEndMessage, setShowEndMessage] = useState(false);
 
   const fetchJobPosts = async () => {
     try {
@@ -32,6 +33,14 @@ function HirerJobList() {
     fetchJobPosts(); // Call the function when the component mounts
   }, []); // Empty dependency array ensures the effect runs only once on mount
 
+  useEffect(() => {
+    if (!hasMore) {
+      setShowEndMessage(true);
+    }
+  }, [hasMore]);
+
+  console.log("jobPosts is", jobPosts);
+
   return (
     <div className="px-6">
       <div className="text-center text-3xl text-green-600 font-bold mt-4">
@@ -43,10 +52,12 @@ function HirerJobList() {
         hasMore={hasMore} // Flag indicating if there's more data to fetch
         loader={<ScaleLoader />} // Loading indicator component
         endMessage={
-          <h4 className="text-center text-green-600 text-2xl font-semibold m-2">
-            No More Posts
-          </h4>
-        } // Message shown when all data is loaded
+          showEndMessage && (
+            <h4 className="text-center text-green-600 text-2xl font-semibold m-2">
+              No More Posts to Fetch
+            </h4>
+          )
+        }
       >
         {jobPosts.length > 0 ? (
           jobPosts.map((jobPost) => (
@@ -121,4 +132,4 @@ function HirerJobList() {
   );
 }
 
-export default HirerJobList;
+export default SellDashboard;

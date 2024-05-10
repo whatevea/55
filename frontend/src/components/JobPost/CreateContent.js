@@ -9,12 +9,12 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProductOrServiceImages from "./ProductOrServiceImages";
 
-const JobPostLayout = () => {
+const SellDashboard = () => {
   const userData = useSelector((state) => state.User);
 
   const navigate = useNavigate();
   const [jobData, setJobData] = useState({
-    provider: userData.userData._id.toString(),
+    provider: userData.userData._id?.toString(),
   });
   const [currentTab, setTab] = useState(1);
   const [isValid, setIsValid] = useState(false);
@@ -224,4 +224,4 @@ const JobPostLayout = () => {
   );
 };
 
-export default JobPostLayout;
+export default SellDashboard;

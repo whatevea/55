@@ -133,12 +133,7 @@ const Profile = () => {
       toast.success("User Updated Successfully!");
       setTimeout(() => {
         setLoading(false);
-        if (newUserState?.data?.user_type === "freelancer") {
-          setShowPasswordFields(!showPasswordFields);
-          navigate("/freelancer/jobseeker");
-        } else {
-          navigate("/hirer/dashboard");
-        }
+        navigate("/buy");
       }, 1000);
     } catch (error) {
       console.error("Updation failed:", error);
