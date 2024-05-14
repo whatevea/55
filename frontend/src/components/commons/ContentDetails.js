@@ -7,6 +7,7 @@ import { add } from "../../redux/reducers/cartSlice";
 import { toast } from "react-toastify";
 import { toastConfig } from "../../config/toastConfig";
 import PaymentMethodOption from "./PaymentMethodOption";
+import { MdClose } from "react-icons/md";
 
 const ContentDetails = () => {
   const [expandedView, setExpandedView] = useState(false);
@@ -151,14 +152,12 @@ const ContentDetails = () => {
         <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-60 z-20">
           {" "}
           {/* Pop-up container */}
-          <div className="bg-white p-6 rounded-lg shadow-lg max-h-[100vh] overflow-y-auto">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-h-[100vh] overflow-y-auto relative">
             <PaymentMethodOption jobPost={jobPost} />
-            <button
-              className="close-button bg-green-600 text-white hover:bg-green-500 px-2 py-1.5 rounded-md font-semibold mx-auto block w-[60%]"
+            <MdClose
+              className="absolute top-0 right-0 p-2 text-zinc-700 text-4xl cursor-pointer"
               onClick={handleClosePopup}
-            >
-              Close
-            </button>
+            />
           </div>
         </div>
       )}
