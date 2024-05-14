@@ -9,7 +9,8 @@ import { Link } from "react-router-dom";
 const JobPosting = memo(({ job }) => {
   const dispatch = useDispatch();
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e) => {
+    e.preventDefault();
     dispatch(add(job));
     toast.success("Job added to cart", toastConfig);
   };
@@ -93,21 +94,21 @@ const JobPosting = memo(({ job }) => {
         </div>
 
         {/* Buy Now and Add to Cart Button Starts Here*/}
-        {/* <div className="flex items-center mt-4 gap-3">
-        <button
-          type="button"
-          className="px-3 py-1 bg-green-600 text-white text-base font-semibold rounded-md hover:bg-green-500"
-        >
-          Buy Now
-        </button>
-        <button
-          type="button"
-          className="px-3 py-1 bg-green-600 text-white text-base font-semibold rounded-md hover:bg-green-500"
-          onClick={handleAddToCart}
-        >
-          Add To Cart
-        </button>
-      </div> */}
+        <div className="flex items-center mt-4 gap-3">
+          {/* <button
+            type="button"
+            className="px-3 py-1 bg-green-600 text-white text-base font-semibold rounded-md hover:bg-green-500"
+          >
+            Buy Now
+          </button> */}
+          <button
+            type="button"
+            className="px-3 py-1 bg-green-600 text-white text-base font-semibold rounded-md hover:bg-green-500"
+            onClick={handleAddToCart}
+          >
+            Add To Cart
+          </button>
+        </div>
         {/* Buy Now and Add to Cart Button Ends Here*/}
       </div>
     </Link>

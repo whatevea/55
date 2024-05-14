@@ -10,7 +10,7 @@ const MyOrders = () => {
 
   return (
     <div className="flex flex-col md:flex-row md:items-start m-4">
-      <div className="bg-green-50 p-4 rounded-md mb-4 md:mr-4 md:mb-0 text-sm">
+      {/* <div className="bg-green-50 p-4 rounded-md mb-4 md:mr-4 md:mb-0 text-sm border-2 border-red-500">
         <h2 className="text-base font-semibold mb-2">Filters</h2>
         <div className="mb-2">
           <h3 className="text-sm font-semibold">ORDER STATUS</h3>
@@ -62,7 +62,7 @@ const MyOrders = () => {
             </label>
           </div>
         </div>
-      </div>
+      </div> */}
       <div className="flex-1">
         <div className="mb-4">
           <input

@@ -2,11 +2,16 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import CartItem from "./CartItem";
 import { useEffect, useState } from "react";
+import { MdClose } from "react-icons/md";
+// import PaymentMethodOption from "./PaymentMethodOption";
+import CheckoutPaymentMethodOption from "./CheckoutPaymentMethodOption";
 
 const Cart = () => {
   const cart = useSelector((state) => state?.Cart);
 
   console.log("cart is", cart);
+
+  const [showPopup, setShowPopup] = useState(false); // State to control the visibility of the pop-up
 
   const [totalAmount, setTotalAmount] = useState(0);
 
@@ -23,6 +28,20 @@ const Cart = () => {
       }, 0)
     );
   }, [cart]);
+
+  const handleCheckout = () => {
+    // Show the pop-up component
+    setShowPopup(true);
+    // Disable scrolling when the pop-up is displayed
+    document.body.style.overflow = "hidden";
+  };
+
+  const handleClosePopup = () => {
+    // Hide the pop-up component
+    setShowPopup(false);
+    // Enable scrolling when the pop-up is closed
+    document.body.style.overflow = "auto";
+  };
 
   return (
     <div>
@@ -55,7 +74,11 @@ const Cart = () => {
                   </span>{" "}
                   : ${totalAmount.toFixed(2)}
                 </p>
-                <button className="bg-green-600 hover:bg-gray-100 rounded-lg text-white transition duration-300 ease-linear mt-5 border-2 border-green-600 font-bold hover:text-green-700 p-3 text-xl">
+                <button
+                  className="bg-green-600 hover:bg-gray-100 rounded-lg text-white transition duration-300 ease-linear mt-5 border-2 border-green-600 font-bold hover:text-green-700 p-3 text-xl
+                "
+                  onClick={handleCheckout}
+                >
                   Checkout Now
                 </button>
               </div>
@@ -72,6 +95,20 @@ const Cart = () => {
               SHOP NOW
             </button>
           </Link>
+        </div>
+      )}
+      {/* Pop-up component */}
+      {showPopup && (
+        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-60 z-20">
+          {" "}
+          {/* Pop-up container */}
+          <div className="bg-white p-6 rounded-lg shadow-lg max-h-[100vh] overflow-y-auto relative">
+            <CheckoutPaymentMethodOption cart={cart} />
+            <MdClose
+              className="absolute top-0 right-0 p-2 text-zinc-700 text-4xl cursor-pointer"
+              onClick={handleClosePopup}
+            />
+          </div>
         </div>
       )}
     </div>
